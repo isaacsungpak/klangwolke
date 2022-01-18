@@ -11,6 +11,8 @@ Table users {
 Table songs {
   id int [pk, increment]
   title varchar
+  audio_url varchar
+  artwork_url varchar
   user_id int [ref: > users.id]
   created_at datetime
   updated_at datetime
