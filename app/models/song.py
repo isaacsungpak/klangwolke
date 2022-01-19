@@ -13,7 +13,7 @@ class Song(db.Model):
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
 
-    uploader = db.relationship('User', back_populates='items')
+    owner = db.relationship('User', back_populates='songs')
 
     def to_dict(self):
         return {
@@ -24,5 +24,5 @@ class Song(db.Model):
             'image': self.image,
             'createdAt': self.created_at,
             'updatedAt': self.updated_at,
-            'uploader': self.uploader.to_dict()
+            'owner': self.owner.to_dict()
         }
