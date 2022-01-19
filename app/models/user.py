@@ -16,6 +16,7 @@ class User(db.Model, UserMixin):
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
 
     songs = db.relationship('Song', back_populates='users', cascade='all, delete')
+    playlists = db.relationship('Playlist', back_populates='users', cascade='all, delete')
 
     @property
     def password(self):
