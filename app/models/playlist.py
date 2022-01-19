@@ -12,6 +12,7 @@ class Playlist(db.Model):
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
 
     owner = db.relationship('User', back_populates='playlists')
+    songs = db.relationship('Song', secondary='songs_to_playlists')
 
     def to_dict(self):
         return {

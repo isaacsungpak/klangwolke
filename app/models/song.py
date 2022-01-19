@@ -14,6 +14,8 @@ class Song(db.Model):
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
 
     owner = db.relationship('User', back_populates='songs')
+    likes = db.relationship('Like', back_populates='song', cascade='all, delete')
+    comments = db.relationship('Comment', back_populates='song', cascade='all, delete')
 
     def to_dict(self):
         return {
@@ -24,5 +26,6 @@ class Song(db.Model):
             'image': self.image,
             'createdAt': self.created_at,
             'updatedAt': self.updated_at,
-            'owner': self.owner.to_dict()
+            'owner': self.owner.to_dict(),
+            'likeCount': len(self.likes)
         }
