@@ -8,7 +8,7 @@ class SongToPlaylist(db.Model):
     __tablename__ = 'songs_to_playlists'
 
     song_id = db.Column(db.Integer, db.ForeignKey('songs.id'), nullable=False)
-    playlist_id = db.Column(db.Integer, db.ForeignKey('playlist.id'), nullable=False)
+    playlist_id = db.Column(db.Integer, db.ForeignKey('playlists.id'), nullable=False)
     created_at = db.Column(db.DateTime, server_default=func.now(), nullable=False)
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
 
