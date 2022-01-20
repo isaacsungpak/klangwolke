@@ -1,109 +1,112 @@
-// constants
-const SET_USER = 'session/SET_USER';
-const REMOVE_USER = 'session/REMOVE_USER';
-
-const setUser = (user) => ({
-  type: SET_USER,
-  payload: user
-});
-
-const removeUser = () => ({
-  type: REMOVE_USER,
-})
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = { user: null };
 
-export const authenticate = () => async (dispatch) => {
-  const response = await fetch('/api/auth/', {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  if (response.ok) {
+export const authenticate = createAsyncThunk(
+  "session/authenticate",
+  async (_args, thunkAPI) => {
+    const response = await fetch("/api/auth");
     const data = await response.json();
-    if (data.errors) {
-      return;
+    if (response.ok && !data.errors) {
+      return data;
     }
-  
-    dispatch(setUser(data));
+    throw thunkAPI.rejectWithValue(["Not authenticated"]);
   }
-}
+);
 
-export const login = (email, password) => async (dispatch) => {
-  const response = await fetch('/api/auth/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      email,
-      password
-    })
-  });
-  
-  
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(setUser(data))
-    return null;
-  } else if (response.status < 500) {
-    const data = await response.json();
-    if (data.errors) {
-      return data.errors;
+export const login = createAsyncThunk(
+  "session/login",
+  async (formInput, thunkAPI) => {
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formInput),
+    });
+
+    if (response.ok) {
+      return await response.json();
+    } else if (response.status < 500) {
+      const data = await response.json();
+      throw thunkAPI.rejectWithValue(data.errors);
+    } else {
+      throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
     }
-  } else {
-    return ['An error occurred. Please try again.']
   }
+);
 
-}
+export const loginDemo = createAsyncThunk(
+  "session/loginDemo",
+  async (_args, thunkAPI) => {
+    const response = await fetch("/api/auth/login-demo");
 
-export const logout = () => async (dispatch) => {
-  const response = await fetch('/api/auth/logout', {
-    headers: {
-      'Content-Type': 'application/json',
+    if (response.ok) {
+      return await response.json();
     }
-  });
-
-  if (response.ok) {
-    dispatch(removeUser());
+    throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
   }
-};
+);
 
+export const signUp = createAsyncThunk(
+  "session/signUp",
+  async (formInput, thunkAPI) => {
+    const response = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formInput),
+    });
 
-export const signUp = (username, email, password) => async (dispatch) => {
-  const response = await fetch('/api/auth/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username,
-      email,
-      password,
-    }),
-  });
-  
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(setUser(data))
-    return null;
-  } else if (response.status < 500) {
-    const data = await response.json();
-    if (data.errors) {
-      return data.errors;
+    if (response.ok) {
+      return await response.json();
+    } else if (response.status < 500) {
+      const data = await response.json();
+      throw thunkAPI.rejectWithValue(data.errors);
+    } else {
+      throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
     }
-  } else {
-    return ['An error occurred. Please try again.']
   }
-}
+);
 
-export default function reducer(state = initialState, action) {
-  switch (action.type) {
-    case SET_USER:
-      return { user: action.payload }
-    case REMOVE_USER:
-      return { user: null }
-    default:
-      return state;
+export const logout = createAsyncThunk(
+  "session/logout",
+  async (_args, thunkAPI) => {
+    const response = await fetch("/api/auth/logout", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw thunkAPI.rejectWithValue(["Failed to log out"]);
+    }
   }
-}
+);
+
+const sessionSlice = createSlice({
+  name: "session",
+  initialState,
+  extraReducers: (builder) => {
+    builder.addCase(authenticate.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+    builder.addCase(login.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+    builder.addCase(loginDemo.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+    builder.addCase(signUp.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+    builder.addCase(logout.fulfilled, (state) => {
+      state.user = null;
+    });
+  },
+});
+
+export default sessionSlice.reducer;
+
+export const selectUser = () => (state) => state.session.user;
