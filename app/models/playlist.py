@@ -1,5 +1,6 @@
 from sqlalchemy.sql import func
-from .db import db, SongToPlaylist
+from .db import db
+from .song_to_playlist import SongToPlaylist
 
 
 class Playlist(db.Model):
@@ -23,7 +24,7 @@ class Playlist(db.Model):
             'userId': self.user_id,
             'createdAt': self.created_at,
             'updatedAt': self.updated_at,
-            'owner': self.owner.to_public_dict(),
+            'owner': self.owner.to_public(),
             'songCount': len(self.songs),
             'image': "" if len(self.songs) == 0 else self.songs[0].image
         }

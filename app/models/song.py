@@ -28,6 +28,6 @@ class Song(db.Model):
             'userId': self.user_id,
             'createdAt': self.created_at,
             'updatedAt': self.updated_at,
-            'owner': self.owner.to_public_dict(),
+            'owner': self.owner.to_public(),
             'likeCount': len(self.likes)
         }

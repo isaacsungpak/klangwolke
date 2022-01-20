@@ -36,7 +36,7 @@ class User(db.Model, UserMixin):
             'email': self.email,
         }
 
-    def to_public_dict(self):
+    def to_public(self):
         return {
             'id': self.id,
             'username': self.username,

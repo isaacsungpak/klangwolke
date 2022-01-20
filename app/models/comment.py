@@ -26,5 +26,5 @@ class Comment(db.Model):
             'content': self.content,
             'createdAt': self.created_at,
             'updatedAt': self.updated_at,
-            'user': self.user.to_public_dict()
+            'user': self.user.to_public()
         }
