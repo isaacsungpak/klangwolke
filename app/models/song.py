@@ -22,12 +22,12 @@ class Song(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'userId': self.user_id,
             'title': self.title,
             'audio': self.audio,
             'image': self.image,
+            'userId': self.user_id,
             'createdAt': self.created_at,
             'updatedAt': self.updated_at,
-            'owner': self.owner.to_dict(),
+            'owner': self.owner.to_public_dict(),
             'likeCount': len(self.likes)
         }

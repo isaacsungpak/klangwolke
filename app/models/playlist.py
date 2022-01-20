@@ -1,5 +1,5 @@
 from sqlalchemy.sql import func
-from .db import db
+from .db import db, SongToPlaylist
 
 
 class Playlist(db.Model):
@@ -13,7 +13,7 @@ class Playlist(db.Model):
 
     owner = db.relationship('User', back_populates='playlists')
     songs = db.relationship('Song', secondary='songs_to_playlists')
-    
+
     song_connections = db.relationship('SongToPlaylist', cascade='all, delete')
 
     def to_dict(self):
@@ -23,6 +23,6 @@ class Playlist(db.Model):
             'userId': self.user_id,
             'createdAt': self.created_at,
             'updatedAt': self.updated_at,
-            'owner': self.owner.to_dict(),
-            'songs': [song.to_dict() for song in self.songs]
+            'owner': self.owner.to_public_dict(),
+            'songCount': len(self.songs)
         }

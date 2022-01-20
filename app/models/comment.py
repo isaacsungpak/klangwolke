@@ -18,6 +18,7 @@ class Comment(db.Model):
     )
 
     song = db.relationship('Song', back_populates='comments')
+    user = db.relationship('User')
 
     def to_dict(self):
         return {
@@ -25,4 +26,5 @@ class Comment(db.Model):
             'content': self.content,
             'createdAt': self.created_at,
             'updatedAt': self.updated_at,
+            'user': self.user.to_public_dict()
         }
