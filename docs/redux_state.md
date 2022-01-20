@@ -65,7 +65,8 @@
                         id: 1,
                         username: "username"
                     },
-                    songCount: 3
+                    songCount: 3,
+                    image: "www.resources.com/more_artwork.png",
                 },
         }
     }

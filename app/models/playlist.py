@@ -24,5 +24,6 @@ class Playlist(db.Model):
             'createdAt': self.created_at,
             'updatedAt': self.updated_at,
             'owner': self.owner.to_public_dict(),
-            'songCount': len(self.songs)
+            'songCount': len(self.songs),
+            'image': "" if len(self.songs) == 0 else self.songs[0].image
         }
