@@ -13,6 +13,14 @@ const MainBody = styled.div`
   width: 100%;
   position: fixed;
   top: 60px;
+  display: flex;
+  justify-content: center;
+  background-color: #EEE;
+`
+
+const Content = styled.div`
+  width: 1240px;
+  background-color: #FFF;
 `
 
 function App() {
@@ -31,20 +39,22 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <MainBody>
-        <Switch>
-          <Route path='/login' exact={true}>
-            <LoginForm />
-          </Route>
-          <Route path='/sign-up' exact={true}>
-            <SignUpForm />
-          </Route>
-          <ProtectedRoute path='/users/:userId' exact={true} >
-            <User />
-          </ProtectedRoute>
-          <Route path='/' exact={true} >
-            <h1>Home</h1>
-          </Route>
-        </Switch>
+        <Content>
+          <Switch>
+            <Route path='/login' exact={true}>
+              <LoginForm />
+            </Route>
+            <Route path='/sign-up' exact={true}>
+              <SignUpForm />
+            </Route>
+            <ProtectedRoute path='/users/:userId' exact={true} >
+              <User />
+            </ProtectedRoute>
+            <Route path='/' exact={true} >
+              <h1>Home</h1>
+            </Route>
+          </Switch>
+        </Content>
       </MainBody>
     </BrowserRouter>
   );
