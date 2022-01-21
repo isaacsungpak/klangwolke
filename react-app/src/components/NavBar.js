@@ -69,7 +69,8 @@ const StyledNav = styled.nav`
     border-radius: 5px;
     outline: none;
     padding-left: 5px;
-    font-family:'Inter', sans-serif;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size: 16px;
   }
 
   #user-tab {
@@ -104,7 +105,7 @@ const NavBar = () => {
         </li>
         <li>
           <form id="search-form">
-            <input id="searchbar"/>
+            <input id="searchbar" placeholder="Search"/>
           </form>
         </li>
         <li>
