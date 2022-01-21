@@ -2,7 +2,7 @@ from flask import Blueprint, request, abort
 from flask_login import login_required, current_user
 from app.models import db, Song
 from app.forms import CreateSongForm, EditSongForm, DeleteSongForm, validation_error_messages
-from app.s3_helpers import upload_file_to_s3, get_unique_filename
+from app.s3_helpers import get_unique_filename, upload_file_to_s3, delete_file_from_s3
 
 song_routes = Blueprint('songs', __name__)
 
@@ -87,7 +87,8 @@ def delete_song():
         if not song: return abort(404)
         elif song.user_id != current_user.id: return abort(403)
 
-        # delete from AWS bucket !!
+        delete_file_from_s3(song.s3_audio_filename)
+        delete_file_from_s3(song.s3_image_filename)
 
         db.session.delete(song)
         db.session.commit()
