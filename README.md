@@ -6,9 +6,9 @@ This is the starter for the Flask React project.
 
 1. Clone this repository (only this branch)
 
-   ```bash
-   git clone https://github.com/appacademy-starters/python-project-starter.git
-   ```
+      ```bash
+      git clone https://github.com/appacademy-starters/python-project-starter.git
+      ```
 
 2. Install dependencies
 
@@ -93,16 +93,16 @@ hurt to run it again.
 
 9. Release your docker container to heroku
 
-      ```bash
-      heroku container:release web -a {NAME_OF_HEROKU_APP}
-      ```
+   ```bash
+   heroku container:release web -a {NAME_OF_HEROKU_APP}
+   ```
 
 10. set up your database
 
-      ```bash
-      heroku run -a {NAME_OF_HEROKU_APP} flask db upgrade
-      heroku run -a {NAME_OF_HEROKU_APP} flask seed all
-      ```
+   ```bash
+   heroku run -a {NAME_OF_HEROKU_APP} flask db upgrade
+   heroku run -a {NAME_OF_HEROKU_APP} flask seed all
+   ```
 
 11. Under Settings find "Config Vars" and add any additional/secret .env
 variables.

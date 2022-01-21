@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import LogoutButton from './auth/LogoutButton';
 import styled from "styled-components";
+import Pammer from "./images/Pammer.png"
 
 const StyledNav = styled.nav`
   display: flex;
@@ -87,7 +88,7 @@ const NavBar = () => {
         <li>
           <Link to='/'>
             <div id="logo-holder">
-              <img src="/Pammer.png" id="logo" alt="Pammer, the Klangvolke"/>
+              <img src={Pammer} id="logo" alt="Pammer, the Klangwolke"/>
             </div>
           </Link>
         </li>
