@@ -17,7 +17,7 @@ const StyledNav = styled.nav`
     margin: 0;
     padding: 0;
     display: flex;
-    width: 1240px;
+    justify-content: center;
   }
 
   a {
@@ -26,12 +26,11 @@ const StyledNav = styled.nav`
   }
 
   #logo-holder {
-    width: 80px;
-    height: 100%;
+    width: 100px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #75B1DE;
   }
 
   #logo {
@@ -39,13 +38,46 @@ const StyledNav = styled.nav`
   }
 
   .nav-option {
-    padding: 20px;
     border-right: 1px solid #333;
-    height: 20px;
+    height: 60px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   a.active .nav-option {
     background-color: #333;
+  }
+
+  .starter-tab {
+    border-left: 1px solid #333;
+  }
+
+  #search-form {
+    height: 60px;
+    width: 684px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #searchbar {
+    width: 640px;
+    height: 26px;
+    border-radius: 5px;
+    outline: none;
+    padding-left: 5px;
+    font-family:'Inter', sans-serif;
+  }
+
+  #user-tab {
+    border-right: 1px solid #333;
+    height: 60px;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `
 const NavBar = () => {
@@ -61,26 +93,28 @@ const NavBar = () => {
         </li>
         <li>
           <NavLink to='/' exact={true} activeClassName='active'>
-            <div className='nav-option'>Home</div>
+            <div className='nav-option starter-tab'><div>Home</div></div>
           </NavLink>
         </li>
         <li>
           <NavLink to='/library' exact={true} activeClassName='active'>
-            <div className='nav-option'>Library</div>
+            <div className='nav-option'><div>Library</div></div>
           </NavLink>
         </li>
         <li>
+          <form id="search-form">
+            <input id="searchbar"/>
+          </form>
+        </li>
+        <li>
           <NavLink to='/upload' exact={true} activeClassName='active'>
-            <div className='nav-option'>Upload</div>
+            <div className='nav-option starter-tab'><div>Upload</div></div>
           </NavLink>
         </li>
         <li>
           <NavLink to='/temp' exact={true} activeClassName='active'>
-            <div>User</div>
+            <div id="user-tab">User</div>
           </NavLink>
-        </li>
-        <li>
-          <LogoutButton />
         </li>
       </ul>
     </StyledNav>

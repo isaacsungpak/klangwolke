@@ -20,6 +20,7 @@ const MainBody = styled.div`
 
 const Content = styled.div`
   width: 1240px;
+  // background-color: green;
 `
 
 function App() {
