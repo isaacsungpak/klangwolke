@@ -1,7 +1,7 @@
 from flask import Blueprint, request, abort
 from flask_login import login_required, current_user
 from app.models import db, Song
-from app.forms import CreateSongForm, EditSongForm, validation_error_messages
+from app.forms import CreateSongForm, EditSongForm, DeleteSongForm, validation_error_messages
 from app.s3_helpers import upload_file_to_s3, get_unique_filename
 
 song_routes = Blueprint('songs', __name__)
@@ -51,11 +51,11 @@ def create_song():
         db.session.commit()
         return new_song.to_dict()
 
-    return validation_error_messages(form.errors)
+    return validation_error_messages(form.errors), 400
 
 @song_routes.route('/<int:id>', methods=['PATCH'])
 @login_required
-def edit_song():
+def edit_song(id):
     form = EditSongForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     new_data = request.json
@@ -64,10 +64,31 @@ def edit_song():
     if form.validate_on_submit():
         song = Song.query.get(id)
 
-        if song.user_id != current_user.id: return abort(401)
+        if not song: return abort(404)
+        elif song.user_id != current_user.id: return abort(403)
 
         song.title = form.title
         db.session.commit()
         return song.to_dict()
 
-    return validation_error_messages(form.errors)
+    return validation_error_messages(form.errors), 400
+
+@song_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def delete_song():
+    form = DeleteSongForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit():
+        song = Song.query.get(id)
+
+        if not song: return abort(404)
+        elif song.user_id != current_user.id: return abort(403)
+
+        # delete from AWS bucket !!
+
+        db.session.delete(song)
+        db.session.commit()
+        return {"songId": song.id}
+
+    return validation_error_messages(form.errors), 400
