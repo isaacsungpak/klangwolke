@@ -44,7 +44,9 @@ def create_song():
             user_id=current_user.id,
             title=form.title,
             audio=audio_s3_upload["url"],
-            image=image_s3_upload["url"]
+            image=image_s3_upload["url"],
+            s3_audio_filename=provided_audio.filename,
+            s3_image_filename=provided_image.filename,
         )
 
         db.session.add(new_song)

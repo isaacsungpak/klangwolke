@@ -15,3 +15,6 @@ class SongToPlaylist(db.Model):
     __table_args__ = (
         PrimaryKeyConstraint(song_id, playlist_id, name='song_to_playlist_pk'),
     )
+
+    song = db.relationship('Song', back_populates='playlist_connections')
+    playlist = db.relationship('Playlist', back_populates='song_connections')

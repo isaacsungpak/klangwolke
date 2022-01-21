@@ -15,7 +15,7 @@ class Playlist(db.Model):
     owner = db.relationship('User', back_populates='playlists')
     songs = db.relationship('Song', secondary='songs_to_playlists')
 
-    song_connections = db.relationship('SongToPlaylist', cascade='all, delete')
+    song_connections = db.relationship('SongToPlaylist', back_populates='playlist', cascade='all, delete')
 
     def to_dict(self):
         return {
