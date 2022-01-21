@@ -15,12 +15,11 @@ const MainBody = styled.div`
   top: 60px;
   display: flex;
   justify-content: center;
-  background-color: #EEE;
+  background-color: #FFF;
 `
 
 const Content = styled.div`
   width: 1240px;
-  background-color: #FFF;
 `
 
 function App() {
