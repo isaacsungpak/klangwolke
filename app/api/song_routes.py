@@ -62,6 +62,10 @@ def create_song():
     form = CreateSongForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
+    form.title = request.files["title"]
+    form.audio = request.files["audio"]
+    form.image = request.files["image"]
+
     if form.validate_on_submit():
         provided_audio = form.audio
         provided_audio.filename = get_unique_filename(provided_audio.filename)

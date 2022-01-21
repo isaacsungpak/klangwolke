@@ -5,8 +5,8 @@ from app.models import db, Song
 def seed_songs():
     aol = Song(
         title='Age of Love',
-        audio='https://klangwolke.s3.amazonaws.com/Age_Of_Love.mp3',
-        image='https://klangwolke.s3.amazonaws.com/Age_of_Love.jpg',
+        audio='https://klangwolke.s3.amazonaws.com/seeds/Age_Of_Love.mp3',
+        image='https://klangwolke.s3.amazonaws.com/seeds/Age_of_Love.jpg',
         s3_audio_filename='Age_Of_Love.mp3',
         s3_image_filename='Age_Of_Love.jpg',
         user_id=4
