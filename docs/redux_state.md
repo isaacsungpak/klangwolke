@@ -51,7 +51,10 @@
                     }
                 },
             },
-            likes: [2]
+            newSongs: [7, 8, 9],
+            likedSongs: [2, 3, 4]
+            likes: [2],
+            queue: [2, 3, 4]
         },
     },
     playlists: {

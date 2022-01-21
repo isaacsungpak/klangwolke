@@ -22,9 +22,17 @@ def seed_users():
         password='password'
     )
 
+    link = User(
+        username='Link',
+        email='link@link.de',
+        password='password'
+    )
+
+
     db.session.add(demo)
     db.session.add(remodnar)
     db.session.add(bargllam)
+    db.session.add(link)
 
     db.session.commit()
 
