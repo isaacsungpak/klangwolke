@@ -17,7 +17,7 @@ class Like(db.Model):
     )
 
     song = db.relationship('Song', back_populates='likes')
-    
+    user = db.relationship('User', back_populates='likes')
 
     def to_dict(self):
         return {

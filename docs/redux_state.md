@@ -51,6 +51,7 @@
                     }
                 },
             },
+            likes: [2]
         },
     },
     playlists: {
