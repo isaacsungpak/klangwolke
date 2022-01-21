@@ -1,7 +1,7 @@
 from flask import Blueprint, request, abort
 from flask_login import login_required, current_user
 from app.models import db, Song
-from app.forms.song_form import SongForm
+from app.forms import CreateSongForm, EditSongForm, validation_error_messages
 from app.s3_helpers import upload_file_to_s3, get_unique_filename
 
 song_routes = Blueprint('songs', __name__)
@@ -23,10 +23,10 @@ def get_song(id):
     return song.to_dict()
 
 # get songs by search key
-@song_routes.route('/upload', methods=['POST'])
+@song_routes.route('/', methods=['POST'])
 @login_required
 def create_song():
-    form = SongForm()
+    form = CreateSongForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
@@ -51,4 +51,23 @@ def create_song():
         db.session.commit()
         return new_song.to_dict()
 
-    
+    return validation_error_messages(form.errors)
+
+@song_routes.route('/<int:id>', methods=['PATCH'])
+@login_required
+def edit_song():
+    form = EditSongForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    new_data = request.json
+    form.title = new_data.title
+
+    if form.validate_on_submit():
+        song = Song.query.get(id)
+
+        if song.user_id != current_user.id: return abort(401)
+
+        song.title = form.title
+        db.session.commit()
+        return song.to_dict()
+
+    return validation_error_messages(form.errors)
