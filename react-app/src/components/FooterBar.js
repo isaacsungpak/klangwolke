@@ -50,7 +50,7 @@ const CurrentSong = styled.div`
         background-image: url(${props => props.song?.image});
         height: 88px;
         width: 88px;
-        background-size: contain;
+        background-size: cover;
         background-position: center;
     }
 

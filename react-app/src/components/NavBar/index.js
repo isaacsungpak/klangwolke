@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link, NavLink, useHistory } from 'react-router-dom';
+import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from "styled-components";
 import Pammer from "../images/Pammer.png"
 import ProfileTab from './ProfileTab';
+import { useSong } from '../../context/SongContext';
 
 const StyledNav = styled.nav`
   display: flex;
@@ -37,6 +38,7 @@ const StyledNav = styled.nav`
 
   #logo {
     height: 50px;
+    cursor: pointer;
   }
 
   .nav-option {
@@ -115,18 +117,46 @@ const NavBar = () => {
 
   const searchSubmit = e => {
     e.preventDefault();
-    history.push(`/search?key=${searchKey}`)
+    history.push(`/search?key=${searchKey}`);
   }
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
+  const { setCurrentSong } = useSong();
+  const CDNBT = {
+    id: 0,
+    title: "Crank Dat Noisy Bizarre Town",
+    audio: "https://klangwolke.s3.amazonaws.com/seeds/Crank+Dat+Noisy+Bizarre+Town.mp3",
+    image: "https://klangwolke.s3.amazonaws.com/seeds/Crank+Dat+Noisy+Bizarre+Town.jpg",
+    user_id: 0,
+    owner: {
+      id: 0,
+      username: "Souljojo"
+    },
+    likeCount: 9000
+  }
+  const location = useLocation();
+  let path = location.pathname;
+  let pammerCount = null;
+  function souljaTime() {
+    pammerCount = pammerCount === null ? 1 : pammerCount + 1;
+    if (pammerCount % 16 === 0) setCurrentSong(CDNBT);
+  }
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <StyledNav>
       <ul>
         <li>
-          <Link to='/'>
-            <div id="logo-holder">
+          {path === "/" ?
+            <div id="logo-holder" onClick={souljaTime}>
               <img src={Pammer} id="logo" alt="Pammer, the Klangwolke"/>
-            </div>
-          </Link>
+            </div>:
+            <Link to='/'>
+              <div id="logo-holder">
+                <img src={Pammer} id="logo" alt="Pammer, the Klangwolke"/>
+              </div>
+            </Link>
+            }
         </li>
         <li>
           <NavLink to='/' exact={true} activeClassName='active'>
