@@ -28,21 +28,27 @@ const FormBox = styled.div`
     }
 
     .tab {
-        color: black;
+        color: white;
+        background-color: #333;
+        border: 1px solid black;
+        border-bottom: none;
+        font-size: 16px;
+        padding-left: 10px;
+        padding-right: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        height: 45px;
+    }
+
+    #active {
         background-color: white;
         border: 1px solid black;
         border-bottom: none;
         font-size: 20px;
-        padding: 10px;
-        cursor: pointer;
-        transition: all 0.2s ease-in-out;
-    }
-
-    #active {
-        background-color: #407BA7;
-        border: 1px solid black;
-        border-bottom: none;
-        color: white;
+        color: black;
         cursor: default;
     }
 
