@@ -9,14 +9,10 @@ const UploadPicture = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
+        formData.append("title", title);
         formData.append("audio", audio);
         formData.append("image", image);
 
-        setImageLoading(true);
-        const res = await fetch('/api/songs', {
-            method: "POST",
-            body: formData,
-        });
         if (res.ok) {
             await res.json();
             history.push("/");

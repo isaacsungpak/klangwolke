@@ -6,15 +6,20 @@ from app.s3_helpers import get_unique_filename, upload_file_to_s3, delete_file_f
 
 song_routes = Blueprint('songs', __name__)
 
-# get all songs
+# get all songs / allow search
 @song_routes.route('/')
 def get_songs():
-    songs = Song.query.all()
-    return {'songs': [song.to_dict() for song in songs]}
+    search_key = request.args.get("search")
+    filters = []
+    if search_key:
+        filters.append(Song.title.ilike(f"%{search_key}%"))
+    songs = Song.query.filter(*filters).all()
+    return {"songs": [song.to_dict() for song in songs]}
 
 # homepage if user is note logged in
-@song_routes.route('/homepage/no_user/new/<int:new_page>')
-def get_userless_homepage(new_page):
+@song_routes.route('/guest_home')
+def get_guest_homepage():
+    new_page = request.args.get("new")
     songs_per_homepage = 5
     new_songs = Song.query.order_by(Song.createdAt.desc()).paginate(new_page, songs_per_homepage, error_out=False)
     return {
@@ -23,9 +28,11 @@ def get_userless_homepage(new_page):
     }
 
 # get songs for homepage if user is logged in
-@song_routes.route('/homepage/new/<int:new_page>/likes/<int:likes_page>')
+@song_routes.route('/user_home')
 @login_required
-def get_user_homepage(new_page, likes_page):
+def get_user_homepage():
+    new_page = request.args.get("new")
+    likes_page = request.args.get("likes")
     songs_per_homepage = 5
     new_songs = Song.query.order_by(Song.createdAt.desc()).paginate(new_page, songs_per_homepage, error_out=False)
     liked = Like.query.filter(Like.user_id == current_user.id).order_by(Like.created_at.desc()).paginate(likes_page, songs_per_homepage, error_out=False)
@@ -129,6 +136,6 @@ def delete_song():
 
         db.session.delete(song)
         db.session.commit()
-        return {"songId": song.id}
+        return {"songId": id}
 
     return validation_error_messages(form.errors), 400
