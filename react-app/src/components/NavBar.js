@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import LogoutButton from './auth/LogoutButton';
 import styled from "styled-components";
 import Pammer from "./images/Pammer.png"
@@ -73,7 +74,7 @@ const StyledNav = styled.nav`
     font-size: 16px;
   }
 
-  #user-tab {
+  .user-tab {
     border-right: 1px solid #333;
     height: 60px;
     width: 150px;
@@ -83,6 +84,8 @@ const StyledNav = styled.nav`
   }
 `
 const NavBar = () => {
+  const user = useSelector(state => state.session.user);
+
   return (
     <StyledNav>
       <ul>
@@ -114,8 +117,10 @@ const NavBar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to='/temp' exact={true} activeClassName='active'>
-            <div id="user-tab">User</div>
+          <NavLink to='/login' exact={true} activeClassName='active'>
+            {user ?
+              <div className='user-tab' id="user">User</div>:
+              <div className='user-tab' id="login">Login</div>}
           </NavLink>
         </li>
       </ul>

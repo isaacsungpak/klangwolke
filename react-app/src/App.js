@@ -9,6 +9,9 @@ import User from './components/User';
 import { authenticate } from './store/session';
 import styled from 'styled-components';
 
+import HomePage from './components/HomePage';
+import UploadSong from './components/SongForms/UploadSong';
+
 const MainBody = styled.div`
   width: 100%;
   position: fixed;
@@ -51,8 +54,11 @@ function App() {
               <User />
             </ProtectedRoute>
             <Route path='/' exact={true} >
-              <h1>Home</h1>
+              <HomePage />
             </Route>
+            <ProtectedRoute path='/upload' exact={true} >
+              <UploadSong />
+            </ProtectedRoute>
           </Switch>
         </Content>
       </MainBody>

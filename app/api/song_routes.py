@@ -14,14 +14,24 @@ def get_songs():
     if search_key:
         filters.append(Song.title.ilike(f"%{search_key}%"))
     songs = Song.query.filter(*filters).all()
-    return {"songs": [song.to_dict() for song in songs]}
+
+    likes = []
+    if current_user:
+        for song in songs:
+            like = Like.query.get(current_user.id, song.id)
+            if like: likes.append(song.id)
+    return {
+        "songs": [song.to_dict() for song in songs],
+        'likes': likes
+    }
 
 # homepage if user is note logged in
 @song_routes.route('/guest_home')
 def get_guest_homepage():
-    new_page = request.args.get("new")
-    songs_per_homepage = 5
-    new_songs = Song.query.order_by(Song.createdAt.desc()).paginate(new_page, songs_per_homepage, error_out=False)
+    # new_page = request.args.get("new")
+    songs_per_homepage = 7
+    new_songs = Song.query.order_by(Song.created_at.desc()).limit(songs_per_homepage).all()
+    # new_songs = Song.query.order_by(Song.created_at.desc()).paginate(new_page, songs_per_homepage, error_out=False)
     return {
         'songs': [song.to_dict() for song in new_songs],
         'newSongs': [song.id for song in new_songs]
@@ -31,11 +41,13 @@ def get_guest_homepage():
 @song_routes.route('/user_home')
 @login_required
 def get_user_homepage():
-    new_page = request.args.get("new")
-    likes_page = request.args.get("likes")
-    songs_per_homepage = 5
-    new_songs = Song.query.order_by(Song.createdAt.desc()).paginate(new_page, songs_per_homepage, error_out=False)
-    liked = Like.query.filter(Like.user_id == current_user.id).order_by(Like.created_at.desc()).paginate(likes_page, songs_per_homepage, error_out=False)
+    # new_page = request.args.get("new")
+    # likes_page = request.args.get("likes")
+    songs_per_homepage = 7
+    new_songs = Song.query.order_by(Song.created_at.desc()).limit(songs_per_homepage).all()
+    liked = Like.query.filter(Like.user_id == current_user.id).order_by(Like.created_at.desc()).limit(songs_per_homepage).all()
+    # new_songs = Song.query.order_by(Song.created_at.desc()).paginate(new_page, songs_per_homepage, error_out=False)
+    # liked = Like.query.filter(Like.user_id == current_user.id).order_by(Like.created_at.desc()).paginate(likes_page, songs_per_homepage, error_out=False)
     liked_songs = [like.song for like in liked]
 
     likes = set(liked)
@@ -45,10 +57,10 @@ def get_user_homepage():
             likes.add(song.id)
 
     return {
-        'songs': [song.to_dict() for song in set(new_songs + liked_songs)],
+        'songs': [song.to_dict() for song in list(set(new_songs + liked_songs))],
         'newSongs': [song.id for song in new_songs],
         'likedSongs': [like.song_id for like in likes],
-        'likes': list[likes]
+        'likes': list(likes)
     }
 
 
@@ -60,7 +72,15 @@ def get_song(id):
     if not song:
         return abort(404)
 
-    return song.to_dict()
+    likes = []
+    if current_user:
+        like = Like.query.get(current_user.id, song.id)
+        if like: likes.append(song.id)
+
+    return {
+        "songs": [song.to_dict()],
+        'likes': likes
+    }
 
 # get songs by search key
 @song_routes.route('/', methods=['POST'])

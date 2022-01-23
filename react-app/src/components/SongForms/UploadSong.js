@@ -1,8 +1,12 @@
 import React, {useState} from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { createSong } from "../../store/songs";
 
-const UploadPicture = () => {
-    const history = useHistory(); // so that we can redirect after the image upload is successful
+const UploadSong = () => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     const [title, setTitle] = useState("");
     const [audio, setAudio] = useState(null);
     const [image, setImage] = useState(null);
@@ -12,14 +16,7 @@ const UploadPicture = () => {
         formData.append("title", title);
         formData.append("audio", audio);
         formData.append("image", image);
-
-        if (res.ok) {
-            await res.json();
-            history.push("/");
-        }
-        else {
-            console.log("error")
-        }
+        dispatch(createSong(formData)).then(() => history.push("/"));
     }
 
     const updateAudio = (e) => {
@@ -54,4 +51,4 @@ const UploadPicture = () => {
     )
 }
 
-export default UploadPicture;
+export default UploadSong;
