@@ -11,11 +11,13 @@ import styled from 'styled-components';
 
 import HomePage from './components/HomePage';
 import UploadSong from './components/SongForms/UploadSong';
+import Player from './components/Player';
 
 const MainBody = styled.div`
   width: 100%;
   position: fixed;
   top: 60px;
+  bottom: 88px;
   display: flex;
   justify-content: center;
   background-color: #FFF;
@@ -41,27 +43,31 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      <MainBody>
-        <Content>
-          <Switch>
-            <Route path='/login' exact={true}>
-              <LoginForm />
-            </Route>
-            <Route path='/sign-up' exact={true}>
-              <SignUpForm />
-            </Route>
-            <ProtectedRoute path='/users/:userId' exact={true} >
-              <User />
-            </ProtectedRoute>
-            <Route path='/' exact={true} >
-              <HomePage />
-            </Route>
-            <ProtectedRoute path='/upload' exact={true} >
-              <UploadSong />
-            </ProtectedRoute>
-          </Switch>
-        </Content>
+        <MainBody>
+          <Content>
+            <Switch>
+              <Route path='/login' exact={true}>
+                <LoginForm />
+              </Route>
+              <Route path='/sign-up' exact={true}>
+                <SignUpForm />
+              </Route>
+              <Route path='/users/:userId' exact={true} >
+                <User />
+              </Route>
+              <Route path='/' exact={true} >
+                <HomePage />
+              </Route>
+              <ProtectedRoute path='/upload' exact={true} >
+                <UploadSong />
+              </ProtectedRoute>
+              <ProtectedRoute path='/library'>
+                <UploadSong />
+              </ProtectedRoute>
+            </Switch>
+          </Content>
       </MainBody>
+      <Player />
     </BrowserRouter>
   );
 }

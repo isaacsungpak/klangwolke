@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useSong } from '../context/SongContext';
 
 const Card = styled.div`
     width: 175px;
@@ -35,6 +37,7 @@ const Card = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
     }
 
     &:hover #overlay {
@@ -77,21 +80,32 @@ const Card = styled.div`
         height: 100%;
     }
 
-    .song-title {
+    a {
+        text-decoration: none;
+    }
+
+    #song-title {
         font-size: 18px;
         font-weight: 700;
         line-height: 24px;
+        color: #000;
     }
 
-    .song-owner {
+    #song-owner {
         font-size: 16px;
         font-weight: 400;
         line-height: 22px;
         color: #888;
     }
+
+    #song-title:hover, #song-owner:hover {
+        text-decoration: underline;
+    }
 `
 
 function SongCard({song}) {
+    const { setCurrentSong } = useSong();
+
     const user = useSelector(state => state.session.user);
     const likes = useSelector(state => state.songs.entities.likes);
 
@@ -99,11 +113,11 @@ function SongCard({song}) {
         <Card image={song.image}>
             <div alt={`${song.title} Artwork`} className="song-artwork">
                 <div id="overlay">
-                    <div id="play" className='actions'><i className="fas fa-play-circle" /></div>
-                    
+                    <div id="play" className='actions' onClick={() => setCurrentSong(song)}><i className="fas fa-play-circle" /></div>
+
                     {user &&
                     <>
-                        <div id="like" className='actions'>{likes.has(song.id) ? <i className="fas fa-heart" /> : <i className="far fa-heart" />}</div>
+                        <div id="like" className='actions'>{likes.includes(song.id) ? <i className="fas fa-heart" /> : <i className="far fa-heart" />}</div>
                         <div id="playlist" className='actions'><i className="fas fa-bars" /></div>
                     </>
                     }
@@ -117,8 +131,8 @@ function SongCard({song}) {
                 </div>
             </div>
 
-            <div className="song-title">{song.title}</div>
-            <div className="song-owner">{song.owner.username}</div>
+            <Link to={`/songs/${song.id}`}><div id="song-title">{song.title}</div></Link>
+            <Link to={`/users/${song.owner.id}`}><div id="song-owner">{song.owner.username}</div></Link>
         </Card>
     )
 }

@@ -16,7 +16,8 @@ const UploadSong = () => {
         formData.append("title", title);
         formData.append("audio", audio);
         formData.append("image", image);
-        dispatch(createSong(formData)).then(() => history.push("/"));
+        console.log(formData["audio"]);
+        dispatch(createSong(formData));
     }
 
     const updateAudio = (e) => {
