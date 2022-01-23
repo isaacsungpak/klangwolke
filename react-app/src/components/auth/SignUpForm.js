@@ -2,6 +2,52 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom';
 import { signUp } from '../../store/session';
+import styled from 'styled-components';
+
+const FormStyling = styled.div`
+  height: 300px;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  form {
+    width: 100%;
+  }
+
+  form > div {
+    width: 460px;
+    margin: 20px;
+  }
+
+  label {
+    font-size: 14px;
+  }
+
+  input {
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #AAA;
+    font-size: 20px;
+    width: 100%;
+  }
+
+  button {
+    color: black;
+    outline: none;
+    border: 1px solid black;
+    background-color: white;
+    font-size: 16px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+
+  button:hover {
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.5);
+  }
+`
 
 const SignUpForm = () => {
   const [errors, setErrors] = useState([]);
@@ -43,6 +89,7 @@ const SignUpForm = () => {
   }
 
   return (
+    <FormStyling>
     <form onSubmit={onSignUp}>
       <div>
         {errors.map((error, ind) => (
@@ -88,6 +135,7 @@ const SignUpForm = () => {
       </div>
       <button type='submit'>Sign Up</button>
     </form>
+    </FormStyling>
   );
 };
 

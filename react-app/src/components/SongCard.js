@@ -89,6 +89,10 @@ const Card = styled.div`
         font-weight: 700;
         line-height: 24px;
         color: #000;
+
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     #song-owner {
@@ -96,6 +100,10 @@ const Card = styled.div`
         font-weight: 400;
         line-height: 22px;
         color: #888;
+
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     #song-title:hover, #song-owner:hover {

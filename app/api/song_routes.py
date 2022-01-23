@@ -9,7 +9,7 @@ song_routes = Blueprint('songs', __name__)
 # get all songs / allow search
 @song_routes.route('/')
 def get_songs():
-    search_key = request.args.get("search")
+    search_key = request.args.get("key")
     filters = []
     if search_key:
         filters.append(Song.title.ilike(f"%{search_key}%"))
@@ -119,6 +119,7 @@ def create_song():
 
     return validation_error_messages(form.errors), 400
 
+# update song title
 @song_routes.route('/<int:id>', methods=['PATCH'])
 @login_required
 def edit_song(id):
@@ -139,6 +140,7 @@ def edit_song(id):
 
     return validation_error_messages(form.errors), 400
 
+# delete song
 @song_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_song():

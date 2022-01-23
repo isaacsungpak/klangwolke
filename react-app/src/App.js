@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import LoginForm from './components/auth/LoginForm';
-import SignUpForm from './components/auth/SignUpForm';
-import NavBar from './components/NavBar';
+// import LoginForm from './components/auth/LoginForm';
+// import SignUpForm from './components/auth/SignUpForm';
+// import User from './components/User';
 import ProtectedRoute from './components/auth/ProtectedRoute';
-import User from './components/User';
 import { authenticate } from './store/session';
 import styled from 'styled-components';
 
+import NavBar from './components/NavBar';
 import HomePage from './components/HomePage';
+import AuthPage from './components/AuthPage';
 import UploadSong from './components/SongForms/UploadSong';
 import FooterBar from './components/FooterBar';
 
 const MainBody = styled.div`
   width: 100%;
   position: fixed;
+  z-index: -1;
   top: 60px;
   bottom: 88px;
   display: flex;
@@ -46,17 +48,19 @@ function App() {
         <MainBody>
           <Content>
             <Switch>
-              <Route path='/login' exact={true}>
-                <LoginForm />
+              <Route path='/auth' exact={true}>
+                <AuthPage />
               </Route>
-              <Route path='/sign-up' exact={true}>
-                <SignUpForm />
+              <Route path='/users/:userId'>
+                {/* <User /> */}
+                <Redirect to="/" />
               </Route>
-              <Route path='/users/:userId' exact={true} >
-                <User />
+              <Route path='/songs/:songId'>
+                {/* <User /> */}
+                <Redirect to="/" />
               </Route>
-              <Route path='/' exact={true} >
-                <HomePage />
+              <Route path='/search'>
+                <Redirect to="/" />
               </Route>
               <ProtectedRoute path='/upload' exact={true} >
                 <UploadSong />
@@ -64,6 +68,9 @@ function App() {
               <ProtectedRoute path='/library'>
                 <UploadSong />
               </ProtectedRoute>
+              <Route path='/' exact={true} >
+                <HomePage />
+              </Route>
             </Switch>
           </Content>
       </MainBody>

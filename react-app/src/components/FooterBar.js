@@ -67,6 +67,10 @@ const CurrentSong = styled.div`
         font-weight: 700;
         line-height: 24px;
         color: #FFF;
+
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     #song-owner {
@@ -74,6 +78,10 @@ const CurrentSong = styled.div`
         font-weight: 400;
         line-height: 22px;
         color: #AAA;
+
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     a {
