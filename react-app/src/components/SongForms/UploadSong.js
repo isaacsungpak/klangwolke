@@ -8,16 +8,18 @@ const UploadSong = () => {
     const history = useHistory();
 
     const [title, setTitle] = useState("");
-    const [audio, setAudio] = useState(null);
-    const [image, setImage] = useState(null);
+    const [audio, setAudio] = useState("");
+    const [image, setImage] = useState("");
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/songs", true);
         formData.append("title", title);
         formData.append("audio", audio);
         formData.append("image", image);
-        console.log(formData["audio"]);
-        dispatch(createSong(formData));
+        xhr.send(formData);
+        // dispatch(createSong(formData));
     }
 
     const updateAudio = (e) => {

@@ -5,12 +5,12 @@ const initialState = { entities: { songs: {}, newSongs: [], likedSongs: [], like
 export const createSong = createAsyncThunk(
     "songs/createSong",
     async (formData, thunkAPI) => {
-        const response = await fetch("/api/songs/", {
+        const response = await fetch("/api/songs", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: formData,
+            body: JSON.stringify(formData),
         });
         const data = await response.json();
         if (response.ok && !data.errors) {
@@ -42,8 +42,8 @@ export const getSongs = createAsyncThunk(
 
 export const getUserHome = createAsyncThunk(
     "songs/getUserHome",
-    async ({newPage, likesPage}, thunkAPI) => {
-        const response = await fetch(`/api/songs/user_home?new=${newPage}&likes=${likesPage}/`)
+    async (_args, thunkAPI) => {
+        const response = await fetch(`/api/songs/user_home`)
         const data = await response.json()
         if (response.ok && !data.errors) {
             return data;
@@ -57,8 +57,8 @@ export const getUserHome = createAsyncThunk(
 
 export const getGuestHome = createAsyncThunk(
     "songs/getGuestHome",
-    async ({newPage}, thunkAPI) => {
-        const response = await fetch(`/api/songs/guest_home?new=${newPage}`)
+    async (_args, thunkAPI) => {
+        const response = await fetch(`/api/songs/guest_home`)
         const data = await response.json()
         if (response.ok && !data.errors) {
             return data;

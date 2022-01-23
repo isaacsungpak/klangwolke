@@ -18,7 +18,7 @@ def get_songs():
     likes = []
     if current_user:
         for song in songs:
-            like = Like.query.get(current_user.id, song.id)
+            like = Like.query.get((current_user.id, song.id))
             if like: likes.append(song.id)
     return {
         "songs": [song.to_dict() for song in songs],
@@ -74,7 +74,7 @@ def get_song(id):
 
     likes = []
     if current_user:
-        like = Like.query.get(current_user.id, song.id)
+        like = Like.query.get((current_user.id, song.id))
         if like: likes.append(song.id)
 
     return {

@@ -150,13 +150,13 @@ const NavBar = () => {
           {path === "/" ?
             <div id="logo-holder" onClick={souljaTime}>
               <img src={Pammer} id="logo" alt="Pammer, the Klangwolke"/>
-            </div>:
+            </div> :
             <Link to='/'>
               <div id="logo-holder">
                 <img src={Pammer} id="logo" alt="Pammer, the Klangwolke"/>
               </div>
             </Link>
-            }
+          }
         </li>
         <li>
           <NavLink to='/' exact={true} activeClassName='active'>
