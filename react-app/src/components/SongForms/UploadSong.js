@@ -13,13 +13,16 @@ const UploadSong = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "/api/songs", true);
         formData.append("title", title);
         formData.append("audio", audio);
         formData.append("image", image);
-        xhr.send(formData);
         // dispatch(createSong(formData));
+        const res = await fetch(`http://localhost:5000/api/songs/`, {
+          method: "POST",
+          headers: { "Content-Type": "multipart/form-data" },
+          body: formData
+        });
+        if (res.ok) history.push("/");
     }
 
     const updateAudio = (e) => {

@@ -5,7 +5,7 @@ const initialState = { entities: { songs: {}, newSongs: [], likedSongs: [], like
 export const createSong = createAsyncThunk(
     "songs/createSong",
     async (formData, thunkAPI) => {
-        const response = await fetch("/api/songs", {
+        const response = await fetch("/api/songs/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
