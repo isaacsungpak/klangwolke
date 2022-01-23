@@ -33,6 +33,10 @@ const FormStyling = styled.div`
     width: 100%;
   }
 
+  input:focus {
+    border-bottom: 1px solid black;
+  }
+
   button {
     color: black;
     outline: none;
@@ -45,6 +49,8 @@ const FormStyling = styled.div`
   }
 
   button:hover {
+    color: white;
+    background-color: #407BA7;
     box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.5);
   }
 `

@@ -50,6 +50,7 @@ const Card = styled.div`
         width: 100%;
         height: 100%;
         font-size: 50px;
+        color: ${props => props.isPlaying ? "#FF002B" : "#FFF"}
     }
 
     #like {
@@ -112,13 +113,13 @@ const Card = styled.div`
 `
 
 function SongCard({song}) {
-    const { setCurrentSong } = useSong();
+    const { currentSong, setCurrentSong } = useSong();
 
     const user = useSelector(state => state.session.user);
     const likes = useSelector(state => state.songs.entities.likes);
 
     return (
-        <Card image={song.image}>
+        <Card image={song.image} isPlaying={song.id === currentSong.id}>
             <div alt={`${song.title} Artwork`} className="song-artwork">
                 <div id="overlay">
                     <div id="play" className='actions' onClick={() => setCurrentSong(song)}><i className="fas fa-play-circle" /></div>
