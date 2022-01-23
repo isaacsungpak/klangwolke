@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 import HomePage from './components/HomePage';
 import UploadSong from './components/SongForms/UploadSong';
-import Player from './components/Player';
+import Player from './components/FooterBar';
 
 const MainBody = styled.div`
   width: 100%;
