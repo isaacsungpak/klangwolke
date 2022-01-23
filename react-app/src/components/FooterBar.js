@@ -78,9 +78,10 @@ const CurrentSong = styled.div`
 
     a {
         text-decoration: none;
+        color: #CCC;
     }
 
-    #song-title:hover, #song-owner:hover {
+    a:hover {
         text-decoration: underline;
     }
 `

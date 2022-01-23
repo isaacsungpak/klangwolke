@@ -119,7 +119,7 @@ const NavBar = () => {
         <li>
           <NavLink to='/login' exact={true} activeClassName='active'>
             {user ?
-              <div className='user-tab' id="user">User</div>:
+              <div className='user-tab' id="user">{user.username}</div>:
               <div className='user-tab' id="login">Login</div>}
           </NavLink>
         </li>

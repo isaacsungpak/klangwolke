@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 import HomePage from './components/HomePage';
 import UploadSong from './components/SongForms/UploadSong';
-import Player from './components/FooterBar';
+import FooterBar from './components/FooterBar';
 
 const MainBody = styled.div`
   width: 100%;
@@ -67,7 +67,7 @@ function App() {
             </Switch>
           </Content>
       </MainBody>
-      <Player />
+      <FooterBar />
     </BrowserRouter>
   );
 }
