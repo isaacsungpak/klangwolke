@@ -4,6 +4,9 @@ from app.models import db, Song, Like
 from app.forms import CreateSongForm, EditSongForm, DeleteSongForm, validation_error_messages
 from app.s3_helpers import get_unique_filename, upload_file_to_s3, delete_file_from_s3
 
+import os
+from werkzeug.datastructures import FileStorage
+
 song_routes = Blueprint('songs', __name__)
 
 # get all songs / allow search
@@ -39,7 +42,7 @@ def get_guest_homepage():
 
 # get songs for homepage if user is logged in
 @song_routes.route('/user_home')
-@login_required
+# @login_required
 def get_user_homepage():
     # new_page = request.args.get("new")
     # likes_page = request.args.get("likes")
@@ -89,35 +92,52 @@ def create_song():
     form = CreateSongForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
-    form.title = request.files["title"]
-    form.audio = request.files["audio"]
-    form.image = request.files["image"]
+    title = request.json['title']
+    # form.title = request.files["title"]
+    # form.audio = request.files["audio"]
+    # form.image = request.files["image"]
 
-    if form.validate_on_submit():
-        provided_audio = form.audio
-        provided_audio.filename = get_unique_filename(provided_audio.filename)
-        audio_s3_upload = upload_file_to_s3(provided_audio)
-        if "url" not in audio_s3_upload: return audio_s3_upload, 400
+    # if form.validate_on_submit():
+    #     provided_audio = form.audio
+    #     provided_audio.filename = get_unique_filename(provided_audio.filename)
+    #     audio_s3_upload = upload_file_to_s3(provided_audio)
+    #     if "url" not in audio_s3_upload: return audio_s3_upload, 400
 
-        provided_image = form.image
-        provided_image.filename = get_unique_filename(provided_image.filename)
-        image_s3_upload = upload_file_to_s3(provided_image)
-        if "url" not in image_s3_upload: return image_s3_upload, 400
+    #     provided_image = form.image
+    #     provided_image.filename = get_unique_filename(provided_image.filename)
+    #     image_s3_upload = upload_file_to_s3(provided_image)
+    #     if "url" not in image_s3_upload: return image_s3_upload, 400
 
-        new_song = Song(
-            user_id=current_user.id,
-            title=form.title,
-            audio=audio_s3_upload["url"],
-            image=image_s3_upload["url"],
-            s3_audio_filename=provided_audio.filename,
-            s3_image_filename=provided_image.filename,
-        )
+    #     new_song = Song(
+    #         user_id=current_user.id,
+    #         title=form.title,
+    #         audio=audio_s3_upload["url"],
+    #         image=image_s3_upload["url"],
+    #         s3_audio_filename=provided_audio.filename,
+    #         s3_image_filename=provided_image.filename,
+    #     )
 
-        db.session.add(new_song)
-        db.session.commit()
-        return new_song.to_dict()
+    # new_song = Song(
+    #     user_id=current_user.id,
+    #     title=title,
+    #     audio=audio_s3_upload["url"],
+    #     image=image_s3_upload["url"],
+    #     s3_audio_filename=audio_filename,
+    #     s3_image_filename=image_filename
+    # )
 
-    return validation_error_messages(form.errors), 400
+    new_song = Song(
+        user_id=current_user.id,
+        title=title,
+        audio='https://klangwolke.s3.amazonaws.com/seeds/Age_Of_Love.mp3',
+        image='https://klangwolke.s3.amazonaws.com/seeds/Age_of_Love.jpg',
+        s3_audio_filename='abc.mp3',
+        s3_image_filename='abc.jpg'
+    )
+
+    db.session.add(new_song)
+    db.session.commit()
+    return new_song.to_dict()
 
 # update song title
 @song_routes.route('/<int:id>', methods=['PATCH'])
@@ -143,7 +163,7 @@ def edit_song(id):
 # delete song
 @song_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
-def delete_song():
+def delete_song(id):
     form = DeleteSongForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
@@ -153,8 +173,8 @@ def delete_song():
         if not song: return abort(404)
         elif song.user_id != current_user.id: return abort(403)
 
-        delete_file_from_s3(song.s3_audio_filename)
-        delete_file_from_s3(song.s3_image_filename)
+        # delete_file_from_s3(song.s3_audio_filename)
+        # delete_file_from_s3(song.s3_image_filename)
 
         db.session.delete(song)
         db.session.commit()

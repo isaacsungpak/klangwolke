@@ -12,17 +12,18 @@ const UploadSong = () => {
     const [image, setImage] = useState("");
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append("title", title);
-        formData.append("audio", audio);
-        formData.append("image", image);
+        // const formData = new FormData();
+        // formData.append("title", title);
+        // formData.append("audio", audio);
+        // formData.append("image", image);
+        dispatch(createSong(title)).then(() => history.push("/"));
         // dispatch(createSong(formData));
-        const res = await fetch(`http://localhost:5000/api/songs/`, {
-          method: "POST",
-          headers: { "Content-Type": "multipart/form-data" },
-          body: formData
-        });
-        if (res.ok) history.push("/");
+    //     const res = await fetch(`http://localhost:5000/api/songs/`, {
+    //       method: "POST",
+    //       headers: { "Content-Type": "multipart/form-data" },
+    //       body: formData
+    //     });
+    //     if (res.ok) history.push("/");
     }
 
     const updateAudio = (e) => {
@@ -42,7 +43,7 @@ const UploadSong = () => {
               onChange={e => setTitle(e.target.value)}
               value={title}
             />
-            <input
+            {/* <input
               type="file"
               accept="audio/*"
               onChange={updateAudio}
@@ -51,7 +52,7 @@ const UploadSong = () => {
               type="file"
               accept="image/*"
               onChange={updateImage}
-            />
+            /> */}
             <button type="submit">Submit</button>
         </form>
     )
