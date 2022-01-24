@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import { useSong } from '../context/SongContext';
+import { deleteSong } from '../store/songs';
 
 const Card = styled.div`
     width: 175px;
@@ -9,11 +10,12 @@ const Card = styled.div`
 
     .song-artwork {
         background-image: url(${props => props.image});
-        background-size: contain;
+        background-size: cover;
         background-position: center;
         width: 175px;
         height: 175px;
         position: relative;
+        box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.5);
     }
 
     #overlay {
@@ -38,6 +40,10 @@ const Card = styled.div`
         justify-content: center;
         align-items: center;
         cursor: pointer;
+    }
+
+    .actions:hover {
+        color: #407BA7;
     }
 
     &:hover #overlay {
@@ -113,36 +119,47 @@ const Card = styled.div`
 `
 
 function SongCard({song}) {
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     const { currentSong, setCurrentSong } = useSong();
 
     const user = useSelector(state => state.session.user);
     const likes = useSelector(state => state.songs.entities.likes);
 
+    const deleteButton = async () => {
+        dispatch(deleteSong(song.id));
+    }
+
     return (
-        <Card image={song.image} isPlaying={song.id === currentSong.id}>
-            <div alt={`${song.title} Artwork`} className="song-artwork">
-                <div id="overlay">
-                    <div id="play" className='actions' onClick={() => setCurrentSong(song)}><i className="fas fa-play-circle" /></div>
+        <>
+            {song &&
+                <Card image={song.image} isPlaying={song.id === currentSong.id}>
+                    <div alt={`${song.title} Artwork`} className="song-artwork">
+                        <div id="overlay">
+                            <div id="play" className='actions' onClick={() => setCurrentSong(song)}><i className="fas fa-play-circle" /></div>
 
-                    {user &&
-                    <>
-                        <div id="like" className='actions'>{likes.includes(song.id) ? <i className="fas fa-heart" /> : <i className="far fa-heart" />}</div>
-                        <div id="playlist" className='actions'><i className="fas fa-bars" /></div>
-                    </>
-                    }
+                            {user &&
+                            <>
+                                <div id="like" className='actions'>{likes.includes(song.id) ? <i className="fas fa-heart" /> : <i className="far fa-heart" />}</div>
+                                <div id="playlist" className='actions'><i className="fas fa-bars" /></div>
+                            </>
+                            }
 
-                    {(user && user.id === song.owner.id) &&
-                        <>
-                            <div id="edit" className='actions'><i className="fas fa-edit" /></div>
-                            <div id="delete" className='actions'><i className="fas fa-dumpster" /></div>
-                        </>
-                    }
-                </div>
-            </div>
+                            {(user && user.id === song.owner.id) &&
+                                <>
+                                    <div id="edit" className='actions'><i className="fas fa-edit" /></div>
+                                    <div id="delete" className='actions' onClick={deleteButton}><i className="fas fa-dumpster" /></div>
+                                </>
+                            }
+                        </div>
+                    </div>
 
-            <Link to={`/songs/${song.id}`}><div id="song-title">{song.title}</div></Link>
-            <Link to={`/users/${song.owner.id}`}><div id="song-owner">{song.owner.username}</div></Link>
-        </Card>
+                    <Link to={`/songs/${song.id}`}><div id="song-title">{song.title}</div></Link>
+                    <Link to={`/users/${song.owner.id}`}><div id="song-owner">{song.owner.username}</div></Link>
+            </Card>
+            }
+        </>
     )
 }
 

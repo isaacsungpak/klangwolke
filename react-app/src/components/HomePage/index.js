@@ -33,7 +33,7 @@ function HomePage() {
     useEffect(() => {
         if (user) dispatch(getUserHome({ newPage, likesPage })).then(() => setIsLoaded(true));
         else dispatch(getGuestHome({ newPage })).then(() => setIsLoaded(true));
-    }, [dispatch, user, newPage, likesPage])
+    }, [dispatch, user, newPage, likesPage, isLoaded])
 
     const songs = useSelector(state => state.songs.entities.songs);
     const newSongs = useSelector(state => state.songs.entities.newSongs);
