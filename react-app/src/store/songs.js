@@ -4,13 +4,19 @@ const initialState = { entities: { songs: {}, newSongs: [], likedSongs: [], like
 
 export const createSong = createAsyncThunk(
     "songs/createSong",
-    async (title, thunkAPI) => {
+    async ({ title, audio, image }, thunkAPI) => {
+        console.log(title, audio, image);
+        const songForm = new FormData();
+        // songForm.append('title', title);
+        songForm.append('audio', audio);
+        songForm.append('image', image);
+
         const response = await fetch("/api/songs/", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "multipart/form-data",
             },
-            body: JSON.stringify({title}),
+            body: songForm
         });
         const data = await response.json();
         if (response.ok && !data.errors) {

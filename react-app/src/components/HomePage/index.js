@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useHistory } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import styled from 'styled-components';
 import { getUserHome, getGuestHome } from '../../store/songs';
 import SongCard from '../SongCard';
 
 const Home = styled.div`
+    padding: 20px;
 `
 
 const NewContainer = styled.div`
+    padding: 10px;
+    display: flex;
 `
 
 const useQuery = () => {
@@ -21,9 +24,6 @@ function HomePage() {
 
     const dispatch = useDispatch();
     const query = useQuery();
-
-    //  for pagination:
-    // const history = useHistory();
 
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -38,11 +38,6 @@ function HomePage() {
     const songs = useSelector(state => state.songs.entities.songs);
     const newSongs = useSelector(state => state.songs.entities.newSongs);
     const likedSongs = useSelector(state => state.songs.entities.likedSongs);
-
-    // for pagination:
-    // function setPage() {
-    //     history.push
-    // }
 
     return (
         <Home>

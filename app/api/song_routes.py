@@ -1,11 +1,11 @@
 from flask import Blueprint, request, abort
 from flask_login import login_required, current_user
+from app.file_helpers import audio_file_is_ok, image_file_is_ok, title_is_ok
 from app.models import db, Song, Like
 from app.forms import CreateSongForm, EditSongForm, DeleteSongForm, validation_error_messages
-from app.s3_helpers import get_unique_filename, upload_file_to_s3, delete_file_from_s3
-
-import os
+from app.s3_helpers import get_unique_filename, upload_file_to_s3, delete_file_from_s3, get_s3_signature
 from werkzeug.datastructures import FileStorage
+
 
 song_routes = Blueprint('songs', __name__)
 
@@ -92,30 +92,40 @@ def create_song():
     form = CreateSongForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
-    title = request.json['title']
-    # form.title = request.files["title"]
-    # form.audio = request.files["audio"]
-    # form.image = request.files["image"]
+    if "audio" not in request.files:
+        return {"errors": "audio required"}, 400
+    audio = request.files["audio"]
+    if not audio_file_is_ok(audio.filename):
+        return {"errors": "audio format not accepted"}, 400
 
-    # if form.validate_on_submit():
-    #     provided_audio = form.audio
-    #     provided_audio.filename = get_unique_filename(provided_audio.filename)
-    #     audio_s3_upload = upload_file_to_s3(provided_audio)
-    #     if "url" not in audio_s3_upload: return audio_s3_upload, 400
+    if "image" not in request.files:
+        return {"errors": "image required"}, 400
+    image = request.files["image"]
+    if not image_file_is_ok(image.filename):
+        return {"errors": "image format not accepted"}, 400
 
-    #     provided_image = form.image
-    #     provided_image.filename = get_unique_filename(provided_image.filename)
-    #     image_s3_upload = upload_file_to_s3(provided_image)
-    #     if "url" not in image_s3_upload: return image_s3_upload, 400
+    if "title" not in request.form:
+        return {"errors": "audio required"}, 400
+    title = request.form["title"]
+    if not title_is_ok(title):
+        return {"errors": "title must be between 5 and 255 characters"}, 400
 
-    #     new_song = Song(
-    #         user_id=current_user.id,
-    #         title=form.title,
-    #         audio=audio_s3_upload["url"],
-    #         image=image_s3_upload["url"],
-    #         s3_audio_filename=provided_audio.filename,
-    #         s3_image_filename=provided_image.filename,
-    #     )
+    audio.filename = get_unique_filename(audio.filename)
+    audio_s3_upload = upload_file_to_s3(audio)
+    if "url" not in audio_s3_upload: return audio_s3_upload, 400
+
+    image.filename = get_unique_filename(image.filename)
+    image_s3_upload = upload_file_to_s3(image)
+    if "url" not in image_s3_upload: return image_s3_upload, 400
+
+    new_song = Song(
+        user_id=current_user.id,
+        title=title,
+        audio=audio_s3_upload["url"],
+        image=image_s3_upload["url"],
+        s3_audio_filename=audio.filename,
+        s3_image_filename=image.filename,
+    )
 
     # new_song = Song(
     #     user_id=current_user.id,
@@ -126,14 +136,14 @@ def create_song():
     #     s3_image_filename=image_filename
     # )
 
-    new_song = Song(
-        user_id=current_user.id,
-        title=title,
-        audio='https://klangwolke.s3.amazonaws.com/seeds/Age_Of_Love.mp3',
-        image='https://klangwolke.s3.amazonaws.com/seeds/Age_of_Love.jpg',
-        s3_audio_filename='abc.mp3',
-        s3_image_filename='abc.jpg'
-    )
+    # new_song = Song(
+    #     user_id=current_user.id,
+    #     title=title,
+    #     audio='https://klangwolke.s3.amazonaws.com/seeds/Age_Of_Love.mp3',
+    #     image='https://klangwolke.s3.amazonaws.com/seeds/Age_of_Love.jpg',
+    #     s3_audio_filename='abc.mp3',
+    #     s3_image_filename='abc.jpg'
+    # )
 
     db.session.add(new_song)
     db.session.commit()
@@ -181,3 +191,9 @@ def delete_song(id):
         return {"songId": id}
 
     return validation_error_messages(form.errors), 400
+
+@song_routes.route('/sign_s3/')
+def sign_s3():
+    file_name = request.args.get('file_name')
+    file_type = request.args.get('file_type')
+    return get_s3_signature(file_name=file_name, file_type=file_type)

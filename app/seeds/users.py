@@ -13,19 +13,31 @@ def seed_users():
     remodnar = User(
         username='remodnar',
         email='remodnar@mate-club.de',
-        password='password'
+        password='ppassword'
     )
 
     bargllam = User(
         username='bargllam',
         email='bargllam@mate-club.de',
-        password='password'
+        password='paassword'
     )
 
     link = User(
         username='Link',
         email='link@link.de',
-        password='password'
+        password='passsword'
+    )
+
+    ho = User(
+        username='Héctor Oaks',
+        email='hector@oaks.de',
+        password='passwword'
+    )
+
+    chlar = User(
+        username='Chlär',
+        email='ch@lar.de',
+        password='passwoord'
     )
 
 
@@ -33,6 +45,8 @@ def seed_users():
     db.session.add(remodnar)
     db.session.add(bargllam)
     db.session.add(link)
+    db.session.add(ho)
+    db.session.add(chlar)
 
     db.session.commit()
 

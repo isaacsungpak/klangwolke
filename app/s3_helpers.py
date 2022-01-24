@@ -2,6 +2,7 @@ import boto3
 import botocore
 import os
 import uuid
+import json
 
 BUCKET_NAME = os.environ.get("S3_BUCKET")
 S3_LOCATION = f"https://{BUCKET_NAME}.s3.amazonaws.com/"
@@ -29,7 +30,6 @@ def upload_file_to_s3(file, acl="public-read"):
             }
         )
     except Exception as e:
-        # in case the our s3 upload fails
         return {"errors": str(e)}
 
     return {"url": f"{S3_LOCATION}{file.filename}"}
@@ -37,3 +37,19 @@ def upload_file_to_s3(file, acl="public-read"):
 def delete_file_from_s3(filename):
     file = s3.Object(BUCKET_NAME, filename)
     file.delete()
+
+def get_s3_signature(file_name, file_type):
+  presigned_post = s3.generate_presigned_post(
+    Bucket = BUCKET_NAME,
+    Key = file_name,
+    Fields = {"acl": "public-read", "Content-Type": file_type},
+    Conditions = [
+      {"acl": "public-read"},
+      {"Content-Type": file_type}
+    ],
+    ExpiresIn = 3600
+  )
+  return json.dumps({
+    'data': presigned_post,
+    'url': f'https://{BUCKET_NAME}s.s3.amazonaws.com/{file_name}'
+  })

@@ -38,6 +38,14 @@ const PlayerContainer = styled.div`
     .rhap_button-clear, .rhap_time {
         color: white;
     }
+
+    .rhap_volume-indicator {
+        background-color: #FF002B;
+    }
+
+    .rhap_volume-bar {
+        background-color: #C00021;
+    }
 `
 
 const CurrentSong = styled.div`
@@ -96,11 +104,15 @@ const CurrentSong = styled.div`
 
 function FooterBar() {
     const { currentSong } = useSong();
+
     return (
         <BottomBar>
             <Content>
                 <PlayerContainer>
-                    <AudioPlayer src={currentSong?.audio} />
+                    <AudioPlayer
+                        src={currentSong?.audio}
+
+                    />
                 </PlayerContainer>
 
                 <CurrentSong song={currentSong}>

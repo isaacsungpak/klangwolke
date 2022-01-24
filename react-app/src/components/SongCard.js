@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSong } from '../context/SongContext';
 import { deleteSong } from '../store/songs';
 
 const Card = styled.div`
     width: 175px;
     height: 250px;
+    margin: 10px;
 
     .song-artwork {
         background-image: url(${props => props.image});
@@ -40,6 +41,7 @@ const Card = styled.div`
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        transition: all 0.3s ease-in-out;
     }
 
     .actions:hover {
@@ -57,6 +59,10 @@ const Card = styled.div`
         height: 100%;
         font-size: 50px;
         color: ${props => props.isPlaying ? "#FF002B" : "#FFF"}
+    }
+
+    #play:hover {
+        color: ${props => props.isPlaying ? "#FF002B" : "#407BA7"}
     }
 
     #like {
@@ -120,7 +126,6 @@ const Card = styled.div`
 
 function SongCard({song}) {
     const dispatch = useDispatch();
-    const history = useHistory();
 
     const { currentSong, setCurrentSong } = useSong();
 
