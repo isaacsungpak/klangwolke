@@ -13,7 +13,6 @@ class Playlist(db.Model):
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
 
     owner = db.relationship('User', back_populates='playlists')
-    songs = db.relationship('Song', secondary='songs_to_playlists')
 
     song_connections = db.relationship('SongToPlaylist', back_populates='playlist', cascade='all, delete')
 
@@ -25,6 +24,6 @@ class Playlist(db.Model):
             'createdAt': self.created_at,
             'updatedAt': self.updated_at,
             'owner': self.owner.to_public(),
-            'songCount': len(self.songs),
-            'image': "" if len(self.songs) == 0 else self.songs[0].image
+            'songCount': len(self.song_connections),
+            'image': "" if len(self.song_connections) == 0 else self.song_connections[0].song.image
         }

@@ -1,7 +1,7 @@
 from flask import Blueprint, request, abort
 from flask_login import login_required, current_user
 from app.file_helpers import audio_file_is_ok, image_file_is_ok, title_is_ok
-from app.models import db, Song, Like
+from app.models import db, Song, Playlist, SongToPlaylist, Like
 from app.forms import CreateSongForm, EditSongForm, DeleteSongForm, validation_error_messages
 from app.s3_helpers import get_unique_filename, upload_file_to_s3, delete_file_from_s3, get_s3_signature
 from werkzeug.datastructures import FileStorage
@@ -26,6 +26,40 @@ def get_songs():
     return {
         "songs": [song.to_dict() for song in songs],
         'likes': likes
+    }
+
+# get specific song by id
+@song_routes.route('/<int:id>')
+def get_song(id):
+    song = Song.query.get(id)
+
+    if not song:
+        return abort(404)
+
+    likes = []
+    if current_user:
+        like = Like.query.get((current_user.id, song.id))
+        if like: likes.append(song.id)
+
+    return {
+        "songs": [song.to_dict()],
+        'likes': likes
+    }
+
+@song_routes.route('/playlist/<int:id>')
+@login_required
+def get_playlist_songs(id):
+    playlist = Playlist.query.get(id)
+
+    if not playlist:
+        return abort(404)
+    elif playlist.user_id != current_user.id:
+        return abort(403)
+
+    song_connections = SongToPlaylist.query.filter(SongToPlaylist.playlist_id == id).order_by(SongToPlaylist.created_at.desc()).all()
+
+    return {
+        'songs': [song_connection.song.to_dict() for song_connection in song_connections]
     }
 
 # homepage if user is note logged in
@@ -64,25 +98,6 @@ def get_user_homepage():
         'newSongs': [song.id for song in new_songs],
         'likedSongs': [like.song_id for like in likes],
         'likes': list(likes)
-    }
-
-
-# get specific song by id
-@song_routes.route('/<int:id>')
-def get_song(id):
-    song = Song.query.get(id)
-
-    if not song:
-        return abort(404)
-
-    likes = []
-    if current_user:
-        like = Like.query.get((current_user.id, song.id))
-        if like: likes.append(song.id)
-
-    return {
-        "songs": [song.to_dict()],
-        'likes': likes
     }
 
 # get songs by search key
@@ -169,6 +184,19 @@ def edit_song(id):
         return song.to_dict()
 
     return validation_error_messages(form.errors), 400
+
+
+@song_routes.route('/<id:song_id>/songs/<int:playlist_id>', methods=['DELETE'])
+@login_required
+def remove_song_from_playlist(playlist_id, song_id):
+    stp = SongToPlaylist.query.get((song_id, playlist_id))
+    if not stp: return abort(400)
+    elif stp.playlist.user_id != current_user.id: return abort(403)
+
+    db.session.delete(stp)
+    db.session.commit()
+
+    return {"songId": id}
 
 # delete song
 @song_routes.route('/<int:id>', methods=['DELETE'])

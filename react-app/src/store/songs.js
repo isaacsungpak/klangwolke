@@ -7,7 +7,7 @@ export const createSong = createAsyncThunk(
     async ({ title, audio, image }, thunkAPI) => {
         console.log(title, audio, image);
         const songForm = new FormData();
-        // songForm.append('title', title);
+        songForm.append('title', title);
         songForm.append('audio', audio);
         songForm.append('image', image);
 
