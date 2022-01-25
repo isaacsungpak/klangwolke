@@ -98,23 +98,23 @@ def create_song():
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if "audio" not in request.files:
-        return {"errors": "audio required"}, 400
+        return {"errors": "Audio required."}, 400
     audio = request.files["audio"]
     if not audio_file_is_ok(audio.filename):
-        return {"errors": "audio format not accepted"}, 400
+        return {"errors": "Audio format not accepted."}, 400
 
     if "image" not in request.files:
-        return {"errors": "image required"}, 400
+        return {"errors": "Image required."}, 400
     image = request.files["image"]
     if not image_file_is_ok(image.filename):
-        return {"errors": "image format not accepted"}, 400
+        return {"errors": "Image format not accepted."}, 400
 
 
     if form.validate_on_submit():
         title = form.data['title']
         # print(title)
         if not title_is_ok(title):
-            return {"errors": "title must be between 1 and 255 characters"}, 400
+            return {"errors": "Title must consist of 1-100 non-space characters"}, 400
 
         audio.filename = get_unique_filename(audio.filename)
         audio_s3_upload = upload_file_to_s3(audio)
