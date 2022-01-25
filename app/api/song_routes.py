@@ -112,7 +112,6 @@ def create_song():
 
     if form.validate_on_submit():
         title = form.data['title']
-        # print(title)
         if not title_is_ok(title):
             return {"errors": "Title must consist of 1-100 non-space characters"}, 400
 
