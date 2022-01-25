@@ -99,21 +99,16 @@ def create_song():
 
     if "audio" not in request.files:
         return {"errors": "Audio required."}, 400
-    audio = request.files["audio"]
-    if not audio_file_is_ok(audio.filename):
-        return {"errors": "Audio format not accepted."}, 400
+    form.data['audio'] = request.files["audio"]
 
     if "image" not in request.files:
         return {"errors": "Image required."}, 400
-    image = request.files["image"]
-    if not image_file_is_ok(image.filename):
-        return {"errors": "Image format not accepted."}, 400
-
+    form.data['image'] = request.files["image"]
 
     if form.validate_on_submit():
         title = form.data['title']
-        if not title_is_ok(title):
-            return {"errors": "Title must consist of 1-100 non-space characters"}, 400
+        audio = form.data['audio']
+        image = form.data['image']
 
         audio.filename = get_unique_filename(audio.filename)
         audio_s3_upload = upload_file_to_s3(audio)

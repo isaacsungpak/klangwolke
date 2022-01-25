@@ -154,7 +154,7 @@ function SongCard({song}) {
                     <div alt={`${song.title} Artwork`} className="song-artwork">
                         <div id="overlay">
                             <div id="play" className='actions' onClick={() => setCurrentSong(song)}><i className="fas fa-play-circle" /></div>
-                            <div id="queue" className='actions' onClick={addSongToQueue}><i class="fas fa-plus"/></div>
+                            <div id="queue" className='actions' onClick={addSongToQueue}><i className="fas fa-plus"/></div>
 
                             {user &&
                             <>

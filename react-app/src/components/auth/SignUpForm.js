@@ -31,6 +31,7 @@ const FormStyling = styled.div`
     border-bottom: 1px solid #AAA;
     font-size: 20px;
     width: 100%;
+    font-family: 'Roboto Condensed', sans-serif;
   }
 
   input:focus {
@@ -38,20 +39,20 @@ const FormStyling = styled.div`
   }
 
   button {
+    font-family: 'Roboto Condensed', sans-serif;
     color: black;
     outline: none;
     border: 1px solid black;
     background-color: white;
     font-size: 16px;
+    font-weight: 500;
     padding: 10px;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.2s ease-in-out;
   }
 
   button:hover {
-    color: white;
-    background-color: #407BA7;
-    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.3);
   }
 `
 

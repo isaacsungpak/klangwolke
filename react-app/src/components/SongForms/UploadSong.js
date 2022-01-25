@@ -3,8 +3,89 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createSong } from "../../store/songs";
 import styled from "styled-components";
+import FileDropzone from "./FileDropzone";
 
 const SongFormContainer = styled.div`
+  margin-top: 20px;
+  width: 450px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.5);
+
+  #form-title {
+    padding: 30px;
+    padding-bottom: 0;
+    font-size: 25px;
+    font-weight: 700;
+  }
+
+  form {
+    width: 90%;
+  }
+
+  .field {
+    margin: 20px;
+  }
+
+  #title-input {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    font-size: 14px;
+  }
+
+  #title-input > input {
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #AAA;
+    font-size: 20px;
+    width: 100%;
+    font-family: 'Roboto Condensed', sans-serif;
+    background-color: transparent;
+  }
+
+  #title-input > input:focus {
+    border-bottom: 1px solid black;
+  }
+
+  #button-container {
+    padding: 20px;
+    padding-top: 0;
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  button {
+    font-family: 'Roboto Condensed', sans-serif;
+    color: black;
+    outline: none;
+    border: 1px black solid;
+    background-color: white;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 7px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .disabled {
+    cursor: default;
+    background-color: #FFF;
+    color: #CCC;
+    border: 1px #CCC dashed;
+  }
+
+  button:not(.disabled):hover {
+    box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.3);
+  }
 `
 
 const UploadSong = () => {
@@ -31,41 +112,49 @@ const UploadSong = () => {
       const titleString = e.target.value;
       const trimmedTitle = titleString.replaceAll(/ |​/g, '');
       setTitle(titleString);
-      if (trimmedTitle.length < 1 || trimmedTitle.length > 100) setErrorMessages(['Title must consist of 1-40 non-space characters.']);
+      if (trimmedTitle.length < 1) setErrorMessages(['Title must contain at least 1 non-space character.']);
+      else if (titleString.length > 100) setErrorMessages(['Title length cannot exceed 40 characters.']);
     }
 
-    const updateAudio = (e) => {
-        const file = e.target.files[0];
-        setAudio(file);
-    }
+    // const updateAudio = (e) => {
+    //     const audioFile = e.target.files[0];
+    //     console.log(audioFile.path);
+    //     setAudio(audioFile);
+    // }
 
-    const updateImage = (e) => {
-        const file = e.target.files[0];
-        setImage(file);
-    }
+    // const updateImage = (imageFile) => {
+    //     console.log(imageFile.path);
+    //     setImage(imageFile);
+    // }
 
     return (
+      <SongFormContainer>
+        <div id='form-title'>Upload</div>
+        <div id='errors'>
+          <ul>
+            {errorMessages.length > 0 && errorMessages.map((e, i) => (
+              <li key={`error no.${i + 1}`}>{e}</li>
+            ))}
+          </ul>
+        </div>
         <form onSubmit={handleSubmit} id="upload-form">
+          <div id="title-input" className="field">
+            <label>Title</label>
             <input
               type="text"
               name="title"
               onChange={updateTitle}
               value={title}
             />
-            <input
-              type="file"
-              name="audio"
-              accept=".mp3,.wav,.m4a"
-              onChange={updateAudio}
-            />
-            <input
-              type="file"
-              name="image"
-              accept=".gif,.jpg,.jpeg,.png"
-              onChange={updateImage}
-            />
-            <button type="submit" disabled={ errorMessages.length > 0 || !audio || !image }>Submit</button>
+          </div>
+          <FileDropzone id="audio-drop" className="field" fileSetter={setAudio} type='audio' formats='audio/mpeg, audio/wav, audio/ogg' />
+          <FileDropzone id="image-drop" className="field" fileSetter={setImage} type='image' formats='image/jpeg, image/jpg, image/png, image/gif' />
+          <div id='button-container'>
+            <button type="submit" className={ (errorMessages.length > 0 || !title || !audio || !image) ? 'disabled' : ''} disabled={ errorMessages.length > 0 || !title || !audio || !image }>Upload</button>
+            <button disabled={true}>Cancel</button>
+          </div>
         </form>
+      </SongFormContainer>
     )
 }
 
