@@ -27,23 +27,14 @@ const SongFormContainer = styled.div`
     width: 90%;
   }
 
-  ul {
-    list-style: none;
-    padding: 0;
-    color: #FF002B;
-  }
-
   .bad-input {
     color: #FF002B;
-  }
-
-  .field {
-    margin: 20px;
   }
 
   #title-input {
     flex: 1;
     display: flex;
+    margin: 20px;
     margin-top: 10px;
     flex-direction: column;
   }
@@ -90,7 +81,6 @@ const SongFormContainer = styled.div`
 
   .disabled {
     cursor: default;
-    background-color: #FFF;
     color: #CCC;
     border: 1px #CCC dashed;
   }
@@ -100,12 +90,9 @@ const SongFormContainer = styled.div`
   }
 `
 
-function EditSong({songe}) {
+function EditSong({song}) {
     const dispatch = useDispatch();
-    const history = useHistory();
-
-    const songs = useSelector(state => state.songs.entities.songs);
-    const song = songs[20]
+    // const history = useHistory();
 
     const [errorMessage, setErrorMessage] = useState('');
     const [title, setTitle] = useState(song.title);
@@ -116,7 +103,8 @@ function EditSong({songe}) {
         setIsWaiting(true);
         dispatch(editSong({ songId: song.id, title }))
           .then(() => setIsWaiting(false))
-          .then(() => history.push('/'))
+        //   .then(() => history.push('/'))
+        // close modal
     }
 
     const updateTitle = (e) => {

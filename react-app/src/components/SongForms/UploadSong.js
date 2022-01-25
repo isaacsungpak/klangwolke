@@ -73,6 +73,7 @@ const SongFormContainer = styled.div`
     padding-bottom: 30px;
     display: flex;
     justify-content: space-between;
+    flex-direction: row-reverse;
   }
 
   button {
@@ -90,7 +91,6 @@ const SongFormContainer = styled.div`
 
   .disabled {
     cursor: default;
-    background-color: #FFF;
     color: #CCC;
     border: 1px #CCC dashed;
   }

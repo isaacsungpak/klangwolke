@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom';
 import { signUp } from '../../store/session';
 import styled from 'styled-components';
 
 const FormStyling = styled.div`
-  height: 300px;
+  height: auto;
   width: 500px;
   display: flex;
   flex-direction: column;
@@ -21,6 +21,11 @@ const FormStyling = styled.div`
     margin: 20px;
   }
 
+  .errors {
+    color: #FF002B;
+    font-size: 16px;
+  }
+
   label {
     font-size: 14px;
   }
@@ -34,8 +39,12 @@ const FormStyling = styled.div`
     font-family: 'Roboto Condensed', sans-serif;
   }
 
-  input:focus {
-    border-bottom: 1px solid black;
+  input:not(.mismatch):focus {
+    border-color: black;
+  }
+
+  .mismatch {
+    border-color: #FF002B;
   }
 
   button {
@@ -51,7 +60,11 @@ const FormStyling = styled.div`
     transition: all 0.2s ease-in-out;
   }
 
-  button:hover {
+  .disabled {
+    cursor: default;
+  }
+
+  button:not(.disabled):hover {
     box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.3);
   }
 `
@@ -61,14 +74,15 @@ const SignUpForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [registerDisabled, setRegisterDisabled] = useState(true);
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
   const onSignUp = async (e) => {
     e.preventDefault();
-    if (password === repeatPassword) {
-      const data = await dispatch(signUp({username, email, password}));
+    if (password === confirmPassword) {
+      const data = dispatch(signUp({username, email, password}));
       if (data) {
         setErrors(data.payload)
       }
@@ -87,62 +101,73 @@ const SignUpForm = () => {
     setPassword(e.target.value);
   };
 
-  const updateRepeatPassword = (e) => {
-    setRepeatPassword(e.target.value);
+  const updateConfirmPassword = (e) => {
+    setConfirmPassword(e.target.value);
   };
 
-  if (user) {
-    return <Redirect to='/' />;
-  }
+  useEffect(() => {
+    setRegisterDisabled(errors.length !== 0 || !username || !email || !password || password != confirmPassword);
+  }, [errors, username, email, password, confirmPassword])
 
   return (
-    <FormStyling>
-    <form onSubmit={onSignUp}>
-      <div>
-        {errors.map((error, ind) => (
-          <div key={ind}>{error}</div>
-        ))}
-      </div>
-      <div>
-        <label>User Name</label>
-        <input
-          type='text'
-          name='username'
-          onChange={updateUsername}
-          value={username}
-        ></input>
-      </div>
-      <div>
-        <label>Email</label>
-        <input
-          type='text'
-          name='email'
-          onChange={updateEmail}
-          value={email}
-        ></input>
-      </div>
-      <div>
-        <label>Password</label>
-        <input
-          type='password'
-          name='password'
-          onChange={updatePassword}
-          value={password}
-        ></input>
-      </div>
-      <div>
-        <label>Repeat Password</label>
-        <input
-          type='password'
-          name='repeat_password'
-          onChange={updateRepeatPassword}
-          value={repeatPassword}
-          required={true}
-        ></input>
-      </div>
-      <button type='submit'>Sign Up</button>
-    </form>
-    </FormStyling>
+    <>
+      {user ?
+        <Redirect to='/' />:
+        <>
+          <FormStyling>
+            <form onSubmit={onSignUp}>
+              <div>
+                {errors.map((error, ind) => (
+                  <div className='errors' key={ind}>{error}</div>
+                ))}
+              </div>
+              <div>
+                <label>Username</label>
+                <input
+                  type='text'
+                  name='username'
+                  onChange={updateUsername}
+                  value={username}
+                  required
+                ></input>
+              </div>
+              <div>
+                <label>Email</label>
+                <input
+                  type='text'
+                  name='email'
+                  onChange={updateEmail}
+                  value={email}
+                  required
+                ></input>
+              </div>
+              <div>
+                <label>Password</label>
+                <input
+                  type='password'
+                  name='password'
+                  onChange={updatePassword}
+                  value={password}
+                  required
+                ></input>
+              </div>
+              <div>
+                <label>Confirm Password</label>
+                <input
+                  type='password'
+                  name='Confirm_password'
+                  onChange={updateConfirmPassword}
+                  value={confirmPassword}
+                  required
+                  className={password !== confirmPassword ? 'mismatch' : ''}
+                ></input>
+              </div>
+              <button type='submit' disabled={registerDisabled} className={registerDisabled ? 'disabled' : ''}>Register</button>
+            </form>
+          </FormStyling>
+        </>
+      }
+    </>
   );
 };
 

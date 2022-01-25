@@ -23,7 +23,6 @@ const FormStyling = styled.div`
 
   #error {
     color: #FF002B;
-    font-weight: 700;
     font-size: 16px;
   }
 
@@ -42,6 +41,7 @@ const FormStyling = styled.div`
 
   #button-container {
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-between;
   }
 
