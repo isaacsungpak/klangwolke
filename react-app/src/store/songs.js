@@ -93,7 +93,7 @@ export const getASong = createAsyncThunk(
 
 export const editSong = createAsyncThunk(
     "songs/editSong",
-    async ({songId, title}, thunkAPI) => {
+    async ({ songId, title }, thunkAPI) => {
         const response = await fetch(`/api/songs/${songId}`, {
             method: "PATCH",
             headers: {

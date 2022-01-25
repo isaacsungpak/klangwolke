@@ -13,6 +13,7 @@ import HomePage from './components/HomePage';
 import AuthPage from './components/AuthPage';
 import UploadSong from './components/SongForms/UploadSong';
 import FooterBar from './components/FooterBar';
+import EditSong from './components/SongForms/EditSong';
 
 const MainBody = styled.div`
   width: 100%;
@@ -31,20 +32,18 @@ const Content = styled.div`
 `
 
 function App() {
-  const [loaded, setLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(authenticate()).then(() => setLoaded(true));
+    dispatch(authenticate()).then(() => setIsLoaded(true));
   }, [dispatch]);
-
-  if (!loaded) {
-    return null;
-  }
 
   return (
     <BrowserRouter>
-      <NavBar />
+    {isLoaded &&
+      <>
+        <NavBar />
         <MainBody>
           <Content>
             <Switch>
@@ -66,15 +65,17 @@ function App() {
                 <UploadSong />
               </ProtectedRoute>
               <ProtectedRoute path='/library'>
-                <UploadSong />
+                <EditSong />
               </ProtectedRoute>
               <Route path='/' exact={true} >
                 <HomePage />
               </Route>
             </Switch>
           </Content>
-      </MainBody>
-      <FooterBar />
+        </MainBody>
+        <FooterBar />
+      </>
+    }
     </BrowserRouter>
   );
 }

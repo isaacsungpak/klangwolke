@@ -141,16 +141,16 @@ def create_song():
 def edit_song(id):
     form = EditSongForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    new_data = request.json
-    form.title = new_data.title
 
     if form.validate_on_submit():
+        title = form.data['title']
+
         song = Song.query.get(id)
 
         if not song: return abort(404)
         elif song.user_id != current_user.id: return abort(403)
 
-        song.title = form.title
+        song.title = title
         db.session.commit()
         return song.to_dict()
 
