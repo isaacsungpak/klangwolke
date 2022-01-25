@@ -8,8 +8,5 @@ ALLOWED_IMAGE_EXTENSIONS = ["png", "jpg", "jpeg", "gif"]
 
 class CreateSongForm(FlaskForm):
     title = StringField('title', validators=[DataRequired()])
-    # audio = FileField('audio', validators=[FileRequired(), FileAllowed(ALLOWED_AUDIO_EXTENSIONS, 'Allowed formats: .wav, .m4a, .mp3')])
-    # image = FileField('image', validators=[FileRequired(), FileAllowed(ALLOWED_IMAGE_EXTENSIONS, 'Allowed formats: .png, .jpg, .jpeg, .gif')])
-
-    # audio = StringField('audio', validators=[DataRequired()])
-    # image = StringField('image', validators=[DataRequired()])
+    audio = FileField('audio', validators=[FileRequired(), FileAllowed(ALLOWED_AUDIO_EXTENSIONS, 'Allowed formats: .wav, .m4a, .mp3')])
+    image = FileField('image', validators=[FileRequired(), FileAllowed(ALLOWED_IMAGE_EXTENSIONS, 'Allowed formats: .png, .jpg, .jpeg, .gif')])

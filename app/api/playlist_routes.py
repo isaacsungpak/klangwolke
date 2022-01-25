@@ -20,6 +20,19 @@ def get_playlists():
         'playlists': [playlist.to_dict() for playlist in playlists]
     }
 
+@playlist_routes.route('/song/<int:song_id')
+@login_required
+def get_playlists_without_song(song_id):
+    playlists = []
+    user_playlists = Playlist.query.filter(Playlist.user_id == current_user.id).all()
+    for user_playlist in user_playlists:
+        stp = SongToPlaylist.query.get((song_id, user_playlist.id))
+        if not stp: playlists.append(user_playlist)
+
+    return {
+        'playlists': [playlist.to_dict() for playlist in playlists]
+    }
+
 @playlist_routes.route('/<int:id>')
 @login_required
 def get_playlist(id):
@@ -70,6 +83,30 @@ def create_playlist():
     }
 
 # add song to playlist
+@playlist_routes.route('/<id:playlist_id>/songs/<int:song_id>', methods=['POST'])
+@login_required
+def add_song_to_playlist(playlist_id, song_id):
+    playlist = Playlist.query.get(playlist_id)
+    if not playlist: return abort(400)
+    elif playlist.user_id != current_user.id: return abort(403)
+
+    song = Song.query.get(song_id)
+    if not song: return abort(400)
+
+    stp = SongToPlaylist.query.get((song_id, playlist_id))
+    if stp: return {"errors": "provided song is already in selected playlist"}, 400
+
+    stp = SongToPlaylist(
+        song_id=song_id,
+        playlist_id=playlist_id
+    )
+    db.session.add(stp)
+    db.session.commit()
+
+    return {
+        'playlists': [playlist.to_dict()]
+    }
+
 @playlist_routes.route('/<id:playlist_id>/songs/<int:song_id>', methods=['POST'])
 @login_required
 def add_song_to_playlist(playlist_id, song_id):

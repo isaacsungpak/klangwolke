@@ -21,6 +21,12 @@ const FormStyling = styled.div`
     margin: 20px;
   }
 
+  #error {
+    color: #FF002B;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
   input {
     outline: none;
     border: none;
@@ -72,7 +78,7 @@ const LoginForm = () => {
     e.preventDefault();
     const data = await dispatch(login({email, password}));
     if (data) {
-      setErrors(data);
+      setErrors(data.payload);
     }
   };
 
@@ -89,9 +95,9 @@ const LoginForm = () => {
     <FormStyling>
       <form onSubmit={onLogin}>
         <div>
-          {errors.map((error, ind) => (
-            <div key={ind}>{error}</div>
-          ))}
+          {errors.length > 0 &&
+            <div id='error'>{errors[0]}</div>
+          }
         </div>
           <div>
             <label>Email</label>
