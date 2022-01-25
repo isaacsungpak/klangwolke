@@ -58,11 +58,18 @@ const Card = styled.div`
         width: 100%;
         height: 100%;
         font-size: 50px;
-        color: ${props => props.isPlaying ? "#FF002B" : "#FFF"}
+        color: ${props => props.isPlaying ? "#FF002B" : "#FFF"};
     }
 
     #play:hover {
         color: ${props => props.isPlaying ? "#FF002B" : "#407BA7"}
+    }
+
+    #queue {
+        grid-row: 1;
+        grid-column: 4;
+        width: 100%;
+        height: 100%;
     }
 
     #like {
@@ -136,6 +143,10 @@ function SongCard({song}) {
         dispatch(deleteSong(song.id));
     }
 
+    function addSongToQueue() {
+        return;
+    }
+
     return (
         <>
             {song &&
@@ -143,6 +154,7 @@ function SongCard({song}) {
                     <div alt={`${song.title} Artwork`} className="song-artwork">
                         <div id="overlay">
                             <div id="play" className='actions' onClick={() => setCurrentSong(song)}><i className="fas fa-play-circle" /></div>
+                            <div id="queue" className='actions' onClick={addSongToQueue}><i class="fas fa-plus"/></div>
 
                             {user &&
                             <>

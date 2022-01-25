@@ -21,7 +21,7 @@ const Content = styled.div`
 `
 
 const PlayerContainer = styled.div`
-    width: 1040px;
+    width: 1090px;
 
     .rhap_container {
         background-color: black;
@@ -49,7 +49,7 @@ const PlayerContainer = styled.div`
 `
 
 const CurrentSong = styled.div`
-    width: 299px;
+    width: 249px;
     display: flex;
     border-left: 1px solid #555;
 
@@ -63,7 +63,7 @@ const CurrentSong = styled.div`
     }
 
     #song-info {
-        width: 201px;
+        width: 151px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -111,7 +111,6 @@ function FooterBar() {
                 <PlayerContainer>
                     <AudioPlayer
                         src={currentSong?.audio}
-
                     />
                 </PlayerContainer>
 
