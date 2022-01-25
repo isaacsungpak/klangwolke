@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from app.forms import validate_trimmed_length
+from app.forms.custom_form_validators import validate_trimmed_length
 
 ALLOWED_AUDIO_EXTENSIONS = ["wav", "m4a", "mp3"]
 ALLOWED_IMAGE_EXTENSIONS = ["png", "jpg", "jpeg", "gif"]

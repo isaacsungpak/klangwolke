@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired, ValidationError
 from app.models import User
-from app.forms import validate_trimmed_length
+from app.forms.custom_form_validators import validate_trimmed_length
 
 
 def email_exists(form, field):
