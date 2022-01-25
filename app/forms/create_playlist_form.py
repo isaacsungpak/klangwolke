@@ -1,15 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField
 from wtforms.validators import DataRequired, ValidationError
-import re
-
-def length_validator(form, field):
-    message = f'Title must consist of 1-100 non-space characters.'
-    title = field.data
-    trimmed_title = re.sub(' |​', '', title)
-    if len(trimmed_title) > 40 or len(trimmed_title) < 1:
-        raise ValidationError('Title must consist of 1-40 non-space characters.')
+from app.forms import validate_trimmed_length
 
 class CreatePlaylistForm(FlaskForm):
-    title = StringField('title', validators=[DataRequired(message='Title is required'), length_validator])
+    title = StringField('title', validators=[DataRequired(message='Title is required'), validate_trimmed_length(min = 1, max = 100)])
     song_id = IntegerField('songId', validators=[DataRequired()])
