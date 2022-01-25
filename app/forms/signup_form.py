@@ -25,6 +25,6 @@ def valid_username_length(form, field):
         raise ValidationError('Username must consist of 1-40 non-space characters.')
 
 class SignUpForm(FlaskForm):
-    username = StringField('username', validators=[DataRequired(), username_exists, valid_username_length])
-    email = StringField('email', validators=[DataRequired(), email_exists])
-    password = StringField('password', validators=[DataRequired()])
+    username = StringField('username', validators=[DataRequired(message='Username is required'), username_exists, valid_username_length])
+    email = StringField('email', validators=[DataRequired(message='Email is required'), email_exists])
+    password = StringField('password', validators=[DataRequired(message='Password is required')])
