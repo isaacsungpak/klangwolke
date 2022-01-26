@@ -17,6 +17,7 @@ const Card = styled.div`
         height: 175px;
         position: relative;
         box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.5);
+        margin-bottom: 5px;
     }
 
     #overlay {

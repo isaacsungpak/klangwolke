@@ -21,12 +21,13 @@ const MainBody = styled.div`
   bottom: 88px;
   display: flex;
   justify-content: center;
-  background-color: #FFF;
+  background-color: #EEE;
 `
 
 const Content = styled.div`
   width: 1240px;
-  // background-color: green;
+  background-color: white;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
 `
 
 function App() {
