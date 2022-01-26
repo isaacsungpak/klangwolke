@@ -130,7 +130,7 @@ const NavBar = () => {
     user_id: 0,
     owner: {
       id: 0,
-      username: "Souljojo"
+      username: "Speakers Going ⊑⏃⋔⋔⟒⍀"
     },
     likeCount: 9000
   }
