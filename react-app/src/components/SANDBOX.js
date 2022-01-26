@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 const Playground = styled.div`
     display: flex;
+    flex-direction: column;
     gap: 15px;
     flex-wrap: wrap;
 `
