@@ -9,7 +9,7 @@ export const createPlaylist = createAsyncThunk(
         const response = await fetch("/api/playlists/", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({ title, songId })
         });
@@ -28,7 +28,8 @@ export const createPlaylist = createAsyncThunk(
 export const getPlaylists = createAsyncThunk(
     "playlists/getPlaylists",
     async (searchKey, thunkAPI) => {
-        const url = `/api/playlists?search=${searchKey}`;
+        let url = `/api/playlists/`;
+        if (searchKey) url += `?key=${searchKey}`;
         const response = await fetch(url);
         const data = await response.json();
         if (response.ok && !data.errors) {

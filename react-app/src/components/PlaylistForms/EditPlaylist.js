@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { editPlaylist } from "../../store/songs";
+import { editPlaylist } from "../../store/playlists";
 import styled from "styled-components";
 import WaitingAnimation from "../WaitingAnimation";
 
@@ -93,7 +93,7 @@ function EditPlaylist({playlist}) {
     const dispatch = useDispatch();
 
     const [errorMessage, setErrorMessage] = useState('');
-    const [title, setTitle] = useState(playlist.title);
+    const [title, setTitle] = useState(playlist?.title);
     const [isWaiting, setIsWaiting] = useState(false)
     const handleSubmit = async (e) => {
         e.preventDefault();

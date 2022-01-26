@@ -32,7 +32,8 @@ export const createSong = createAsyncThunk(
 export const getSongs = createAsyncThunk(
     "songs/getSongs",
     async (searchKey, thunkAPI) => {
-        const url = `/api/songs?search=${searchKey}`;
+        let url = `/api/songs/`
+        if (searchKey) url += `?key=${searchKey}`;
         const response = await fetch(url);
         const data = await response.json();
         if (response.ok && !data.errors) {

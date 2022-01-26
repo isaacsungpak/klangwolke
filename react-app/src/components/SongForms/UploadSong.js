@@ -139,7 +139,7 @@ const UploadSong = () => {
     return (
       <>
         <SongFormContainer>
-        <WaitingAnimation show={isWaiting} />
+          <WaitingAnimation show={isWaiting} />
           <div id='form-title'>Upload</div>
           <form onSubmit={handleSubmit} id="upload-form">
             <div id="title-input" className="field">

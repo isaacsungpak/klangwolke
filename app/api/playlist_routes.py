@@ -1,9 +1,8 @@
 from crypt import methods
 from flask import Blueprint, request, abort
 from flask_login import current_user, login_required
-from app.forms.edit_song_form import EditSongForm
 from app.models import db, Playlist, SongToPlaylist, Song
-from app.forms import CreatePlaylistForm, EditPlaylistForm, DeletePlaylistForm, validation_error_messages
+from app.forms import CreatePlaylistForm, EditPlaylistForm, DeletePlaylistForm, FieldlessForm, validation_error_messages
 
 playlist_routes = Blueprint('playlists', __name__)
 
@@ -16,7 +15,7 @@ def create_playlist():
 
     if form.validate_on_submit():
         title = form.data['title']
-        song_id = form.data['song_id']
+        song_id = form.data['songId']
 
         song = Song.query.get(song_id)
         if not song: return abort(400)
@@ -35,13 +34,16 @@ def create_playlist():
         db.session.add(stp)
         db.session.commit()
 
-    return playlist.to_dict()
+        return playlist.to_dict()
+
+    return {"errors": validation_error_messages(form.errors)}, 400
 
 # get all playlists / allow search
 @playlist_routes.route('/')
 @login_required
 def get_playlists():
     search_key = request.args.get("key")
+
     filters = [Playlist.user_id == current_user.id]
     if search_key:
         filters.append(Playlist.title.ilike(f"%{search_key}%"))
@@ -52,7 +54,7 @@ def get_playlists():
     }
 
 # get playlists that do not already include a specified song
-@playlist_routes.route('/songs/<int:song_id')
+@playlist_routes.route('/songs/<int:song_id>')
 @login_required
 def get_playlists_without_song(song_id):
     playlists = []
@@ -79,7 +81,7 @@ def get_playlist(id):
     return playlist.to_dict()
 
 # add song to playlist
-@playlist_routes.route('/<id:playlist_id>/songs/<int:song_id>', methods=['POST'])
+@playlist_routes.route('/<int:playlist_id>/songs/<int:song_id>', methods=['POST'])
 @login_required
 def add_song_to_playlist(playlist_id, song_id):
     playlist = Playlist.query.get(playlist_id)
