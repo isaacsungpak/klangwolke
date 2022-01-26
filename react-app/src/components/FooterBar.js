@@ -18,10 +18,18 @@ const Content = styled.div`
     justify-content: center;
     background-color: black;
     display: flex;
+
+    @media screen and (max-width: 1240px) {
+        width: 1000px;
+    }
+
+    @media screen and (max-width: 1000px) {
+        width: 720px;
+    }
 `
 
 const PlayerContainer = styled.div`
-    width: 1090px;
+    flex: 1;
 
     .rhap_container {
         background-color: black;

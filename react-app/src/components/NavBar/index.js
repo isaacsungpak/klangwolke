@@ -64,10 +64,33 @@ const StyledNav = styled.nav`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media screen and (max-width: 1240px) {
+      width: 444px;
+    }
+
+    @media screen and (max-width: 1000px) {
+      width: 264px;
+    }
+  }
+
+  #upload {
+    @media screen and (max-width: 1000px) {
+      width: 0px;
+      visibility: hidden;
+    }
+  }
+
+  #input-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    flex: 1;
   }
 
   #searchbar {
-    width: 630px;
+    flex: 1;
     height: 26px;
     border: none;
     outline: none;
@@ -100,6 +123,10 @@ const StyledNav = styled.nav`
     border-right: 1px solid #333;
     width: 150px;
     cursor: pointer;
+
+    @media screen and (max-width: 1000px) {
+      border-left: 1px solid #333;
+    }
   }
 
   #login {
@@ -170,18 +197,20 @@ const NavBar = () => {
         </li>
         <li>
           <form id="search-form" onSubmit={searchSubmit}>
-            <input id="searchbar" placeholder="Search" value={searchKey} onChange={e => setSearchKey(e.target.value)}/>
-            <button id="search-button" disabled={searchKey === ""} className={searchKey === "" ? "disabled" : ""}><i className="fas fa-search"></i></button>
+            <div id="input-bar">
+              <input id="searchbar" placeholder="Search" value={searchKey} onChange={e => setSearchKey(e.target.value)}/>
+              <button id="search-button" disabled={searchKey === ""} className={searchKey === "" ? "disabled" : ""}><i className="fas fa-search"></i></button>
+            </div>
           </form>
         </li>
         <li>
           <NavLink to='/upload' exact={true} activeClassName='active'>
-            <div className='nav-option starter-tab'><div>Upload</div></div>
+            <div className='nav-option starter-tab' id="upload"><div>Upload</div></div>
           </NavLink>
         </li>
         <li>
             {user ?
-              <ProfileTab user={user} />:
+              <ProfileTab user={user} className='user-tab'/>:
               <NavLink to="/auth"><div className='user-tab' id="login">Register/Login</div></NavLink>}
         </li>
       </ul>

@@ -28,6 +28,15 @@ const Content = styled.div`
   width: 1240px;
   background-color: white;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+  overflow-y: scroll;
+
+  @media screen and (max-width: 1240px) {
+    width: 1000px;
+  }
+
+  @media screen and (max-width: 1000px) {
+    width: 720px;
+  }
 `
 
 function App() {
