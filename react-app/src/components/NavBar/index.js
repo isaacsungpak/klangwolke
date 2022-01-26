@@ -124,9 +124,9 @@ const NavBar = () => {
   const { setCurrentSong } = useSong();
   const CDNBT = {
     id: 0,
-    title: "Crank Dat Noisy Bizarre Town",
-    audio: "https://klangwolke.s3.amazonaws.com/seeds/Crank+Dat+Noisy+Bizarre+Town.mp3",
-    image: "https://klangwolke.s3.amazonaws.com/seeds/Crank+Dat+Noisy+Bizarre+Town.jpg",
+    title: "Is Soulja Boy an Alien?",
+    audio: "https://klangwolke.s3.amazonaws.com/seeds/Is_Soulja_Boy_an_Alien.mp3",
+    image: "https://klangwolke.s3.amazonaws.com/seeds/Is_Soulja_Boy_an_Alien.jpg",
     user_id: 0,
     owner: {
       id: 0,
