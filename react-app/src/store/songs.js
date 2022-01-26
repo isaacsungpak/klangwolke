@@ -18,7 +18,6 @@ export const createSong = createAsyncThunk(
             body: songForm
         });
         const data = await response.json();
-        console.log('sdfghjklkgfdsadfghjhgfds', data);
         if (response.ok && !data.errors) {
             return data;
         } else if (response.status < 500) {

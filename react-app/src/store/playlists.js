@@ -1,16 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const initialState = { entities: { songs: {}, newSongs: [], likedSongs: [], likes: [] } }
+const initialState = { playlists: {} }
 
+// create playlist with first song
 export const createPlaylist = createAsyncThunk(
-    "playlists/createPlaylists",
+    "playlists/createPlaylist",
     async ({ title, songId }, thunkAPI) => {
-        const response = await fetch("/api/songs/", {
+        const response = await fetch("/api/playlists/", {
             method: "POST",
-            body: songForm
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ title, songId })
         });
         const data = await response.json();
-        console.log('sdfghjklkgfdsadfghjhgfds', data);
         if (response.ok && !data.errors) {
             return data;
         } else if (response.status < 500) {
@@ -21,11 +24,11 @@ export const createPlaylist = createAsyncThunk(
     }
 );
 
-// search for songs by search key
-export const getSongs = createAsyncThunk(
-    "songs/getSongs",
+// get all playlists / allow search
+export const getPlaylists = createAsyncThunk(
+    "playlists/getPlaylists",
     async (searchKey, thunkAPI) => {
-        const url = `/api/songs?search=${searchKey}`;
+        const url = `/api/playlists?search=${searchKey}`;
         const response = await fetch(url);
         const data = await response.json();
         if (response.ok && !data.errors) {
@@ -36,43 +39,15 @@ export const getSongs = createAsyncThunk(
             throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
         }
     }
-);
-
-export const getUserHome = createAsyncThunk(
-    "songs/getUserHome",
-    async (_args, thunkAPI) => {
-        const response = await fetch(`/api/songs/user_home`)
-        const data = await response.json()
-        if (response.ok && !data.errors) {
-            return data;
-        } else if (response.status < 500) {
-            throw thunkAPI.rejectWithValue(data.errors);
-        } else {
-            throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
-        }
-    }
 )
 
-export const getGuestHome = createAsyncThunk(
-    "songs/getGuestHome",
-    async (_args, thunkAPI) => {
-        const response = await fetch(`/api/songs/guest_home`)
-        const data = await response.json()
-        if (response.ok && !data.errors) {
-            return data;
-        } else if (response.status < 500) {
-            throw thunkAPI.rejectWithValue(data.errors);
-        } else {
-            throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
-        }
-    }
-)
-
-export const getASong = createAsyncThunk(
-    "songs/getASong",
+// retrieve all playlists that do not already include a specified song
+export const getPlaylistsWithoutSong = createAsyncThunk(
+    "playlists/getPlaylistsWithoutSong",
     async (songId, thunkAPI) => {
-        const response = await fetch(`/api/songs/${songId}`)
-        const data = await response.json()
+        const url = `/api/playlists/songs/${songId}`;
+        const response = await fetch(url);
+        const data = await response.json();
         if (response.ok && !data.errors) {
             return data;
         } else if (response.status < 500) {
@@ -83,15 +58,15 @@ export const getASong = createAsyncThunk(
     }
 )
 
-export const editSong = createAsyncThunk(
-    "songs/editSong",
-    async ({ songId, title }, thunkAPI) => {
-        const response = await fetch(`/api/songs/${songId}`, {
-            method: "PATCH",
+export const addSongToPlaylist = createAsyncThunk(
+    "playlists/addSongToPlaylist",
+    async ({playlistId, songId}) => {
+        const url = `/api/playlists/link/${playlistId}/${songId}`;
+        const response = await fetch(url, {
+            method: "POST",
             headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({title}),
+                "Content-Length": "0"
+            }
         });
         const data = await response.json();
         if (response.ok && !data.errors) {
@@ -102,12 +77,34 @@ export const editSong = createAsyncThunk(
             throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
         }
     }
-);
+)
 
-export const deleteSong = createAsyncThunk(
-    "songs/deleteSong",
-    async (songId, thunkAPI) => {
-        const response = await fetch(`/api/songs/${songId}`, {
+export const editPlaylist = createAsyncThunk(
+    "playlists/addSongToPlaylist",
+    async ({ playlistId, title }) => {
+        const url = `/api/playlists/${playlistId}`;
+        const response = await fetch(url, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ title })
+        });
+        const data = await response.json();
+        if (response.ok && !data.errors) {
+            return data;
+        } else if (response.status < 500) {
+            throw thunkAPI.rejectWithValue(data.errors);
+        } else {
+            throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
+        }
+    }
+)
+
+export const deletePlaylist = createAsyncThunk(
+    "playlists/deletePlaylist",
+    async (playlistId, thunkAPI) => {
+        const response = await fetch(`/api/playlists/${playlistId}`, {
             method: "DELETE"
         });
         const data = await response.json();
@@ -120,50 +117,3 @@ export const deleteSong = createAsyncThunk(
         }
     }
 );
-
-const songSlice = createSlice({
-    name: "songs",
-    initialState,
-    extraReducers: (builder) => {
-        builder.addCase(createSong.fulfilled, (state, action) => {
-            state.entities.songs[action.payload.id] = action.payload;
-        });
-        builder.addCase(getSongs.fulfilled, (state, action) => {
-            const songs = {}
-            action.payload.songs.forEach((song) => {
-                songs[song.id] = song
-            })
-            state.entities.songs = songs;
-            state.entities.likes = action.payload.likes;
-        });
-        builder.addCase(getUserHome.fulfilled, (state, action) => {
-            const songs = {}
-            action.payload.songs.forEach((song) => {
-                songs[song.id] = song
-            })
-            state.entities.songs = songs;
-            state.entities.newSongs = action.payload.newSongs;
-            state.entities.likedSongs = action.payload.likedSongs;
-            state.entities.likes = action.payload.likes;
-        });
-        builder.addCase(getGuestHome.fulfilled, (state, action) => {
-            const songs = {}
-            action.payload.songs.forEach((song) => {
-                songs[song.id] = song
-            })
-            state.entities.songs = songs;
-            state.entities.newSongs = action.payload.newSongs;
-        });
-        builder.addCase(getASong.fulfilled, (state, action) => {
-            state.entities.songs[action.payload.id] = action.payload
-        })
-        builder.addCase(editSong.fulfilled, (state, action) => {
-            state.entities.songs[action.payload.id] = action.payload;
-        });
-        builder.addCase(deleteSong.fulfilled, (state, action) => {
-            delete state.entities.songs[action.payload.songId];
-        });
-    },
-});
-
-export default songSlice.reducer;

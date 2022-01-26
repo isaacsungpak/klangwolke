@@ -54,7 +54,7 @@ def get_playlists():
     }
 
 # get playlists that do not already include a specified song
-@playlist_routes.route('/song/<int:song_id')
+@playlist_routes.route('/songs/<int:song_id')
 @login_required
 def get_playlists_without_song(song_id):
     playlists = []
@@ -83,7 +83,7 @@ def get_playlist(id):
     }
 
 # add song to playlist
-@playlist_routes.route('/<id:playlist_id>/songs/<int:song_id>', methods=['POST'])
+@playlist_routes.route('/link/<id:playlist_id>/<int:song_id>', methods=['POST'])
 @login_required
 def add_song_to_playlist(playlist_id, song_id):
     playlist = Playlist.query.get(playlist_id)
