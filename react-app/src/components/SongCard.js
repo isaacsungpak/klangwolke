@@ -6,23 +6,28 @@ import { deleteSong } from '../store/songs';
 
 const Card = styled.div`
     width: 175px;
-    height: 250px;
+    height: 225px;
     margin: 10px;
+
+    @media screen and (max-width: 1240px) {
+        width: 150px;
+        height: 200px;
+    }
 
     .song-artwork {
         background-image: url(${props => props.image});
         background-size: cover;
         background-position: center;
-        width: 175px;
-        height: 175px;
+        width: 100%;
+        aspect-ratio: 1;
         position: relative;
         box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.5);
         margin-bottom: 5px;
     }
 
     #overlay {
-        width: 155px;
-        height: 155px;
+        flex: 1;
+        aspect-ratio: 1;
         padding: 10px;
 
         background-color: rgba(0, 0, 0, 0.7);
