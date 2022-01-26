@@ -4,11 +4,10 @@ import styled from 'styled-components';
 import { useEffect } from 'react';
 
 const getColor = (props) => {
-    if (props.acceptedFiles[0]) return '#407BA7'
-
     if (props.isDragAccept) return '#00043A';
     else if (props.isDragReject) return '#FF002B';
     else if (props.isFocused) return '#407BA7';
+    else if (props.acceptedFiles[0]) return '#407BA7'
     else return '#EEE';
 }
 
