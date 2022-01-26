@@ -6,6 +6,7 @@ import EditSong from "./SongForms/EditSong";
 
 import CreatePlaylist from "./PlaylistForms/CreatePlaylist";
 import EditPlaylist from "./PlaylistForms/EditPlaylist";
+import DeletePlaylist from "./PlaylistForms/DeletePlaylist";
 import { useEffect, useState } from "react";
 import { getPlaylists } from "../store/playlists";
 
@@ -34,6 +35,7 @@ function SANDBOX() {
                     <DeleteSong song={songs[1]}/>
                     <CreatePlaylist song={songs[1]}/>
                     <EditPlaylist playlist={playlists[2]}/>
+                    <DeletePlaylist playlist={playlists[7]}/>
                 </>
             }
         </Playground>

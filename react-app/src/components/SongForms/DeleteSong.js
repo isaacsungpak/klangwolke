@@ -77,13 +77,13 @@ function DeleteSong({song}) {
     const history = useHistory();
 
     const [isWaiting, setIsWaiting] = useState(false)
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         setIsWaiting(true);
         dispatch(deleteSong( song.id ))
           .then(() => setIsWaiting(false))
-            // close modal
           .then(() => history.push('/'))
     }
 
@@ -93,7 +93,7 @@ function DeleteSong({song}) {
         <WaitingAnimation show={isWaiting} />
           <div id='form-title'>Delete Song</div>
           <div id='question-template'>Are you sure that you want to delete</div>
-          <div id='song-title'>'<div id='title'>{song.title}</div>'</div>
+          <div id='song-title'>'<div id='title'>{song ? song.title : ''}</div>'</div>
           <form onSubmit={handleSubmit} id="delete-form">
             <div id='button-container'>
               <button disabled={true}>Cancel</button>
