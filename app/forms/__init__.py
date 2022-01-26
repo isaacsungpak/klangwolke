@@ -6,6 +6,8 @@ from .edit_song_form import EditSongForm
 from .delete_song_form import DeleteSongForm
 
 from .create_playlist_form import CreatePlaylistForm
+from .edit_playlist_form import EditPlaylistForm
+from .delete_playlist_form import DeletePlaylistForm
 
 def validation_error_messages(validation_errors):
     errorMessages = []

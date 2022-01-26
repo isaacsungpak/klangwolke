@@ -124,7 +124,7 @@ function EditSong({song}) {
         <SongFormContainer>
         <WaitingAnimation show={isWaiting} />
           <div id='form-title'>Edit Song Title</div>
-          <form onSubmit={handleSubmit} id="upload-form">
+          <form onSubmit={handleSubmit} id="edit-form">
             <div id="title-input" className="field">
               <label className={errorMessage !== '' ? 'bad-input' : ''}>{errorMessage || 'Title'}</label>
               <input

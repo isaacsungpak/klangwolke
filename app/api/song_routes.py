@@ -133,8 +133,6 @@ def create_song():
 
     return {'errors': validation_error_messages(form.errors)}
 
-
-
 # update song title
 @song_routes.route('/<int:id>', methods=['PATCH'])
 @login_required
@@ -154,20 +152,7 @@ def edit_song(id):
         db.session.commit()
         return song.to_dict()
 
-    return validation_error_messages(form.errors), 400
-
-
-@song_routes.route('/<int:song_id>/songs/<int:playlist_id>', methods=['DELETE'])
-@login_required
-def remove_song_from_playlist(playlist_id, song_id):
-    stp = SongToPlaylist.query.get((song_id, playlist_id))
-    if not stp: return abort(400)
-    elif stp.playlist.user_id != current_user.id: return abort(403)
-
-    db.session.delete(stp)
-    db.session.commit()
-
-    return {"songId": id}
+    return {'errors': validation_error_messages(form.errors)}, 400
 
 # delete song
 @song_routes.route('/<int:id>', methods=['DELETE'])
@@ -189,4 +174,16 @@ def delete_song(id):
         db.session.commit()
         return {"songId": id}
 
-    return validation_error_messages(form.errors), 400
+    return {"errors": "Request could not be completed at this time. Please try again."}, 400
+
+@song_routes.route('/<int:song_id>/songs/<int:playlist_id>', methods=['DELETE'])
+@login_required
+def remove_song_from_playlist(playlist_id, song_id):
+    stp = SongToPlaylist.query.get((song_id, playlist_id))
+    if not stp: return abort(400)
+    elif stp.playlist.user_id != current_user.id: return abort(403)
+
+    db.session.delete(stp)
+    db.session.commit()
+
+    return {"songId": id}

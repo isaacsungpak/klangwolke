@@ -8,8 +8,10 @@ import styled from 'styled-components';
 import NavBar from './components/NavBar';
 import HomePage from './components/HomePage';
 import AuthPage from './components/AuthPage';
-import UploadSong from './components/SongForms/UploadSong';
 import FooterBar from './components/FooterBar';
+
+import SANDBOX from './components/SANDBOX';
+import UploadSong from './components/SongForms/UploadSong';
 import EditSong from './components/SongForms/EditSong';
 
 const MainBody = styled.div`
@@ -62,7 +64,7 @@ function App() {
                 <UploadSong />
               </ProtectedRoute>
               <ProtectedRoute path='/library'>
-                <EditSong />
+                <SANDBOX />
               </ProtectedRoute>
               <Route path='/' exact={true} >
                 <HomePage />
