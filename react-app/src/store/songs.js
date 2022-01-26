@@ -5,16 +5,12 @@ const initialState = { entities: { songs: {}, newSongs: [], likedSongs: [], like
 export const createSong = createAsyncThunk(
     "songs/createSong",
     async ({ title, audio, image }, thunkAPI) => {
-        console.log(title, audio, image);
         const songForm = new FormData();
         songForm.append("title", title);
         songForm.append("audio", audio);
         songForm.append("image", image);
         const response = await fetch("/api/songs/", {
             method: "POST",
-            // headers: {
-            //     'Content-Type': 'multipart/form-data'
-            // },
             body: songForm
         });
         const data = await response.json();
@@ -35,6 +31,22 @@ export const getSongs = createAsyncThunk(
         let url = `/api/songs/`
         if (searchKey) url += `?key=${searchKey}`;
         const response = await fetch(url);
+        const data = await response.json();
+        if (response.ok && !data.errors) {
+            return data;
+        } else if (response.status < 500) {
+            throw thunkAPI.rejectWithValue(data.errors);
+        } else {
+            throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
+        }
+    }
+);
+
+// search for songs by search key
+export const getSongs = createAsyncThunk(
+    "songs/getPlaylistSongs",
+    async (playlistId, thunkAPI) => {
+        const response = await fetch(`/api/songs/playlist/${playlistId}`);
         const data = await response.json();
         if (response.ok && !data.errors) {
             return data;
@@ -154,6 +166,14 @@ const songSlice = createSlice({
             state.entities.songs[action.payload.id] = action.payload;
         });
         builder.addCase(getSongs.fulfilled, (state, action) => {
+            const songs = {}
+            action.payload.songs.forEach((song) => {
+                songs[song.id] = song
+            })
+            state.entities.songs = songs;
+            state.entities.likes = action.payload.likes;
+        });
+        builder.addCase(getPlaylistSongs.fulfilled, (state, action) => {
             const songs = {}
             action.payload.songs.forEach((song) => {
                 songs[song.id] = song
