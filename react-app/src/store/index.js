@@ -1,5 +1,6 @@
 import session from "./session";
 import songs from "./songs";
+import playlists from "./playlists";
 import { configureStore } from "@reduxjs/toolkit";
 
 const isDev = process.env.NODE_ENV !== "production";
@@ -8,6 +9,7 @@ const store = configureStore({
   reducer: {
     session,
     songs,
+    playlists
   },
   middleware: (getDefaultMiddleware) => {
     if (isDev) {

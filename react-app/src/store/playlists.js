@@ -58,10 +58,27 @@ export const getPlaylistsWithoutSong = createAsyncThunk(
     }
 )
 
+// get a specific playlists
+export const getPlaylist = createAsyncThunk(
+    "playlists/getPlaylist",
+    async (playlistId, thunkAPI) => {
+        const url = `/api/playlists/${playlistId}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        if (response.ok && !data.errors) {
+            return data;
+        } else if (response.status < 500) {
+            throw thunkAPI.rejectWithValue(data.errors);
+        } else {
+            throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
+        }
+    }
+)
+
 export const addSongToPlaylist = createAsyncThunk(
     "playlists/addSongToPlaylist",
     async ({playlistId, songId}) => {
-        const url = `/api/playlists/link/${playlistId}/${songId}`;
+        const url = `/api/playlists/${playlistId}/songs/${songId}`;
         const response = await fetch(url, {
             method: "POST",
             headers: {
@@ -117,3 +134,41 @@ export const deletePlaylist = createAsyncThunk(
         }
     }
 );
+
+const playlistSlice = createSlice({
+    name: "playlists",
+    initialState,
+    extraReducers: (builder) => {
+        builder.addCase(createPlaylist.fulfilled, (state, action) => {
+            state.playlists[action.payload.id] = action.payload;
+        });
+        builder.addCase(getPlaylists.fulfilled, (state, action) => {
+            const playlists = {}
+            action.payload.playlists.forEach((playlist) => {
+                playlists[playlist.id] = playlist
+            })
+            state.playlists = playlists;
+        });
+        builder.addCase(getPlaylistsWithoutSong.fulfilled, (state, action) => {
+            const playlists = {}
+            action.payload.playlists.forEach((playlist) => {
+                playlists[playlist.id] = playlist
+            })
+            state.playlists = playlists;
+        });
+        builder.addCase(getPlaylist.fulfilled, (state, action) => {
+            state.playlists[action.payload.id] = action.payload;
+        });
+        builder.addCase(addSongToPlaylist.fulfilled, (state, action) => {
+            state.playlists[action.payload.id] = action.payload;
+        });
+        builder.addCase(editPlaylist.fulfilled, (state, action) => {
+            state.playlists[action.payload.id] = action.payload;
+        });
+        builder.addCase(deletePlaylist.fulfilled, (state, action) => {
+            delete state.playlists[action.payload.playlistId];
+        });
+    },
+});
+
+export default playlistSlice.reducer;

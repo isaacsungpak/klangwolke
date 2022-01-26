@@ -35,9 +35,7 @@ def create_playlist():
         db.session.add(stp)
         db.session.commit()
 
-    return {
-        'playlists': [playlist.to_dict()]
-    }
+    return playlist.to_dict()
 
 # get all playlists / allow search
 @playlist_routes.route('/')
@@ -78,12 +76,10 @@ def get_playlist(id):
     elif playlist.user_id != current_user.id:
         return abort(403)
 
-    return {
-        'playlists': [playlist.to_dict()]
-    }
+    return playlist.to_dict()
 
 # add song to playlist
-@playlist_routes.route('/link/<id:playlist_id>/<int:song_id>', methods=['POST'])
+@playlist_routes.route('/<id:playlist_id>/songs/<int:song_id>', methods=['POST'])
 @login_required
 def add_song_to_playlist(playlist_id, song_id):
     playlist = Playlist.query.get(playlist_id)
@@ -103,9 +99,7 @@ def add_song_to_playlist(playlist_id, song_id):
     db.session.add(stp)
     db.session.commit()
 
-    return {
-        'playlists': [playlist.to_dict()]
-    }
+    return playlist.to_dict()
 
 # edit specific playlist
 @playlist_routes.route('/<int:id>', methods=['PATCH'])

@@ -40,7 +40,7 @@ def get_song(id):
         if like: likes.append(song.id)
 
     return {
-        "songs": [song.to_dict()],
+        "songs": song.to_dict(),
         'likes': likes
     }
 
@@ -176,7 +176,7 @@ def delete_song(id):
 
     return {"errors": "Request could not be completed at this time. Please try again."}, 400
 
-@song_routes.route('/<int:song_id>/songs/<int:playlist_id>', methods=['DELETE'])
+@song_routes.route('/<int:song_id>/playlists/<int:playlist_id>', methods=['DELETE'])
 @login_required
 def remove_song_from_playlist(playlist_id, song_id):
     stp = SongToPlaylist.query.get((song_id, playlist_id))

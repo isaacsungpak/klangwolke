@@ -128,6 +128,23 @@ export const deleteSong = createAsyncThunk(
     }
 );
 
+export const removeSongFromPlaylist = createAsyncThunk(
+    "songs/removeSongFromPlaylist",
+    async ({songId, playlistId}, thunkAPI) => {
+        const response = await fetch(`/api/songs/${songId}/playlists/${playlistId}`, {
+            method: "DELETE"
+        });
+        const data = await response.json();
+        if (response.ok && !data.errors) {
+            return data;
+        } else if (response.status < 500) {
+            throw thunkAPI.rejectWithValue(data.errors);
+        } else {
+            throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
+        }
+    }
+)
+
 const songSlice = createSlice({
     name: "songs",
     initialState,
@@ -162,12 +179,16 @@ const songSlice = createSlice({
             state.entities.newSongs = action.payload.newSongs;
         });
         builder.addCase(getASong.fulfilled, (state, action) => {
-            state.entities.songs[action.payload.id] = action.payload
-        })
+            state.entities.songs[action.payload.songs.id] = action.payload.songs;
+            state.entities.likes = action.payload.likes;
+        });
         builder.addCase(editSong.fulfilled, (state, action) => {
             state.entities.songs[action.payload.id] = action.payload;
         });
         builder.addCase(deleteSong.fulfilled, (state, action) => {
+            delete state.entities.songs[action.payload.songId];
+        });
+        builder.addCase(removeSongFromPlaylist.fulfilled, (state, action) => {
             delete state.entities.songs[action.payload.songId];
         });
     },
