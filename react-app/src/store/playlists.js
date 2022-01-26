@@ -77,7 +77,7 @@ export const getPlaylist = createAsyncThunk(
 
 export const addSongToPlaylist = createAsyncThunk(
     "playlists/addSongToPlaylist",
-    async ({playlistId, songId}) => {
+    async ({playlistId, songId}, thunkAPI) => {
         const url = `/api/playlists/${playlistId}/songs/${songId}`;
         const response = await fetch(url, {
             method: "POST",
@@ -97,8 +97,8 @@ export const addSongToPlaylist = createAsyncThunk(
 )
 
 export const editPlaylist = createAsyncThunk(
-    "playlists/addSongToPlaylist",
-    async ({ playlistId, title }) => {
+    "playlists/editPlaylist",
+    async ({ playlistId, title }, thunkAPI) => {
         const url = `/api/playlists/${playlistId}`;
         const response = await fetch(url, {
             method: "PATCH",

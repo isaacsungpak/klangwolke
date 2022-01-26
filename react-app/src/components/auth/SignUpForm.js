@@ -106,7 +106,7 @@ const SignUpForm = () => {
   };
 
   useEffect(() => {
-    setRegisterDisabled(errors.length !== 0 || !username || !email || !password || password != confirmPassword);
+    setRegisterDisabled(errors.length !== 0 || !username || !email || !password || password !== confirmPassword);
   }, [errors, username, email, password, confirmPassword])
 
   return (

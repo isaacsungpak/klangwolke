@@ -12,7 +12,6 @@ import FooterBar from './components/FooterBar';
 
 import SANDBOX from './components/SANDBOX';
 import UploadSong from './components/SongForms/UploadSong';
-import EditSong from './components/SongForms/EditSong';
 
 const MainBody = styled.div`
   width: 100%;

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { editSong } from "../../store/songs";
+import { editPlaylist } from "../../store/songs";
 import styled from "styled-components";
 import WaitingAnimation from "../WaitingAnimation";
 
-const SongFormContainer = styled.div`
+const PlaylistFormContainer = styled.div`
   margin-top: 20px;
   width: 450px;
   height: auto;
@@ -89,17 +89,17 @@ const SongFormContainer = styled.div`
   }
 `
 
-function EditSong({song}) {
+function EditPlaylist({playlist}) {
     const dispatch = useDispatch();
 
     const [errorMessage, setErrorMessage] = useState('');
-    const [title, setTitle] = useState(song.title);
+    const [title, setTitle] = useState(playlist.title);
     const [isWaiting, setIsWaiting] = useState(false)
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         setIsWaiting(true);
-        dispatch(editSong({ songId: song.id, title }))
+        dispatch(editPlaylist({ playlistId: playlist.id, title }))
           .then(() => setIsWaiting(false))
     }
 
@@ -117,9 +117,9 @@ function EditSong({song}) {
 
     return (
       <>
-        <SongFormContainer>
+        <PlaylistFormContainer>
         <WaitingAnimation show={isWaiting} />
-          <div id='form-title'>Edit Song Title</div>
+          <div id='form-title'>Edit Playlist Title</div>
           <form onSubmit={handleSubmit} id="edit-form">
             <div id="title-input" className="field">
               <label className={errorMessage !== '' ? 'bad-input' : ''}>{errorMessage || 'Title'}</label>
@@ -135,9 +135,9 @@ function EditSong({song}) {
               <button disabled={true}>Cancel</button>
             </div>
           </form>
-        </SongFormContainer>
+        </PlaylistFormContainer>
       </>
     )
 }
 
-export default EditSong;
+export default EditPlaylist;
