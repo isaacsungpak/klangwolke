@@ -1,14 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import DeleteSong from "./SongForms/DeleteSong";
-import EditSong from "./SongForms/EditSong";
+import DeleteSong from "./Forms/DeleteSong";
+import EditSong from "./Forms/EditSong";
 
-import CreatePlaylist from "./PlaylistForms/CreatePlaylist";
-import EditPlaylist from "./PlaylistForms/EditPlaylist";
-import DeletePlaylist from "./PlaylistForms/DeletePlaylist";
+import CreatePlaylist from "./Forms/CreatePlaylist";
+import EditPlaylist from "./Forms/EditPlaylist";
+import DeletePlaylist from "./Forms/DeletePlaylist";
 import { useEffect, useState } from "react";
 import { getPlaylists } from "../store/playlists";
+import AddToPlaylist from "./Forms/AddToPlaylist";
 
 const Playground = styled.div`
     display: flex;
@@ -33,10 +34,11 @@ function SANDBOX() {
                 <>
                     <EditSong song={songs[1]}/>
                     <DeleteSong song={songs[1]}/>
-                    
+
                     <CreatePlaylist song={songs[1]}/>
                     <EditPlaylist playlist={playlists[2]}/>
                     <DeletePlaylist playlist={playlists[7]}/>
+                    <AddToPlaylist song={songs[3]}/>
                 </>
             }
         </Playground>

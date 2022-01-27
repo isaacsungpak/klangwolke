@@ -2,7 +2,7 @@ from crypt import methods
 from flask import Blueprint, request, abort
 from flask_login import current_user, login_required
 from app.models import db, Playlist, SongToPlaylist, Song
-from app.forms import CreatePlaylistForm, EditPlaylistForm, DeletePlaylistForm, FieldlessForm, validation_error_messages
+from app.forms import CreatePlaylistForm, EditPlaylistForm, FieldlessForm, validation_error_messages
 
 playlist_routes = Blueprint('playlists', __name__)
 
@@ -131,7 +131,7 @@ def edit_playlist(id):
 @playlist_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_playlist(id):
-    form = DeletePlaylistForm()
+    form = FieldlessForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():

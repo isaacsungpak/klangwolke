@@ -2,7 +2,7 @@ from flask import Blueprint, request, abort
 from flask_login import login_required, current_user
 from app.file_helpers import audio_file_is_ok, image_file_is_ok, title_is_ok
 from app.models import db, Song, Playlist, SongToPlaylist, Like
-from app.forms import CreateSongForm, EditSongForm, DeleteSongForm, validation_error_messages
+from app.forms import CreateSongForm, EditSongForm, FieldlessForm, validation_error_messages
 from app.s3_helpers import get_unique_filename, upload_file_to_s3, delete_file_from_s3
 from werkzeug.utils import secure_filename
 
@@ -158,7 +158,7 @@ def edit_song(id):
 @song_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_song(id):
-    form = DeleteSongForm()
+    form = FieldlessForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():

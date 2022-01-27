@@ -73,7 +73,7 @@ const Card = styled.div`
 
     #queue {
         grid-row: 1;
-        grid-column: 4;
+        grid-column: 1;
         width: 100%;
         height: 100%;
     }

@@ -43,7 +43,7 @@ export const getSongs = createAsyncThunk(
 );
 
 // search for songs by search key
-export const getSongs = createAsyncThunk(
+export const getPlaylistSongs = createAsyncThunk(
     "songs/getPlaylistSongs",
     async (playlistId, thunkAPI) => {
         const response = await fetch(`/api/songs/playlist/${playlistId}`);

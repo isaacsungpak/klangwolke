@@ -10,8 +10,8 @@ import HomePage from './components/HomePage';
 import AuthPage from './components/AuthPage';
 import FooterBar from './components/FooterBar';
 
+import UploadSong from './components/Forms/UploadSong';
 import SANDBOX from './components/SANDBOX';
-import UploadSong from './components/SongForms/UploadSong';
 
 const MainBody = styled.div`
   width: 100%;

@@ -3,11 +3,9 @@ from .signup_form import SignUpForm
 
 from .create_song_form import CreateSongForm
 from .edit_song_form import EditSongForm
-from .delete_song_form import DeleteSongForm
 
 from .create_playlist_form import CreatePlaylistForm
 from .edit_playlist_form import EditPlaylistForm
-from .delete_playlist_form import DeletePlaylistForm
 
 from .fieldless_form import FieldlessForm
 
