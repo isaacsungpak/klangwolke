@@ -38,6 +38,19 @@ const Content = styled.div`
     width: 720px;
   }
 `
+const LinkContainer = styled.div`
+  width: fit-content;
+  position: fixed;
+  bottom: 90px;
+  right: 0px;
+
+  a {
+    font-size: 40px;
+    color: #AAA;
+    opacity: 50%;
+    margin: 5px;
+  }
+`
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -78,6 +91,10 @@ function App() {
               </Route>
             </Switch>
           </Content>
+          <LinkContainer>
+            <a href='https://github.com/isaacsungpak/klangwolke'><i className="fab fa-github-square"></i></a>
+            <a href='https://www.linkedin.com/in/isaac-pak-b4324421b/'><i className="fab fa-linkedin"></i></a>
+          </LinkContainer>
         </MainBody>
         <FooterBar />
       </>
