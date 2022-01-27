@@ -49,6 +49,19 @@ const LinkContainer = styled.div`
     color: #AAA;
     opacity: 50%;
     margin: 5px;
+    transition: all 0.2s ease-in-out;
+  }
+
+  a:hover {
+    opacity: 100%;
+  }
+
+  #gh:hover {
+    color: #bd2c00;
+  }
+
+  #li:hover {
+    color: #0072b1
   }
 `
 
@@ -92,8 +105,8 @@ function App() {
             </Switch>
           </Content>
           <LinkContainer>
-            <a href='https://github.com/isaacsungpak/klangwolke'><i className="fab fa-github-square"></i></a>
-            <a href='https://www.linkedin.com/in/isaac-pak-b4324421b/'><i className="fab fa-linkedin"></i></a>
+            <a id="gh" href='https://github.com/isaacsungpak/klangwolke'><i className="fab fa-github-square"></i></a>
+            <a id="li" href='https://www.linkedin.com/in/isaac-pak-b4324421b/'><i className="fab fa-linkedin"></i></a>
           </LinkContainer>
         </MainBody>
         <FooterBar />
