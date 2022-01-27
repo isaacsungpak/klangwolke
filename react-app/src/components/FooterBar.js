@@ -31,6 +31,10 @@ const Content = styled.div`
 const PlayerContainer = styled.div`
     flex: 1;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     .rhap_container {
         background-color: black;
     }
@@ -53,6 +57,18 @@ const PlayerContainer = styled.div`
 
     .rhap_volume-bar {
         background-color: #C00021;
+    }
+
+    .rhap_additional-controls {
+        flex: 0.5 0 auto;
+    }
+
+    .rhap_button-clear {
+        transition: all 0.3s ease-in-out;
+    }
+
+    .rhap_button-clear:hover {
+        color: #407BA7;
     }
 `
 
@@ -119,6 +135,7 @@ function FooterBar() {
                 <PlayerContainer>
                     <AudioPlayer
                         src={currentSong?.audio}
+                        layout='horizontal'
                         ref={player}
                     />
                 </PlayerContainer>
