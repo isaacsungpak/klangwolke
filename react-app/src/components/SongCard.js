@@ -66,6 +66,7 @@ const Card = styled.div`
         grid-row: 2/4;
         grid-column: 2/4;
         font-size: 50px;
+        transition: all 0.3s ease-in-out;
         color: ${props => props.isPlaying ? "#FF002B" : "#FFF"};
     }
 
@@ -142,10 +143,23 @@ const Card = styled.div`
 function SongCard({song, playlist}) {
     const dispatch = useDispatch();
 
-    const { currentSong, setCurrentSong } = useSong();
+    const { currentSong, setCurrentSong, isPlaying, setIsPlaying, player} = useSong();
 
     const user = useSelector(state => state.session.user);
     const likes = useSelector(state => state.songs.entities.likes);
+
+    const playButton = () => {
+        if (isPlaying) {
+            if (currentSong.id === song.id) {
+                setIsPlaying(false);
+                return player.current.audio.current.pause();
+            } else return setCurrentSong(song);
+        } else {
+            setIsPlaying(true);
+            if (currentSong.id === song.id) return player.current.audio.current.play();
+            else return setCurrentSong(song);
+        }
+    };
 
     const removeFromPlaylist = () => {
         dispatch(removeSongFromPlaylist({playlistId: playlist.id, songId: song.id}));
@@ -157,9 +171,10 @@ function SongCard({song, playlist}) {
                 <Card image={song.image} isPlaying={song.id === currentSong.id}>
                     <div alt={`${song.title} Artwork`} className="song-artwork">
                         <div id="overlay">
-                            <div id="play" className='actions' onClick={() => setCurrentSong(song)}><i className="fas fa-play-circle" /></div>
+                            <div id="play" className='actions' onClick={playButton}>
+                                {(song.id === currentSong.id && isPlaying) ? <i className="fas fa-pause-circle" /> : <i className="fas fa-play-circle" />}
+                            </div>
                             {/* <div id="queue" className='actions' onClick={addSongToQueue}><i className="fas fa-plus"/></div> */}
-
                             {user &&
                             <>
                                 <div id="like" className='actions'>{likes.includes(song.id) ? <i className="fas fa-heart" /> : <i className="far fa-heart" />}</div>

@@ -111,7 +111,7 @@ const CurrentSong = styled.div`
 `
 
 function FooterBar() {
-    const { currentSong } = useSong();
+    const { currentSong, player } = useSong();
 
     return (
         <BottomBar>
@@ -119,6 +119,7 @@ function FooterBar() {
                 <PlayerContainer>
                     <AudioPlayer
                         src={currentSong?.audio}
+                        ref={player}
                     />
                 </PlayerContainer>
 
