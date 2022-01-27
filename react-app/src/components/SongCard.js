@@ -7,7 +7,7 @@ import EditSongModal from './Modals/EditSongModal';
 import DeleteSongModal from './Modals/DeleteSongModal';
 
 const Card = styled.div`
-    width: 175px;
+    width: 180px;
     height: 225px;
     margin: 10px;
 
