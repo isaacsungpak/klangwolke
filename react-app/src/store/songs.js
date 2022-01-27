@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const initialState = { entities: { songs: {}, newSongs: [], likedSongs: [], likes: [] } }
+const initialState = { entities: { songs: {}, newSongs: [], likedSongs: [], likes: new Set() } }
 
 export const createSong = createAsyncThunk(
     "songs/createSong",
@@ -174,27 +174,39 @@ const songSlice = createSlice({
             const songs = {}
             action.payload.songs.forEach((song) => {
                 songs[song.id] = song
-            })
+            });
+
             state.entities.songs = songs;
-            state.entities.likes = action.payload.likes;
+
+            const likes = new Set();
+            action.payload.likes.forEach(id => likes.add(id));
+            state.entities.likes = likes;
         });
         builder.addCase(getPlaylistSongs.fulfilled, (state, action) => {
             const songs = {}
             action.payload.songs.forEach((song) => {
                 songs[song.id] = song
-            })
+            });
+
             state.entities.songs = songs;
-            state.entities.likes = action.payload.likes;
+
+            const likes = new Set();
+            action.payload.likes.forEach(id => likes.add(id));
+            state.entities.likes = likes;
         });
         builder.addCase(getUserHome.fulfilled, (state, action) => {
             const songs = {}
             action.payload.songs.forEach((song) => {
                 songs[song.id] = song
             })
+
             state.entities.songs = songs;
             state.entities.newSongs = action.payload.newSongs;
             state.entities.likedSongs = action.payload.likedSongs;
-            state.entities.likes = action.payload.likes;
+
+            const likes = new Set();
+            action.payload.likes.forEach(id => likes.add(id));
+            state.entities.likes = likes;
         });
         builder.addCase(getGuestHome.fulfilled, (state, action) => {
             const songs = {}
@@ -206,7 +218,10 @@ const songSlice = createSlice({
         });
         builder.addCase(getASong.fulfilled, (state, action) => {
             state.entities.songs[action.payload.songs.id] = action.payload.songs;
-            state.entities.likes = action.payload.likes;
+
+            const likes = new Set();
+            action.payload.likes.forEach(id => likes.add(id));
+            state.entities.likes = likes;
         });
         builder.addCase(editSong.fulfilled, (state, action) => {
             state.entities.songs[action.payload.id] = action.payload;
