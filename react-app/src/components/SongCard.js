@@ -95,7 +95,7 @@ const Card = styled.div`
         font-size: 18px;
     }
 
-    #remove:hover {
+    #remove:hover, #like:hover {
         color: #FF002B;
     }
 
@@ -177,7 +177,7 @@ function SongCard({song, playlist}) {
                             {/* <div id="queue" className='actions' onClick={addSongToQueue}><i className="fas fa-plus"/></div> */}
                             {user &&
                             <>
-                                <div id="like" className='actions'>{likes.includes(song.id) ? <i className="fas fa-heart" /> : <i className="far fa-heart" />}</div>
+                                <div id="like" className='actions'>{likes.has(song.id) ? <i className="fas fa-heart" /> : <i className="far fa-heart" />}</div>
                                 <div id="playlist" className='actions'><i className="fas fa-bars" /></div>
                                 { playlist && <div id="remove" className='actions' onClick={() => removeFromPlaylist()}><i className="fas fa-times" /></div> }
                             </>
