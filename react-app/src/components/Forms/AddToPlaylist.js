@@ -38,7 +38,7 @@ function AddToPlaylist({song, showModal}) {
 
     useEffect(() => {
         dispatch(getPlaylistsWithoutSong(song.id)).then(() => setIsLoaded(true));
-    }, [dispatch])
+    }, [dispatch, song.id])
 
     const playlists = useSelector(state => state.playlists.playlists);
 

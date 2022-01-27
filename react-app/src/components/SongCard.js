@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useSong } from '../context/SongContext';
-import { deleteSong } from '../store/songs';
+import { deleteSong, removeSongFromPlaylist } from '../store/songs';
 
 const Card = styled.div`
     width: 175px;
@@ -48,6 +48,8 @@ const Card = styled.div`
         align-items: center;
         cursor: pointer;
         transition: all 0.3s ease-in-out;
+        width: 100%;
+        height: 100%;
     }
 
     .actions:hover {
@@ -61,8 +63,6 @@ const Card = styled.div`
     #play {
         grid-row: 2/4;
         grid-column: 2/4;
-        width: 100%;
-        height: 100%;
         font-size: 50px;
         color: ${props => props.isPlaying ? "#FF002B" : "#FFF"};
     }
@@ -74,36 +74,36 @@ const Card = styled.div`
     #queue {
         grid-row: 1;
         grid-column: 1;
-        width: 100%;
-        height: 100%;
     }
 
     #like {
         grid-row: 4;
         grid-column: 1;
-        width: 100%;
-        height: 100%;
     }
 
     #playlist {
         grid-row: 4;
         grid-column: 2;
-        width: 100%;
-        height: 100%;
+    }
+
+    #remove {
+        grid-row: 1;
+        grid-column: 4;
+        font-size: 18px;
+    }
+
+    #remove:hover {
+        color: #FF002B;
     }
 
     #edit {
         grid-row: 4;
         grid-column: 3;
-        width: 100%;
-        height: 100%;
     }
 
     #delete {
         grid-row: 4;
         grid-column: 4;
-        width: 100%;
-        height: 100%;
     }
 
     a {
@@ -137,7 +137,7 @@ const Card = styled.div`
     }
 `
 
-function SongCard({song}) {
+function SongCard({song, playlist}) {
     const dispatch = useDispatch();
 
     const { currentSong, setCurrentSong } = useSong();
@@ -146,12 +146,17 @@ function SongCard({song}) {
     const likes = useSelector(state => state.songs.entities.likes);
 
     const deleteButton = async () => {
+        // cue modal delete form
         dispatch(deleteSong(song.id));
     }
 
-    function addSongToQueue() {
-        return;
+    const removeFromPlaylist = () => {
+        dispatch(removeSongFromPlaylist({playlistId: playlist.id, songId: song.id}));
     }
+
+    // function addSongToQueue() {
+    //     return;
+    // }
 
     return (
         <>
@@ -160,12 +165,13 @@ function SongCard({song}) {
                     <div alt={`${song.title} Artwork`} className="song-artwork">
                         <div id="overlay">
                             <div id="play" className='actions' onClick={() => setCurrentSong(song)}><i className="fas fa-play-circle" /></div>
-                            <div id="queue" className='actions' onClick={addSongToQueue}><i className="fas fa-plus"/></div>
+                            {/* <div id="queue" className='actions' onClick={addSongToQueue}><i className="fas fa-plus"/></div> */}
 
                             {user &&
                             <>
                                 <div id="like" className='actions'>{likes.includes(song.id) ? <i className="fas fa-heart" /> : <i className="far fa-heart" />}</div>
                                 <div id="playlist" className='actions'><i className="fas fa-bars" /></div>
+                                { playlist && <div id="remove" className='actions' onClick={() => removeFromPlaylist()}><i className="fas fa-times" /></div> }
                             </>
                             }
 

@@ -186,4 +186,4 @@ def remove_song_from_playlist(playlist_id, song_id):
     db.session.delete(stp)
     db.session.commit()
 
-    return {"songId": id}
+    return {"songId": song_id}
