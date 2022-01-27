@@ -164,6 +164,11 @@ const songSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(createSong.fulfilled, (state, action) => {
             state.entities.songs[action.payload.id] = action.payload;
+            ///////////////////////////////////////////////////////////
+            const newSongs = state.entities.newSongs.slice();
+            newSongs.unshift(action.payload.id);
+            state.entities.newSongs = newSongs;
+            ///////////////////////////////////////////////////////////
         });
         builder.addCase(getSongs.fulfilled, (state, action) => {
             const songs = {}

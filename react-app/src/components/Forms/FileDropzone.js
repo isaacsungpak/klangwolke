@@ -43,7 +43,6 @@ function FileDropzone(props) {
   } = useDropzone({accept: `${formats}`, maxFiles: 1});
 
   useEffect(() => {
-    console.log(acceptedFiles[0]?.path);
     fileSetter(acceptedFiles[0]);
   }, [fileSetter, acceptedFiles]);
 

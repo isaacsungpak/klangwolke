@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useSong } from '../context/SongContext';
-import { deleteSong, removeSongFromPlaylist } from '../store/songs';
+import { removeSongFromPlaylist } from '../store/songs';
+import EditSongModal from './Modals/EditSongModal';
+import DeleteSongModal from './Modals/DeleteSongModal';
 
 const Card = styled.div`
     width: 175px;
@@ -145,18 +147,9 @@ function SongCard({song, playlist}) {
     const user = useSelector(state => state.session.user);
     const likes = useSelector(state => state.songs.entities.likes);
 
-    const deleteButton = async () => {
-        // cue modal delete form
-        dispatch(deleteSong(song.id));
-    }
-
     const removeFromPlaylist = () => {
         dispatch(removeSongFromPlaylist({playlistId: playlist.id, songId: song.id}));
     }
-
-    // function addSongToQueue() {
-    //     return;
-    // }
 
     return (
         <>
@@ -177,8 +170,8 @@ function SongCard({song, playlist}) {
 
                             {(user && user.id === song.owner.id) &&
                                 <>
-                                    <div id="edit" className='actions'><i className="fas fa-edit" /></div>
-                                    <div id="delete" className='actions' onClick={deleteButton}><i className="fas fa-dumpster" /></div>
+                                    <EditSongModal song={song}/>
+                                    <DeleteSongModal song={song}/>
                                 </>
                             }
                         </div>

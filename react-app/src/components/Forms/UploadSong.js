@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createSong } from "../../store/songs";
 import FileDropzone from "./FileDropzone";
 import FormContainer from "./FormContainer";
 
-const UploadSong = (showModal) => {
+const UploadSong = ({setShowModal}) => {
     const dispatch = useDispatch();
-    const history = useHistory();
 
     const [errorMessages, setErrorMessages] = useState({});
     const [title, setTitle] = useState("");
@@ -26,7 +24,7 @@ const UploadSong = (showModal) => {
         setIsWaiting(true);
         dispatch(createSong({ title, audio, image }))
           .then(() => setIsWaiting(false))
-          .then(() => history.push('/'))
+          .then(() => setShowModal(false));
     }
 
     const updateTitle = (e) => {
@@ -39,6 +37,11 @@ const UploadSong = (showModal) => {
       else if (titleString.length > 100) errorMsgs.title ='Title length cannot exceed 100 characters';
 
       setErrorMessages(errorMsgs);
+    }
+
+    const cancel = e => {
+      e.preventDefault();
+      setShowModal(false);
     }
 
     return (
@@ -61,7 +64,7 @@ const UploadSong = (showModal) => {
             <FileDropzone id="image-drop" className="field" fileSetter={setImage} type='image' formats='image/jpeg, image/jpg, image/png, image/gif' />
             <div id='button-container'>
               <button type="submit" className={(title.length > 100 || !title || !audio || !image) ? 'disabled' : ''} disabled={title.length > 100 || !title || !audio || !image }>Upload</button>
-              <button disabled={true}>Cancel</button>
+              <button onClick={cancel}>Cancel</button>
             </div>
           </form>
         </FormContainer>

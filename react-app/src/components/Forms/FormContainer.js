@@ -11,6 +11,7 @@ const FormContainerStyling = styled.div`
   align-items: center;
   border: 1px solid black;
   box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.5);
+  background-color: white;
 
   #form-title {
     padding: 30px;

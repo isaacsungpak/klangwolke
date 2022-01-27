@@ -41,6 +41,7 @@ const Content = styled.div`
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -51,7 +52,7 @@ function App() {
     <BrowserRouter>
     {isLoaded &&
       <>
-        <NavBar />
+        <NavBar/>
         <MainBody>
           <Content>
             <Switch>
@@ -69,9 +70,6 @@ function App() {
               <Route path='/search'>
                 <Redirect to="/" />
               </Route>
-              <ProtectedRoute path='/upload' exact={true} >
-                <UploadSong />
-              </ProtectedRoute>
               <ProtectedRoute path='/library'>
                 <SANDBOX />
               </ProtectedRoute>

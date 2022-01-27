@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Pammer from "../images/Pammer.png"
 import ProfileTab from './ProfileTab';
 import { useSong } from '../../context/SongContext';
+import UploadSongModal from '../Modals/UploadSongModal';
 
 const StyledNav = styled.nav`
   display: flex;
@@ -48,6 +49,8 @@ const StyledNav = styled.nav`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    color: #CCC
   }
 
   a.active .nav-option {
@@ -136,7 +139,7 @@ const StyledNav = styled.nav`
     height: 60px;
   }
 `
-const NavBar = () => {
+function NavBar() {
   const history = useHistory();
 
   const user = useSelector(state => state.session.user);
@@ -204,9 +207,10 @@ const NavBar = () => {
           </form>
         </li>
         <li>
-          <NavLink to='/upload' exact={true} activeClassName='active'>
-            <div className='nav-option starter-tab' id="upload"><div>Upload</div></div>
-          </NavLink>
+          {user ?
+              <UploadSongModal />:
+              <Link to="/auth"><div className='nav-option starter-tab' id="upload">Upload</div></Link>
+          }
         </li>
         <li>
             {user ?

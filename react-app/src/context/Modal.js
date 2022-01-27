@@ -1,9 +1,8 @@
 import React, { useContext, useRef, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import './Modal.css';
 import styled from 'styled-components';
 
-const Modal = styled.div`
+const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
   right: 0;
@@ -12,6 +11,7 @@ const Modal = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 
 
   #modal-background {
@@ -21,11 +21,13 @@ const Modal = styled.div`
     left: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1001;
   }
 
   #modal-content {
     position: absolute;
-    background-color:white;
+    background-color: transparent;
+    z-index: 1002;
   }
 `
 
@@ -54,12 +56,12 @@ export function Modal({ onClose, children }) {
   if (!modalNode) return null;
 
   return ReactDOM.createPortal(
-    <Modal>
+    <ModalWrapper>
       <div id="modal-background" onClick={onClose} />
       <div id="modal-content">
         {children}
       </div>
-    </Modal>,
+    </ModalWrapper>,
     modalNode
   );
 }

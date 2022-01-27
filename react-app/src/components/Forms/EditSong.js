@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { editSong } from "../../store/songs";
 import FormContainer from "./FormContainer";
 
-function EditSong({song, showModal}) {
+function EditSong({song, setShowModal}) {
     const dispatch = useDispatch();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -15,6 +15,7 @@ function EditSong({song, showModal}) {
         setIsWaiting(true);
         dispatch(editSong({ songId: song.id, title }))
           .then(() => setIsWaiting(false))
+          .then(() => setShowModal(false));
     }
 
     const updateTitle = (e) => {
@@ -27,6 +28,11 @@ function EditSong({song, showModal}) {
       else if (titleString.length > 100) errorMsg ='Title length cannot exceed 100 characters';
 
       setErrorMessage(errorMsg);
+    }
+
+    const cancel = e => {
+      e.preventDefault();
+      setShowModal(false);
     }
 
     return (
@@ -45,7 +51,7 @@ function EditSong({song, showModal}) {
             </div>
             <div id='button-container'>
               <button type="submit" className={ (errorMessage !== '' || !title ) ? 'disabled' : ''} disabled={ errorMessage !== '' || !title }>Submit</button>
-              <button disabled={true}>Cancel</button>
+              <button onClick={cancel}>Cancel</button>
             </div>
           </form>
         </FormContainer>
