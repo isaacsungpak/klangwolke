@@ -10,8 +10,8 @@ import HomePage from './components/HomePage';
 import AuthPage from './components/AuthPage';
 import FooterBar from './components/FooterBar';
 
-import UploadSong from './components/Forms/UploadSong';
 import SANDBOX from './components/SANDBOX';
+import SearchPage from './components/SearchPage';
 
 const MainBody = styled.div`
   width: 100%;
@@ -68,7 +68,7 @@ function App() {
                 <Redirect to="/" />
               </Route>
               <Route path='/search'>
-                <Redirect to="/" />
+                <SearchPage />
               </Route>
               <ProtectedRoute path='/library'>
                 <SANDBOX />
