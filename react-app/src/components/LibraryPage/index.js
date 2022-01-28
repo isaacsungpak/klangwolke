@@ -4,6 +4,7 @@ import PlaylistsPage from './PlaylistPage';
 
 const Page = styled.div`
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -56,6 +57,7 @@ const LibraryNav = styled.div`
 `
 
 const LibraryContent = styled.div`
+    flex: 1;
 `
 
 function LibraryPage() {
@@ -88,10 +90,10 @@ function LibraryPage() {
                 {tab === 1 &&
                     <PlaylistsPage />
                 }
-                {tab === 2 &&
-                    <PlaylistsPage />
+                {/* {tab === 2 &&
+                    <LikedSongsPage />
                 }
-                {/* {tab === 3 &&
+                {tab === 3 &&
                     <YourSongsPage />
                 } */}
             </LibraryContent>

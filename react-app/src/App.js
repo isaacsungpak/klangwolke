@@ -15,7 +15,7 @@ import LibraryPage from './components/LibraryPage';
 const MainBody = styled.div`
   width: 100%;
   position: fixed;
-  z-index: -1;
+  z-index: -10;
   top: 60px;
   bottom: 88px;
   display: flex;
@@ -27,7 +27,8 @@ const Content = styled.div`
   width: 1240px;
   background-color: white;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-  overflow-y: auto;
+  padding: 0px;
+  // overflow-y: auto;
 
   @media screen and (max-width: 1240px) {
     width: 1000px;

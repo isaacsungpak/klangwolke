@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { createPlaylist } from "../../store/playlists";
 import FormContainer from "./FormContainer";
 
-function CreatePlaylist({song, showModal}) {
+function CreatePlaylist({song, setShowModal}) {
     const dispatch = useDispatch();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -13,20 +13,28 @@ function CreatePlaylist({song, showModal}) {
         e.preventDefault();
 
         setIsWaiting(true);
-        dispatch(createPlaylist({ title, songId: song.id }))
-          .then(() => setIsWaiting(false))
+        dispatch(createPlaylist({ title, songId: song?.id }))
+          .then((res) => {
+            setIsWaiting(false)
+            if (res.error) setErrorMessage(res.payload);
+            else setShowModal(false)
+          });
     }
 
     const updateTitle = (e) => {
-      let errorMsg = '';
       const titleString = e.target.value;
       const trimmedTitle = titleString.replaceAll(/ |​/g, '');
+
+      if (trimmedTitle.length < 1) setErrorMessage('Title must contain at least 1 non-space character');
+      else if (titleString.length > 100) setErrorMessage('Title length cannot exceed 100 characters');
+      else setErrorMessage('');
+
       setTitle(titleString);
+    }
 
-      if (trimmedTitle.length < 1) errorMsg = 'Title must contain at least 1 non-space character';
-      else if (titleString.length > 100) errorMsg ='Title length cannot exceed 100 characters';
-
-      setErrorMessage(errorMsg);
+    const cancel = e => {
+      e.preventDefault();
+      setShowModal(false);
     }
 
     return (
@@ -40,11 +48,12 @@ function CreatePlaylist({song, showModal}) {
               name="title"
               onChange={updateTitle}
               value={title}
+              className={errorMessage !== '' ? 'bad-input-field' : ''}
             />
           </div>
           <div id='button-container'>
             <button type="submit" className={ (errorMessage !== '' || !title ) ? 'disabled' : ''} disabled={ errorMessage !== '' || !title }>Create</button>
-            <button disabled={true}>Cancel</button>
+            <button onClick={cancel}>Cancel</button>
           </div>
         </form>
       </FormContainer>
