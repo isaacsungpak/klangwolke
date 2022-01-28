@@ -30,11 +30,50 @@ def seed_songs():
         user_id=6
     )
 
+    roof = Song(
+        title='Roof',
+        audio='https://klangwolke.s3.amazonaws.com/seeds/Roof.mp3',
+        image='https://klangwolke.s3.amazonaws.com/seeds/Roof.jpg',
+        s3_audio_filename='Roof.mp3',
+        s3_image_filename='Roof.jpg',
+        user_id=7
+    )
 
+    ti = Song(
+        title='TRACK ID?',
+        audio='https://klangwolke.s3.amazonaws.com/seeds/TRACK_ID.mp3',
+        image='https://klangwolke.s3.amazonaws.com/seeds/TRACK_ID.jpg',
+        s3_audio_filename='TRACK_ID.mp3',
+        s3_image_filename='TRACK_ID.jpg',
+        user_id=6
+    )
+
+    med = Song(
+        title='Medicate',
+        audio='https://klangwolke.s3.amazonaws.com/seeds/Medicate.mp3',
+        image='https://klangwolke.s3.amazonaws.com/seeds/Medicate.jpg',
+        s3_audio_filename='Medicate.mp3',
+        s3_image_filename='Medicate.jpg',
+        user_id=8
+    )
+
+    nt = Song(
+        title="Nancy's Track",
+        audio="https://klangwolke.s3.amazonaws.com/seeds/Nancy's+Track.mp3",
+        image="https://klangwolke.s3.amazonaws.com/seeds/NancyTrack.jpg",
+        s3_audio_filename="Nancy's Track.mp3",
+        s3_image_filename="NancyTrack.jpg",
+        user_id=9
+    )
 
     db.session.add(aol)
     db.session.add(atwf)
     db.session.add(hb)
+    db.session.add(roof)
+    db.session.add(ti)
+    db.session.add(med)
+    db.session.add(med)
+    db.session.add(nt)
 
     db.session.commit()
 

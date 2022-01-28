@@ -1,8 +1,6 @@
 from unittest import removeHandler
 from app.models import db, User
 
-
-# Adds a demo user, you can add other users here if you want
 def seed_users():
     demo = User(
         username='Demo User',
@@ -40,6 +38,24 @@ def seed_users():
         password='passwoord'
     )
 
+    kk = User(
+        username='Kev Koko',
+        email='kev@ko.ko',
+        password='passworrd'
+    )
+
+    cadans = User(
+        username='Cadans',
+        email='cad@an.s',
+        password='passwordd'
+    )
+
+    jm = User(
+        username='Julian Muller',
+        email='jul@ian.muller',
+        password='pppassword'
+    )
+
 
     db.session.add(demo)
     db.session.add(remodnar)
@@ -47,6 +63,9 @@ def seed_users():
     db.session.add(link)
     db.session.add(ho)
     db.session.add(chlar)
+    db.session.add(kk)
+    db.session.add(cadans)
+    db.session.add(jm)
 
     db.session.commit()
 
