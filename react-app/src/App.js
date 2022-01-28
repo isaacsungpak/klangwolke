@@ -9,9 +9,8 @@ import NavBar from './components/NavBar';
 import HomePage from './components/HomePage';
 import AuthPage from './components/AuthPage';
 import FooterBar from './components/FooterBar';
-
-import SANDBOX from './components/SANDBOX';
 import SearchPage from './components/SearchPage';
+import LibraryPage from './components/LibraryPage';
 
 const MainBody = styled.div`
   width: 100%;
@@ -97,7 +96,7 @@ function App() {
                 <SearchPage />
               </Route>
               <ProtectedRoute path='/library'>
-                <SANDBOX />
+                <LibraryPage/>
               </ProtectedRoute>
               <Route path='/' exact={true} >
                 <HomePage />
