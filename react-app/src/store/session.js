@@ -5,7 +5,7 @@ const initialState = { user: null };
 export const authenticate = createAsyncThunk(
   "session/authenticate",
   async (_args, thunkAPI) => {
-    const response = await fetch("/api/auth");
+    const response = await fetch("/api/auth/");
     const data = await response.json();
     if (response.ok && !data.errors) {
       return data;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { login } from '../../store/session';
 import styled from 'styled-components';
 
@@ -68,18 +68,21 @@ const FormStyling = styled.div`
 `
 
 const LoginForm = () => {
-  const [errors, setErrors] = useState([]);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const user = useSelector(state => state.session.user);
-  const dispatch = useDispatch();
 
   const onLogin = async (e) => {
     e.preventDefault();
-    const data = await dispatch(login({email, password}));
-    if (data) {
-      setErrors(data.payload);
-    }
+    dispatch(login({email, password}))
+      .then((res) => {
+        if (res.error) setError(res.payload[0]);
+        else history.push('/');
+      })
   };
 
   const demoLogin = async (e) => {
@@ -95,8 +98,8 @@ const LoginForm = () => {
     <FormStyling>
       <form onSubmit={onLogin}>
         <div>
-          {errors.length > 0 &&
-            <div id='error'>{errors[0]}</div>
+          {error !== '' &&
+            <div id='error'>{error}</div>
           }
         </div>
           <div>

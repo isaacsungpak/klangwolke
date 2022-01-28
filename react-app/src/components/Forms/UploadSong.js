@@ -30,7 +30,7 @@ const UploadSong = ({setShowModal}) => {
     const updateTitle = (e) => {
       const errorMsgs = {};
       const titleString = e.target.value;
-      const trimmedTitle = titleString.replaceAll(/ |​/g, '');
+      const trimmedTitle = titleString.replaceAll(/[ ​]+/g, '');
       setTitle(titleString);
 
       if (trimmedTitle.length < 1) errorMsgs.title = 'Title must contain at least 1 non-space character';
