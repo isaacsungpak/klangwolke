@@ -45,7 +45,7 @@ def seed_songs():
         image='https://klangwolke.s3.amazonaws.com/seeds/TRACK_ID.jpg',
         s3_audio_filename='TRACK_ID.mp3',
         s3_image_filename='TRACK_ID.jpg',
-        user_id=6
+        user_id=5
     )
 
     med = Song(
