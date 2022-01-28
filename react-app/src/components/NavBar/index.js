@@ -3,6 +3,7 @@ import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from "styled-components";
 import Pammer from "../images/Pammer.png"
+import Slammer from "../images/Slammer.png"
 import ProfileTab from './ProfileTab';
 import { useSong } from '../../context/SongContext';
 import UploadSongModal from '../Modals/UploadSongModal';
@@ -151,7 +152,7 @@ function NavBar() {
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////
-  const { setCurrentSong } = useSong();
+  const { currentSong, setCurrentSong } = useSong();
   const CDNBT = {
     id: 0,
     title: "Is Soulja Boy an Alien?",
@@ -179,11 +180,11 @@ function NavBar() {
         <li>
           {path === "/" ?
             <div id="logo-holder" onClick={souljaTime}>
-              <img src={Pammer} id="logo" alt="Pammer, the Klangwolke"/>
+              <img src={currentSong.id === 0 ? Slammer : Pammer} id="logo" alt="Pammer, the Klangwolke"/>
             </div> :
             <Link to='/'>
               <div id="logo-holder">
-                <img src={Pammer} id="logo" alt="Pammer, the Klangwolke"/>
+                <img src={currentSong.id === 0 ? Slammer : Pammer} id="logo" alt="Pammer, the Klangwolke"/>
               </div>
             </Link>
           }
