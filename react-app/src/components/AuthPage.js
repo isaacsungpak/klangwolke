@@ -25,6 +25,7 @@ const FormBox = styled.div`
 
     #tab-holder {
         display: flex;
+        gap: 5px;
     }
 
     .tab {
@@ -33,7 +34,7 @@ const FormBox = styled.div`
         border: 1px solid black;
         border-bottom: 0px solid white;
         margin-bottom: -1px;
-        font-size: 20px;
+        font-size: 18px;
         padding-left: 10px;
         padding-right: 10px;
         display: flex;
@@ -47,6 +48,7 @@ const FormBox = styled.div`
 
     #active {
         background-color: white;
+        font-size: 20px;
         color: black;
         z-index: 3;
         cursor: default;
