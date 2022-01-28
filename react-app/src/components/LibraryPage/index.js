@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import PlaylistsPage from './PlaylistPage';
 
 const Page = styled.div`
     width: 100%;
@@ -84,7 +85,15 @@ function LibraryPage() {
                 </div>
             </LibraryNav>
             <LibraryContent>
-
+                {tab === 1 &&
+                    <PlaylistsPage />
+                }
+                {tab === 2 &&
+                    <PlaylistsPage />
+                }
+                {/* {tab === 3 &&
+                    <YourSongsPage />
+                } */}
             </LibraryContent>
         </Page>
     )

@@ -17,9 +17,6 @@ def create_playlist():
         title = form.data['title']
         song_id = form.data['songId']
 
-        song = Song.query.get(song_id)
-        if not song: return abort(400)
-
         playlist = Playlist(
             title=title,
             user_id=current_user.id
@@ -27,12 +24,14 @@ def create_playlist():
         db.session.add(playlist)
         db.session.commit()
 
-        stp = SongToPlaylist(
-            song_id=song_id,
-            playlist_id=playlist.id
-        )
-        db.session.add(stp)
-        db.session.commit()
+        song = Song.query.get(song_id)
+        if song:
+            stp = SongToPlaylist(
+                song_id=song_id,
+                playlist_id=playlist.id
+            )
+            db.session.add(stp)
+            db.session.commit()
 
         return playlist.to_dict()
 

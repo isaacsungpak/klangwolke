@@ -5,7 +5,7 @@ const initialState = { playlists: {} }
 // create playlist with first song
 export const createPlaylist = createAsyncThunk(
     "playlists/createPlaylist",
-    async ({ title, songId }, thunkAPI) => {
+    async ({ title, songId = 0 }, thunkAPI) => {
         const response = await fetch("/api/playlists/", {
             method: "POST",
             headers: {
