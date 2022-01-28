@@ -2,18 +2,20 @@ import styled from "styled-components";
 
 const Tab = styled.div`
     width: 100%;
-    height: 100px;
+    height: 10px;
     display: flex;
     border-bottom: 1px solid #DDD;
+    color: black;
+    background-color: white;
 `
 
-function PlaylistTab({playlist, focused}) {
+function PlaylistCard({playlist}) {
 
     return(
         <Tab>
-            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            {playlist.title}
         </Tab>
     )
 }
 
-export default PlaylistTab
+export default PlaylistCard

@@ -28,7 +28,7 @@ const Content = styled.div`
   background-color: white;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   padding: 0px;
-  // overflow-y: auto;
+  overflow-y: auto;
 
   @media screen and (max-width: 1240px) {
     width: 1000px;
