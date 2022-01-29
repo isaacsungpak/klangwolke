@@ -5,6 +5,8 @@ import { getLikedSongs } from '../../store/songs';
 import CardHolder from './CardHolder';
 import SongCard from '../SongCard';
 
+import Banner from '../Banner';
+
 
 function LikesPage() {
     const dispatch = useDispatch();
@@ -21,9 +23,10 @@ function LikesPage() {
         <>
             <CardHolder>
                 {isLoaded && likedSongs.map((songId, idx) => (
-                    <SongCard song={songs[songId]} kei={idx}/>
+                    <SongCard song={songs[songId]} key={idx}/>
                 ))}
             </CardHolder>
+            <Banner object={songs[4]} />
         </>
     )
 }

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useSong } from '../context/SongContext';
-import { likeASong, removeSongFromPlaylist, unlikeASong } from '../store/songs';
+import { likeASong, unlikeASong } from '../store/songs';
 import EditSongModal from './Modals/EditSongModal';
 import DeleteSongModal from './Modals/DeleteSongModal';
 
@@ -140,7 +140,7 @@ const Card = styled.div`
     }
 `
 
-function SongCard({song, playlist}) {
+function SongCard({song}) {
     const dispatch = useDispatch();
 
     const { currentSong, setCurrentSong, isPlaying, setIsPlaying, player} = useSong();
@@ -166,10 +166,6 @@ function SongCard({song, playlist}) {
         else dispatch(unlikeASong(song.id));
     }
 
-    const removeFromPlaylist = () => {
-        dispatch(removeSongFromPlaylist({playlistId: playlist.id, songId: song.id}));
-    }
-
     return (
         <>
             {song &&
@@ -184,7 +180,6 @@ function SongCard({song, playlist}) {
                             <>
                                 <div id="like" className='actions' onClick={likeOrUnlike}>{likes[song.id] === 1 ? <i className="fas fa-heart" /> : <i className="far fa-heart" />}</div>
                                 <div id="playlist" className='actions'><i className="fas fa-bars" /></div>
-                                { playlist && <div id="remove" className='actions' onClick={() => removeFromPlaylist()}><i className="fas fa-times" /></div> }
                             </>
                             }
 
