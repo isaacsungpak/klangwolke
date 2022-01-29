@@ -112,8 +112,8 @@ const SignUpForm = () => {
   const updateUsername = (e) => {
     const usernameString = e.target.value;
     const trimmedUsername = usernameString.replaceAll(/[ ​]+/g, '');
-    if (trimmedUsername.length === 0) setUsernameLabel('Username must contain at least 1 non-space character');
-    else if (usernameString.length > 100) setUsernameLabel('Username length cannot exceed 100 characters');
+    if (usernameString.length > 100) setUsernameLabel('Username length cannot exceed 100 characters');
+    else if (trimmedUsername.length === 0) setUsernameLabel('Username must contain at least 1 non-space character');
     else setUsernameLabel('Username');
     setUsername(usernameString);
   };
