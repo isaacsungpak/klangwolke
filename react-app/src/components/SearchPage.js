@@ -46,6 +46,8 @@ const Results = styled.div`
         width: 550px;
         grid-template-columns: repeat(3, 1fr);
     }
+
+    padding-bottom: 20px;
 `
 
 const useQuery = () => {
@@ -72,7 +74,7 @@ function SearchPage() {
             <div id='result-count'>{Object.values(songs).length} results</div>
             <Results>
                 {isLoaded && Object.values(songs).map((song, ind) => (
-                    <SongCard song={song} />
+                    <SongCard song={song} key={ind}/>
                 ))}
             </Results>
         </Page>
