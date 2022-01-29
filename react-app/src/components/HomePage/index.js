@@ -4,14 +4,20 @@ import { useLocation } from 'react-router-dom'
 import styled from 'styled-components';
 import { getUserHome, getGuestHome } from '../../store/songs';
 import SongCard from '../SongCard';
+import CardHolder from '../LibraryPage/CardHolder';
 
 const Home = styled.div`
     padding: 20px;
-`
-
-const NewContainer = styled.div`
-    padding: 10px;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .home-title {
+        width: 100%;
+        padding-left: 130px;
+        font-size: 36px;
+        font-weight: 700;
+    }
 `
 
 const useQuery = () => {
@@ -41,11 +47,12 @@ function HomePage() {
 
     return (
         <Home>
-            <NewContainer>
+            <div className='home-title'>New:</div>
+            <CardHolder>
                 {isLoaded && newSongs.map(newSong =>
                     <SongCard song={songs[newSong]} key={`n.${newSong}`}/>
                 )}
-            </NewContainer>
+            </CardHolder>
         </Home>
     );
 }
