@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import PlaylistsPage from './PlaylistPage';
+import PlaylistsPage from './PlaylistsPage';
 import LikesPage from './LikesPage';
 
 const Page = styled.div`
@@ -64,7 +64,7 @@ const LibraryContent = styled.div`
     padding-top: 20px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
 `
 
 function LibraryPage() {

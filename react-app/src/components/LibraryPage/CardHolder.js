@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 const Holder = styled.div`
-    height: 100%;
     width: 1080px;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
