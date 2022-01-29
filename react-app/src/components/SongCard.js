@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useSong } from '../context/SongContext';
-import { removeSongFromPlaylist } from '../store/songs';
+import { likeASong, removeSongFromPlaylist, unlikeASong } from '../store/songs';
 import EditSongModal from './Modals/EditSongModal';
 import DeleteSongModal from './Modals/DeleteSongModal';
 
@@ -161,6 +161,11 @@ function SongCard({song, playlist}) {
         }
     };
 
+    const likeOrUnlike = () => {
+        if (!likes[song.id]) dispatch(likeASong(song.id));
+        else dispatch(unlikeASong(song.id));
+    }
+
     const removeFromPlaylist = () => {
         dispatch(removeSongFromPlaylist({playlistId: playlist.id, songId: song.id}));
     }
@@ -177,7 +182,7 @@ function SongCard({song, playlist}) {
                             {/* <div id="queue" className='actions' onClick={addSongToQueue}><i className="fas fa-plus"/></div> */}
                             {user &&
                             <>
-                                <div id="like" className='actions'>{likes.has(song.id) ? <i className="fas fa-heart" /> : <i className="far fa-heart" />}</div>
+                                <div id="like" className='actions' onClick={likeOrUnlike}>{likes[song.id] === 1 ? <i className="fas fa-heart" /> : <i className="far fa-heart" />}</div>
                                 <div id="playlist" className='actions'><i className="fas fa-bars" /></div>
                                 { playlist && <div id="remove" className='actions' onClick={() => removeFromPlaylist()}><i className="fas fa-times" /></div> }
                             </>

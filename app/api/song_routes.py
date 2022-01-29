@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import Blueprint, request, abort
 from flask_login import login_required, current_user
 from app.file_helpers import audio_file_is_ok, image_file_is_ok, title_is_ok
@@ -25,6 +26,53 @@ def get_songs():
         "songs": [song.to_dict() for song in songs],
         'likes': likes
     }
+
+
+@song_routes.route('/like')
+@login_required
+def get_liked_songs():
+    likes = Like.query.filter(Like.user_id == current_user.id).order_by(Like.created_at.desc()).all()
+
+    return {
+        "songs": [like.song.to_dict() for like in likes],
+        "likes": [like.song_id for like in likes]
+    }
+
+
+@song_routes.route('/like/<int:id>', methods=['POST'])
+@login_required
+def like_song(id):
+    song = Song.query.get(id)
+    if not song:
+        return abort(404)
+    like = Like.query.get((current_user.id, id))
+    if like:
+        return abort(404)
+
+    like = Like(
+        user_id=current_user.id,
+        song_id=id
+    )
+    db.session.add(like)
+    db.session.commit()
+    return {"songId": id}
+
+
+@song_routes.route('/like/<int:id>', methods=['DELETE'])
+@login_required
+def unlike_song(id):
+    song = Song.query.get(id)
+    if not song:
+        return abort(404)
+    like = Like.query.get((current_user.id, id))
+    if not like:
+        return abort(404)
+
+    db.session.delete(like)
+    db.session.commit()
+    return {"songId": id}
+
+ ###############################################################
 
 # get specific song by id
 @song_routes.route('/<int:id>')
@@ -55,9 +103,16 @@ def get_playlist_songs(id):
         return abort(403)
 
     song_connections = SongToPlaylist.query.filter(SongToPlaylist.playlist_id == id).order_by(SongToPlaylist.created_at.desc()).all()
+    songs = [sc.song for sc in song_connections]
+
+    likes = []
+    for song in songs:
+        like = Like.query.get((current_user.id, song.id))
+        if like: likes.append(song.id)
 
     return {
-        'songs': [song_connection.song.to_dict() for song_connection in song_connections]
+        'songs': [song.to_dict() for song in songs],
+        'likes': likes
     }
 
 @song_routes.route('/guest_home')
@@ -78,17 +133,17 @@ def get_user_homepage():
     liked = Like.query.filter(Like.user_id == current_user.id).order_by(Like.created_at.desc()).limit(songs_per_homepage).all()
     liked_songs = [like.song for like in liked]
 
-    likes = set(liked)
+    likes = []
     for song in new_songs:
         like = Like.query.get((current_user.id, song.id))
         if like:
-            likes.add(song.id)
+            likes.append(song.id)
 
     return {
         'songs': [song.to_dict() for song in list(set(new_songs + liked_songs))],
         'newSongs': [song.id for song in new_songs],
-        'likedSongs': [like.song_id for like in likes],
-        'likes': list(likes)
+        'likedSongs': [like.song_id for like in liked],
+        'likes': likes
     }
 
 @song_routes.route('/', methods=['POST'])

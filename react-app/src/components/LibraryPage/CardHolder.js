@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 
 const Holder = styled.div`
+    height: 100%;
     width: 1080px;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 20px;
     justify-items: center;
-    align-items: center;
+    // align-items: center;
 
     @media screen and (max-width: 1240px) {
         width: 740px;

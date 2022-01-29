@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const initialState = { entities: { songs: {}, newSongs: [], likedSongs: [], likes: new Set() } }
+const initialState = { entities: { songs: {}, newSongs: [], likedSongs: [], likes: {} } }
 
 export const createSong = createAsyncThunk(
     "songs/createSong",
@@ -31,6 +31,54 @@ export const getSongs = createAsyncThunk(
         let url = `/api/songs/`
         if (searchKey) url += `?key=${searchKey}`;
         const response = await fetch(url);
+        const data = await response.json();
+        if (response.ok && !data.errors) {
+            return data;
+        } else if (response.status < 500) {
+            throw thunkAPI.rejectWithValue(data.errors);
+        } else {
+            throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
+        }
+    }
+);
+
+// get all liked songs
+export const getLikedSongs = createAsyncThunk(
+    "songs/getLikedSongs",
+    async (_args, thunkAPI) => {
+        const response = await fetch(`/api/songs/like`);
+        const data = await response.json();
+        if (response.ok && !data.errors) {
+            return data;
+        } else if (response.status < 500) {
+            throw thunkAPI.rejectWithValue(data.errors);
+        } else {
+            throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
+        }
+    }
+);
+
+// like song
+export const likeASong = createAsyncThunk(
+    "songs/likeASong",
+    async (songId, thunkAPI) => {
+        const response = await fetch(`/api/songs/like/${songId}`, { method: "POST" });
+        const data = await response.json();
+        if (response.ok && !data.errors) {
+            return data;
+        } else if (response.status < 500) {
+            throw thunkAPI.rejectWithValue(data.errors);
+        } else {
+            throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
+        }
+    }
+);
+
+// unlike song
+export const unlikeASong = createAsyncThunk(
+    "songs/unlikeASong",
+    async (songId, thunkAPI) => {
+        const response = await fetch(`/api/songs/like/${songId}`, { method: "DELETE" });
         const data = await response.json();
         if (response.ok && !data.errors) {
             return data;
@@ -175,11 +223,43 @@ const songSlice = createSlice({
             action.payload.songs.forEach((song) => {
                 songs[song.id] = song
             });
-
             state.entities.songs = songs;
 
-            const likes = new Set();
-            action.payload.likes.forEach(id => likes.add(id));
+            const likes = {};
+            action.payload.likes.forEach(id => {
+                likes[id] = 1
+            });
+            state.entities.likes = likes;
+        });
+        builder.addCase(getLikedSongs.fulfilled, (state, action) => {
+            const songs = {}
+            action.payload.songs.forEach((song) => {
+                songs[song.id] = song
+            });
+            state.entities.songs = songs;
+            state.entities.likedSongs = action.payload.likes;
+
+            const likes = {};
+            action.payload.likes.forEach(id => {
+                likes[id] = 1
+            });
+            state.entities.likes = likes;
+        });
+        builder.addCase(likeASong.fulfilled, (state, action) => {
+            const songId = action.payload.songId;
+            state.entities.likes[songId] = 1;
+        });
+        builder.addCase(unlikeASong.fulfilled, (state, action) => {
+            const songId = action.payload.songId;
+            delete state.entities.likes[songId];
+        });
+        builder.addCase(getASong.fulfilled, (state, action) => {
+            state.entities.songs[action.payload.songs.id] = action.payload.songs;
+
+            const likes = {};
+            action.payload.likes.forEach(id => {
+                likes[id] = 1
+            });
             state.entities.likes = likes;
         });
         builder.addCase(getPlaylistSongs.fulfilled, (state, action) => {
@@ -187,11 +267,12 @@ const songSlice = createSlice({
             action.payload.songs.forEach((song) => {
                 songs[song.id] = song
             });
-
             state.entities.songs = songs;
 
-            const likes = new Set();
-            action.payload.likes.forEach(id => likes.add(id));
+            const likes = {};
+            action.payload.likes.forEach(id => {
+                likes[id] = 1
+            });
             state.entities.likes = likes;
         });
         builder.addCase(getUserHome.fulfilled, (state, action) => {
@@ -202,10 +283,15 @@ const songSlice = createSlice({
 
             state.entities.songs = songs;
             state.entities.newSongs = action.payload.newSongs;
-            state.entities.likedSongs = action.payload.likedSongs;
+            state.entities.likedSongs = action.payload.liked_songs;
 
-            const likes = new Set();
-            action.payload.likes.forEach(id => likes.add(id));
+            const likes = {};
+            action.payload.likes.forEach(id => {
+                likes[id] = 1
+            });
+            action.payload.likedSongs.forEach(id => {
+                likes[id] = 1
+            });
             state.entities.likes = likes;
         });
         builder.addCase(getGuestHome.fulfilled, (state, action) => {
@@ -216,13 +302,7 @@ const songSlice = createSlice({
             state.entities.songs = songs;
             state.entities.newSongs = action.payload.newSongs;
         });
-        builder.addCase(getASong.fulfilled, (state, action) => {
-            state.entities.songs[action.payload.songs.id] = action.payload.songs;
 
-            const likes = new Set();
-            action.payload.likes.forEach(id => likes.add(id));
-            state.entities.likes = likes;
-        });
         builder.addCase(editSong.fulfilled, (state, action) => {
             state.entities.songs[action.payload.id] = action.payload;
         });

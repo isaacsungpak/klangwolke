@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import PlaylistsPage from './PlaylistPage';
+import LikesPage from './LikesPage';
 
 const Page = styled.div`
     width: 100%;
@@ -60,9 +61,10 @@ const LibraryNav = styled.div`
 const LibraryContent = styled.div`
     flex: 1;
     width: 100%;
+    padding-top: 20px;
     display: flex;
     justify-content: center;
-    aling-items: center;
+    align-items: center;
 `
 
 function LibraryPage() {
@@ -92,13 +94,13 @@ function LibraryPage() {
                 </div>
             </LibraryNav>
             <LibraryContent>
-                {tab === 1 &&
+                {/* {tab === 1 &&
                     <PlaylistsPage />
+                } */}
+                {tab === 2 &&
+                    <LikesPage />
                 }
-                {/* {tab === 2 &&
-                    <LikedSongsPage />
-                }
-                {tab === 3 &&
+                {/* {tab === 3 &&
                     <YourSongsPage />
                 } */}
             </LibraryContent>
