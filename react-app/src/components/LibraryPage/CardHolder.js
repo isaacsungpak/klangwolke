@@ -6,7 +6,6 @@ const Holder = styled.div`
     grid-template-columns: repeat(5, 1fr);
     gap: 20px;
     justify-items: center;
-    // align-items: center;
 
     @media screen and (max-width: 1240px) {
         width: 740px;

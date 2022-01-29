@@ -23,10 +23,11 @@ function LikesPage() {
         <>
             <CardHolder>
                 {isLoaded && likedSongs.map((songId, idx) => (
-                    <SongCard song={songs[songId]} key={idx}/>
+                    <>
+                        <SongCard song={songs[songId]} key={idx}/>
+                    </>
                 ))}
             </CardHolder>
-            <Banner object={songs[4]} />
         </>
     )
 }

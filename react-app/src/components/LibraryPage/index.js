@@ -23,6 +23,7 @@ const LibraryNav = styled.div`
     width: 100%;
     height: min-content;
     border-bottom: 1px solid black;
+    margin-bottom: 5px;
     z-index: 2;
 
     #tab-holder {
@@ -60,12 +61,12 @@ const LibraryNav = styled.div`
 
 const LibraryContent = styled.div`
     flex: 1;
-    flex-direction: column;
     width: 100%;
-    padding-top: 20px;
+    padding: 20px 0px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    overflow-y: auto;
 `
 
 function LibraryPage() {

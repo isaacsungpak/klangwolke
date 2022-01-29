@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPlaylistSongs } from '../../store/songs';
+// import { getPlaylistSongs } from '../../store/songs';
 import { getPlaylists } from '../../store/playlists';
 import CreatePlaylistModal from '../Modals/CreatePlaylistModal';
 import CardHolder from './CardHolder';
@@ -23,9 +23,9 @@ function PlaylistsPage() {
         <>
             <CreatePlaylistModal />
             <CardHolder>
-                {playlistsLoaded && Object.values(playlists).map((playlist, ind) => (
+                {/* {playlistsLoaded && Object.values(playlists).map((playlist, ind) => (
                     <PlaylistCard playlist={playlist} key={`pl${ind}`} />
-                ))}
+                ))} */}
             </CardHolder>
         </>
     )

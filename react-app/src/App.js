@@ -15,7 +15,7 @@ import LibraryPage from './components/LibraryPage';
 const MainBody = styled.div`
   width: 100%;
   position: fixed;
-  z-index: -10;
+  z-index: 20;
   top: 60px;
   bottom: 88px;
   display: flex;
@@ -25,6 +25,7 @@ const MainBody = styled.div`
 
 const Content = styled.div`
   width: 1240px;
+  height: 100%;
   background-color: white;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   padding: 0px;
