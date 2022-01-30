@@ -33,8 +33,8 @@ const UploadSong = ({setShowModal}) => {
       const trimmedTitle = titleString.replaceAll(/[ ​]+/g, '');
       setTitle(titleString);
 
-      if (trimmedTitle.length < 1) errorMsgs.title = 'Title must contain at least 1 non-space character';
-      else if (titleString.length > 100) errorMsgs.title ='Title length cannot exceed 100 characters';
+      if (titleString.length > 100) errorMsgs.title ='Title length cannot exceed 100 characters';
+      else if (trimmedTitle.length < 1) errorMsgs.title = 'Title must contain at least 1 non-space character';
 
       setErrorMessages(errorMsgs);
     }

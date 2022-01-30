@@ -24,8 +24,8 @@ function EditSong({song, setShowModal}) {
       const trimmedTitle = titleString.replaceAll(/ |​/g, '');
       setTitle(titleString);
 
-      if (trimmedTitle.length < 1) errorMsg = 'Title must contain at least 1 non-space character';
-      else if (titleString.length > 100) errorMsg ='Title length cannot exceed 100 characters';
+      if (titleString.length > 100) errorMsg ='Title length cannot exceed 100 characters';
+      else if (trimmedTitle.length < 1) errorMsg = 'Title must contain at least 1 non-space character';
 
       setErrorMessage(errorMsg);
     }

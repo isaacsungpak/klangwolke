@@ -25,8 +25,8 @@ function CreatePlaylist({song, setShowModal}) {
       const titleString = e.target.value;
       const trimmedTitle = titleString.replaceAll(/ |​/g, '');
 
-      if (trimmedTitle.length < 1) setErrorMessage('Title must contain at least 1 non-space character');
-      else if (titleString.length > 100) setErrorMessage('Title length cannot exceed 100 characters');
+      if (titleString.length > 100) setErrorMessage('Title length cannot exceed 100 characters');
+      else if (trimmedTitle.length < 1) setErrorMessage('Title must contain at least 1 non-space character');
       else setErrorMessage('');
 
       setTitle(titleString);
