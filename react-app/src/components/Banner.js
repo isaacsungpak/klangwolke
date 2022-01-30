@@ -15,7 +15,7 @@ const ImageBanner = styled.div`
         z-index: 1;
         background-color: #AAA;
         background-image: url(${props => props.image});
-        filter: blur(2px);
+        // filter: blur(2px);
         background-size: cover;
         background-position: center;
     }
