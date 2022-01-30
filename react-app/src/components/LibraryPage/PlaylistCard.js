@@ -1,5 +1,8 @@
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+
+import EditPlaylistModal from '../Modals/EditPlaylistModal';
+import DeletePlaylistModal from '../Modals/DeletePlaylistModal';
 import { Link } from 'react-router-dom';
 
 const Card = styled.div`
@@ -12,7 +15,8 @@ const Card = styled.div`
         height: 200px;
     }
 
-    .song-artwork {
+    #artwork {
+        background-color: #AAA;
         background-image: url(${props => props.image});
         background-size: cover;
         background-position: center;
@@ -39,6 +43,37 @@ const Card = styled.div`
         gap: 20px;
     }
 
+    &:hover #overlay {
+        opacity: 100%;
+    }
+
+    #circle {
+        grid-row: 2/4;
+        grid-column: 2/4;
+        font-size: 80px;
+        color: #FFF;
+        opacity: 70%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #img-link {
+        grid-row: 1/5;
+        grid-column: 1/5;
+    }
+
+    #song-count {
+        grid-row: 2/4;
+        grid-column: 2/4;
+        font-size: 30px;
+        color: #FFF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
     .actions {
         color: #FFF;
         display: flex;
@@ -54,50 +89,9 @@ const Card = styled.div`
         color: #407BA7;
     }
 
-    &:hover #overlay {
-        opacity: 100%;
-    }
-
-    #play {
-        grid-row: 2/4;
-        grid-column: 2/4;
-        font-size: 50px;
-        transition: all 0.3s ease-in-out;
-        color: ${props => props.isPlaying ? "#FF002B" : "#FFF"};
-    }
-
-    #play:hover {
-        color: ${props => props.isPlaying ? "#FF002B" : "#407BA7"}
-    }
-
-    #queue {
-        grid-row: 1;
-        grid-column: 1;
-    }
-
-    #like {
-        grid-row: 4;
-        grid-column: 1;
-    }
-
-    #playlist {
-        grid-row: 4;
-        grid-column: 2;
-    }
-
-    #remove {
-        grid-row: 1;
-        grid-column: 4;
-        font-size: 18px;
-    }
-
-    #remove:hover, #like:hover {
-        color: #FF002B;
-    }
-
     #edit {
         grid-row: 4;
-        grid-column: 3;
+        grid-column: 1;
     }
 
     #delete {
@@ -109,7 +103,7 @@ const Card = styled.div`
         text-decoration: none;
     }
 
-    #song-title {
+    #title {
         font-size: 18px;
         font-weight: 700;
         line-height: 24px;
@@ -120,31 +114,28 @@ const Card = styled.div`
         text-overflow: ellipsis;
     }
 
-    #song-owner {
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 22px;
-        color: #888;
-
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-
-    #song-title:hover, #song-owner:hover {
+    #title:hover {
         text-decoration: underline;
     }
 `
 
 function PlaylistCard({playlist}) {
-    const dispatch = useDispatch();
-
-
     return (
         <>
             {playlist &&
                 <Card image={playlist.image}>
-
+                    <div id='artwork' alt={`Cover for ${playlist.title}`}>
+                        <div id='overlay'>
+                            {/* <div id='circle'><i className="fas fa-circle"/></div> */}
+                            <Link to={`/playlists/${playlist.id}`} id='img-link'/>
+                            <div id='song-count'><div>{playlist.songCount === 1 ? '1 song' : `${playlist.songCount} songs`}</div></div>
+                            <EditPlaylistModal id='edit' playlist={playlist} />
+                            <DeletePlaylistModal id='delete' playlist={playlist} />
+                        </div>
+                    </div>
+                    <Link to={`/playlists/${playlist.id}`}>
+                        <div id='title'>{playlist.title}</div>
+                    </Link>
                 </Card>
             }
         </>

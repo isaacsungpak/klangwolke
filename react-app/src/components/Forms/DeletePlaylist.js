@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { deletePlaylist } from "../../store/playlists";
 import FormContainer from "./FormContainer";
 
-function DeletePlaylist({playlist, showModal}) {
+function DeletePlaylist({playlist, setShowModal}) {
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -15,8 +15,13 @@ function DeletePlaylist({playlist, showModal}) {
 
         setIsWaiting(true);
         dispatch(deletePlaylist( playlist.id ))
-            .then(() => history.push('/'))
-            .then(() => setIsWaiting(false))
+          .then(() => setIsWaiting(false))
+          .then(() => setShowModal(false));
+    }
+
+    const cancel = e => {
+      e.preventDefault();
+      setShowModal(false);
     }
 
     return (
@@ -26,7 +31,7 @@ function DeletePlaylist({playlist, showModal}) {
           <div id='title-holder'>'<div id='actual-title'>{playlist ? playlist.title : ''}</div>'</div>
           <form onSubmit={handleSubmit} id="delete-form">
               <div id='delete-button-container'>
-                <button disabled={true}>Cancel</button>
+                <button onClick={cancel}>Cancel</button>
                 <button type="submit">Yes</button>
               </div>
           </form>

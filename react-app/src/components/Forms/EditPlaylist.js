@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { editPlaylist } from "../../store/playlists";
 import FormContainer from "./FormContainer";
 
-function EditPlaylist({playlist, showModal}) {
+function EditPlaylist({playlist, setShowModal}) {
     const dispatch = useDispatch();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -14,7 +14,11 @@ function EditPlaylist({playlist, showModal}) {
 
         setIsWaiting(true);
         dispatch(editPlaylist({ playlistId: playlist.id, title }))
-          .then(() => setIsWaiting(false))
+          .then((res) => {
+            setIsWaiting(false);
+            if (res.error) setErrorMessage(res.payload[0]);
+            else setShowModal(false);
+          });
     }
 
     const updateTitle = (e) => {
@@ -23,10 +27,15 @@ function EditPlaylist({playlist, showModal}) {
       const trimmedTitle = titleString.replaceAll(/ |​/g, '');
       setTitle(titleString);
 
-      if (trimmedTitle.length < 1) errorMsg = 'Title must contain at least 1 non-space character';
-      else if (titleString.length > 100) errorMsg ='Title length cannot exceed 100 characters';
+      if (titleString.length > 100) errorMsg ='Title length cannot exceed 100 characters';
+      else if (trimmedTitle.length < 1) errorMsg = 'Title must contain at least 1 non-space character';
 
       setErrorMessage(errorMsg);
+    }
+
+    const cancel = e => {
+      e.preventDefault();
+      setShowModal(false);
     }
 
     return (
@@ -45,7 +54,7 @@ function EditPlaylist({playlist, showModal}) {
             </div>
             <div id='button-container'>
               <button type="submit" className={ (errorMessage !== '' || !title ) ? 'disabled' : ''} disabled={ errorMessage !== '' || !title }>Submit</button>
-              <button disabled={true}>Cancel</button>
+              <button onClick={cancel}>Cancel</button>
             </div>
           </form>
         </FormContainer>

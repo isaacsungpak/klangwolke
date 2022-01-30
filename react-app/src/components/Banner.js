@@ -99,8 +99,8 @@ function Banner({object}) {
                 <div id='image' />
                 <div className='text' id='detail'>
                     {object.songCount ?
-                        (object.songCount === 1 ? `${object.songCount} song` : `${object.songCount} songs`) :
-                        (object.likeCount === 1 ? `${object.likeCount} like` : `${object.likeCount} likes`)}
+                        (object.songCount === 1 ? `1 song` : `${object.songCount} songs`) :
+                        (object.likeCount === 1 ? `1 like` : `${object.likeCount} likes`)}
                 </div>
             </div>
         </ImageBanner>
