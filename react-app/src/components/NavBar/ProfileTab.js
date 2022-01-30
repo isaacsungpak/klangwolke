@@ -29,7 +29,7 @@ const Profile = styled.div`
     text-overflow: ellipsis;
   }
 
-  #down {
+  #arrow {
     grid-column: 4;
     grid-row: 2;
     text-align: center;
@@ -106,7 +106,7 @@ function ProfileTab({ user }) {
       <div className="user-tab" id="user" onClick={openMenu}>
         <i className="fas fa-user-circle" id="profile-circle"/>
         <div id="username">{user.username}</div>
-        <i className="fas fa-chevron-down" id="down"/>
+        {showMenu ? <i class="fas fa-chevron-up" id="arrow"/> : <i className="fas fa-chevron-down" id="arrow"/>}
       </div>
       {showMenu && (
         <Menu>
