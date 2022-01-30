@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import PlaylistsPage from './PlaylistsPage';
 import LikesPage from './LikesPage';
+import YourSongsPage from './YourSongsPage';
 
 const Page = styled.div`
     width: 100%;
@@ -68,6 +69,12 @@ const LibraryContent = styled.div`
     justify-content: flex-start;
     align-items: center;
     overflow-y: auto;
+
+    #empty-message {
+        padding-top: 30px;
+        color: #CCC;
+        font-size: 20px;
+    }
 `
 
 function LibraryPage() {
@@ -103,9 +110,9 @@ function LibraryPage() {
                 {tab === 2 &&
                     <LikesPage />
                 }
-                {/* {tab === 3 &&
+                {tab === 3 &&
                     <YourSongsPage />
-                } */}
+                }
             </LibraryContent>
         </Page>
     )

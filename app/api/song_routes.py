@@ -29,6 +29,22 @@ def get_songs():
     }
 
 
+@song_routes.route('/user')
+@login_required
+def get_user_songs():
+    songs = Song.query.filter(Song.user_id == current_user.id).all()
+
+    likes = []
+    if current_user:
+        for song in songs:
+            like = Like.query.get((current_user.id, song.id))
+            if like: likes.append(song.id)
+    return {
+        "songs": [song.to_dict() for song in songs],
+        'likes': likes
+    }
+
+
 @song_routes.route('/like')
 @login_required
 def get_liked_songs():

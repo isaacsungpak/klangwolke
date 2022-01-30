@@ -42,6 +42,21 @@ export const getSongs = createAsyncThunk(
     }
 );
 
+export const getUserSongs = createAsyncThunk(
+    "songs/getUserSongs",
+    async (_args, thunkAPI) => {
+        const response = await fetch(`/api/songs/user`);
+        const data = await response.json();
+        if (response.ok && !data.errors) {
+            return data;
+        } else if (response.status < 500) {
+            throw thunkAPI.rejectWithValue(data.errors);
+        } else {
+            throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
+        }
+    }
+);
+
 // get all liked songs
 export const getLikedSongs = createAsyncThunk(
     "songs/getLikedSongs",
@@ -219,6 +234,19 @@ const songSlice = createSlice({
             ///////////////////////////////////////////////////////////
         });
         builder.addCase(getSongs.fulfilled, (state, action) => {
+            const songs = {}
+            action.payload.songs.forEach((song) => {
+                songs[song.id] = song
+            });
+            state.entities.songs = songs;
+
+            const likes = {};
+            action.payload.likes.forEach(id => {
+                likes[id] = 1
+            });
+            state.entities.likes = likes;
+        });
+        builder.addCase(getUserSongs.fulfilled, (state, action) => {
             const songs = {}
             action.payload.songs.forEach((song) => {
                 songs[song.id] = song
