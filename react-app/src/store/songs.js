@@ -283,7 +283,7 @@ const songSlice = createSlice({
 
             state.entities.songs = songs;
             state.entities.newSongs = action.payload.newSongs;
-            state.entities.likedSongs = action.payload.liked_songs;
+            state.entities.likedSongs = action.payload.likedSongs;
 
             const likes = {};
             action.payload.likes.forEach(id => {

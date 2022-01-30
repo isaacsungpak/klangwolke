@@ -64,8 +64,9 @@ const LibraryContent = styled.div`
     width: 100%;
     padding: 20px 0px;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     overflow-y: auto;
 `
 
@@ -96,9 +97,9 @@ function LibraryPage() {
                 </div>
             </LibraryNav>
             <LibraryContent>
-                {/* {tab === 1 &&
+                {tab === 1 &&
                     <PlaylistsPage />
-                } */}
+                }
                 {tab === 2 &&
                     <LikesPage />
                 }

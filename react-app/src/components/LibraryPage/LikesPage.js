@@ -1,12 +1,8 @@
-import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLikedSongs } from '../../store/songs';
 import CardHolder from './CardHolder';
 import SongCard from '../SongCard';
-
-import Banner from '../Banner';
-
 
 function LikesPage() {
     const dispatch = useDispatch();

@@ -1,5 +1,6 @@
 from crypt import methods
 from flask import Blueprint, request, abort
+from sqlalchemy.sql import func
 from flask_login import login_required, current_user
 from app.file_helpers import audio_file_is_ok, image_file_is_ok, title_is_ok
 from app.models import db, Song, Playlist, SongToPlaylist, Like
@@ -128,7 +129,7 @@ def get_guest_homepage():
 @song_routes.route('/user_home')
 @login_required
 def get_user_homepage():
-    songs_per_homepage = 10
+    songs_per_homepage = 20
     new_songs = Song.query.order_by(Song.created_at.desc()).limit(songs_per_homepage).all()
     liked = Like.query.filter(Like.user_id == current_user.id).order_by(Like.created_at.desc()).limit(songs_per_homepage).all()
     liked_songs = [like.song for like in liked]
@@ -204,6 +205,7 @@ def edit_song(id):
         elif song.user_id != current_user.id: return abort(403)
 
         song.title = title
+        song.updated_at = func.now()
         db.session.commit()
         return song.to_dict()
 
@@ -237,6 +239,9 @@ def remove_song_from_playlist(playlist_id, song_id):
     stp = SongToPlaylist.query.get((song_id, playlist_id))
     if not stp: return abort(400)
     elif stp.playlist.user_id != current_user.id: return abort(403)
+
+    playlist = Playlist.query.get(playlist_id)
+    playlist.updated_at = func.now()
 
     db.session.delete(stp)
     db.session.commit()

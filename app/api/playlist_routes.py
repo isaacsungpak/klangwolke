@@ -3,6 +3,7 @@ from flask import Blueprint, request, abort
 from flask_login import current_user, login_required
 from app.models import db, Playlist, SongToPlaylist, Song
 from app.forms import CreatePlaylistForm, EditPlaylistForm, FieldlessForm, validation_error_messages
+from sqlalchemy.sql import func
 
 playlist_routes = Blueprint('playlists', __name__)
 
@@ -98,6 +99,7 @@ def add_song_to_playlist(playlist_id, song_id):
         playlist_id=playlist_id
     )
     db.session.add(stp)
+    playlist.updated_at = func.now()
     db.session.commit()
 
     return playlist.to_dict()
@@ -120,6 +122,7 @@ def edit_playlist(id):
             return abort(403)
 
         playlist.title = title
+        playlist.updated_at = func.now()
         db.session.commit()
 
         return playlist.to_dict()

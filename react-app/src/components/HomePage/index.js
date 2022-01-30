@@ -47,12 +47,24 @@ function HomePage() {
 
     return (
         <Home>
-            <div className='home-title'>New:</div>
+            <div className='home-title'>New</div>
             <CardHolder>
-                {isLoaded && newSongs.map(newSong =>
-                    <SongCard song={songs[newSong]} key={`n.${newSong}`}/>
+                {isLoaded && newSongs.map((newSong, idx) =>
+                    <SongCard song={songs[newSong]} key={`n.${idx}`}/>
                 )}
             </CardHolder>
+            {user &&
+                <>
+                    <br />
+                    <br />
+                    <div className='home-title'>Recently Liked</div>
+                    <CardHolder>
+                        {isLoaded && likedSongs.map((likedSong, idx) =>
+                            <SongCard song={songs[likedSong]} key={`rl.${idx}`}/>
+                        )}
+                    </CardHolder>
+                </>
+            }
         </Home>
     );
 }

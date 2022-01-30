@@ -23,9 +23,9 @@ function PlaylistsPage() {
         <>
             <CreatePlaylistModal />
             <CardHolder>
-                {/* {playlistsLoaded && Object.values(playlists).map((playlist, ind) => (
+                {playlistsLoaded && Object.values(playlists).sort((a, b) => (new Date(b.updatedAt) - new Date(a.updatedAt))).map((playlist, ind) => (
                     <PlaylistCard playlist={playlist} key={`pl${ind}`} />
-                ))} */}
+                ))}
             </CardHolder>
         </>
     )
