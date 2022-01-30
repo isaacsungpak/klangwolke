@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deletePlaylist } from "../../store/playlists";
 import FormContainer from "./FormContainer";
@@ -7,16 +7,22 @@ import FormContainer from "./FormContainer";
 function DeletePlaylist({playlist, setShowModal}) {
     const dispatch = useDispatch();
     const history = useHistory();
+    const location = useLocation();
+    const path = location.pathname;
 
     const [isWaiting, setIsWaiting] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const pId = playlist.id;
         setIsWaiting(true);
         dispatch(deletePlaylist( playlist.id ))
           .then(() => setIsWaiting(false))
-          .then(() => setShowModal(false));
+          .then(() => {
+            setShowModal(false);
+            if (path === `/playlists/${pId}`) history.push('/');
+          });
     }
 
     const cancel = e => {

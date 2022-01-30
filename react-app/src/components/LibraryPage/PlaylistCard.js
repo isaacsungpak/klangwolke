@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-
 import EditPlaylistModal from '../Modals/EditPlaylistModal';
 import DeletePlaylistModal from '../Modals/DeletePlaylistModal';
 import { Link } from 'react-router-dom';
