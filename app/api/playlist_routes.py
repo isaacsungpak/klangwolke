@@ -64,7 +64,7 @@ def get_playlists_without_song(song_id):
         if not stp: playlists.append(user_playlist)
 
     return {
-        'playlists': [playlist.to_dict() for playlist in playlists]
+        'auxPlaylists': [playlist.to_dict() for playlist in playlists]
     }
 
 # get specific playlist

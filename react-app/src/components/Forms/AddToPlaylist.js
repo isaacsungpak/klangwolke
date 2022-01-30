@@ -40,7 +40,7 @@ function AddToPlaylist({songId, setShowModal}) {
         dispatch(getPlaylistsWithoutSong(songId)).then(() => setIsLoaded(true));
     }, [dispatch, songId])
 
-    const playlists = useSelector(state => state.playlists.playlists);
+    const playlists = useSelector(state => state.playlists.auxPlaylists);
 
     const submit = async (playlistId) => {
         setIsWaiting(true);

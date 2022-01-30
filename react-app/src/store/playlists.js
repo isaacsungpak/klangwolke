@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const initialState = { playlists: {} }
+const initialState = { playlists: {}, auxPlaylists: {} }
 
 // create playlist with first song
 export const createPlaylist = createAsyncThunk(
@@ -151,11 +151,11 @@ const playlistSlice = createSlice({
             state.playlists = playlists;
         });
         builder.addCase(getPlaylistsWithoutSong.fulfilled, (state, action) => {
-            const playlists = {}
-            action.payload.playlists.forEach((playlist) => {
-                playlists[playlist.id] = playlist
+            const auxPlaylists = {}
+            action.payload.auxPlaylists.forEach((playlist) => {
+                auxPlaylists[playlist.id] = playlist
             })
-            state.playlists = playlists;
+            state.auxPlaylists = auxPlaylists;
         });
         builder.addCase(getPlaylist.fulfilled, (state, action) => {
             state.playlists[action.payload.id] = action.payload;

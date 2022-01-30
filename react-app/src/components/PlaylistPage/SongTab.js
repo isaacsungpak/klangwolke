@@ -163,6 +163,10 @@ function SongTab({num, song, playlistId}) {
                                     songId={song.id}
                                     defColor={'black'}
                                 />
+                                <AddToPlaylistModal
+                                    songId={song.id}
+                                    defColor={'black'}
+                                />
                                 <RFPButton
                                     songId={song.id}
                                     playlistId={playlistId}
