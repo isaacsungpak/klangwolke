@@ -123,9 +123,9 @@ const Card = styled.div`
         text-overflow: ellipsis;
     }
 
-    #song-title:hover, #song-owner:hover {
-        text-decoration: underline;
-    }
+    // #song-title:hover, #song-owner:hover {
+    //     text-decoration: underline;
+    // }
 `
 
 function SongCard({song}) {
@@ -155,8 +155,10 @@ function SongCard({song}) {
                         </div>
                     </div>
 
-                    <Link to={`/songs/${song.id}`}><div id="song-title">{song.title}</div></Link>
-                    <Link to={`/users/${song.owner.id}`}><div id="song-owner">{song.owner.username}</div></Link>
+                    {/* <Link to={`/songs/${song.id}`}><div id="song-title">{song.title}</div></Link>
+                    <Link to={`/users/${song.owner.id}`}><div id="song-owner">{song.owner.username}</div></Link> */}
+                    <div id="song-title">{song.title}</div>
+                    <div id="song-owner">{song.owner.username}</div>
             </Card>
             }
         </>
