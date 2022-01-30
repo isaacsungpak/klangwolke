@@ -11,6 +11,7 @@ import AuthPage from './components/AuthPage';
 import FooterBar from './components/FooterBar';
 import SearchPage from './components/SearchPage';
 import LibraryPage from './components/LibraryPage';
+import PlaylistPage from './components/PlaylistPage';
 
 const MainBody = styled.div`
   width: 100%;
@@ -91,18 +92,24 @@ function App() {
                 {/* <User /> */}
                 <Redirect to="/" />
               </Route>
-              <Route path='/songs/:songId'>
-                {/* <User /> */}
-                <Redirect to="/" />
-              </Route>
               <Route path='/search'>
                 <SearchPage />
               </Route>
               <ProtectedRoute path='/library'>
                 <LibraryPage/>
               </ProtectedRoute>
+              <ProtectedRoute path='/playlists/:playlistId'>
+                <PlaylistPage />
+              </ProtectedRoute>
+              <Route path='/songs/:songId'>
+                {/* <User /> */}
+                <Redirect to="/" />
+              </Route>
               <Route path='/' exact={true} >
                 <HomePage />
+              </Route>
+              <Route>
+                <Redirect to="/" />
               </Route>
             </Switch>
           </Content>

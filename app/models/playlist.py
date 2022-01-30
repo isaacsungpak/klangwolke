@@ -24,7 +24,7 @@ class Playlist(db.Model):
             'createdAt': self.created_at,
             'updatedAt': self.updated_at,
             'owner': self.owner.to_public(),
-            'songCount': len(self.song_connections),
+            'songCount': len(self.song_connections) or 0,
             'songs' : [sc.song_id for sc in self.song_connections],
             'image': "" if len(self.song_connections) == 0 else self.song_connections[0].song.image
         }

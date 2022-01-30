@@ -15,7 +15,7 @@ const ImageBanner = styled.div`
         z-index: 1;
         background-color: #AAA;
         background-image: url(${props => props.image});
-        filter: blur(4px);
+        filter: blur(2px);
         background-size: cover;
         background-position: center;
     }
@@ -98,7 +98,7 @@ function Banner({object}) {
                 <div className='text' id='owner'><div className="inner-text">{object.owner.username}</div></div>
                 <div id='image' />
                 <div className='text' id='detail'>
-                    {object.songCount ?
+                    {object.songCount !== undefined ?
                         (object.songCount === 1 ? `1 song` : `${object.songCount} songs`) :
                         (object.likeCount === 1 ? `1 like` : `${object.likeCount} likes`)}
                 </div>
