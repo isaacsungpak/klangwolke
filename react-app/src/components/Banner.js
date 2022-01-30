@@ -26,7 +26,7 @@ const ImageBanner = styled.div`
         grid-column: 1;
         grid-row: 1;
         z-index: 2;
-        background-color: rgba(128, 128, 128, 0.2);
+        background-color: rgba(128, 128, 128, 0.5);
         display: grid;
         grid-template-columns: 5px 1fr 340px 5px;
         grid-template-rows: 5px 40px 30px 1fr 30px 5px;

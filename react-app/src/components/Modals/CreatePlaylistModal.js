@@ -4,20 +4,29 @@ import { Modal } from '../../context/Modal';
 import CreatePlaylist from '../Forms/CreatePlaylist';
 
 const CreateButton = styled.div`
-    width: 100%;
-    height: 30px;
-    background-color: #AAA;
-    border-bottom: 2px groove #EEE;
-    color: white;
-    font-size: 20px;
+    width: 176px;
+    height: 176px;
+    margin: 10px;
+    background-color: white;
+    border: 2px groove black;
+
+    color: black;
+    font-size: 40px;
+    font-weight: 700;
+
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: all 0.1s ease-in-out;
+    transition: all 0.2s ease-in-out;
 
     &:hover {
-      background-color: #888;
+      box-shadow: 2px 5px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    @media screen and (max-width: 1240px) {
+      width: 146px;
+      height: 146px;
     }
 `
 
