@@ -106,7 +106,7 @@ function ProfileTab({ user }) {
       <div className="user-tab" id="user" onClick={openMenu}>
         <i className="fas fa-user-circle" id="profile-circle"/>
         <div id="username">{user.username}</div>
-        {showMenu ? <i class="fas fa-chevron-up" id="arrow"/> : <i className="fas fa-chevron-down" id="arrow"/>}
+        {showMenu ? <i className="fas fa-chevron-up" id="arrow"/> : <i className="fas fa-chevron-down" id="arrow"/>}
       </div>
       {showMenu && (
         <Menu>

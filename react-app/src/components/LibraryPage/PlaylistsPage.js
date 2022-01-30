@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { getPlaylistSongs } from '../../store/songs';
@@ -13,7 +12,6 @@ function PlaylistsPage() {
     const [playlistsLoaded, setPlaylistsLoaded] = useState(false);
 
     const playlists = useSelector(state => state.playlists.playlists);
-    const songs = useSelector(state => state.songs.entities.songs);
 
     useEffect(() => {
         dispatch(getPlaylists()).then(() => setPlaylistsLoaded(true));
