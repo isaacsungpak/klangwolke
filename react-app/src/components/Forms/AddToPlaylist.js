@@ -57,7 +57,7 @@ function AddToPlaylist({songId, setShowModal}) {
     return (
       <FormContainer show={isWaiting} >
           <div id='form-title'>Add to Playlist</div>
-          <div id='form-subheader'>(Only playlists that do not already contain the song are shown)</div>
+          <div id='form-subheader'>(Only playlists that do not already contain this song are shown)</div>
           <PlaylistSelection>
               {isLoaded && Object.values(playlists).map((playlist, ind) => (
                   <div id='playlist-option' key={ind} onClick={() => submit(playlist.id)} value={playlist.id}>{playlist.title}</div>
