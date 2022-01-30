@@ -10,12 +10,6 @@ const Content = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    img {
-        width: 200px;
-        position: fixed;
-        top: 80px;
-    }
 `
 
 const FormBox = styled.div`
@@ -67,8 +61,8 @@ function DoubleATPForm({songId, setShowModal}) {
         <Content>
             <FormBox>
                 <div id="tab-holder">
-                    <div className="tab" id={isAdd ? "active" : ""} onClick={() => setIsAdd(true)}><div>Add</div></div>
-                    <div className="tab" id={isAdd ? "" : "active"} onClick={() => setIsAdd(false)}><div>New</div></div>
+                    <div className="tab" id={isAdd ? "active" : ""} onClick={() => setIsAdd(true)}><div>Add to Playlist</div></div>
+                    <div className="tab" id={isAdd ? "" : "active"} onClick={() => setIsAdd(false)}><div>New Playlist</div></div>
                 </div>
                 {isAdd ?
                     <AddToPlaylist songId={songId} setShowModal={setShowModal} /> :

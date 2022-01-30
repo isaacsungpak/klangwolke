@@ -30,7 +30,7 @@ function PlaylistPage() {
             {isLoaded &&
                 <>
                     <Banner object={playlists[playlistId]} />
-                    {playlists[playlistId].songs.length && playlists[playlistId].songs.map((songId, idx) => (
+                    {playlists[playlistId].songs.length > 0 && playlists[playlistId].songs.map((songId, idx) => (
                         <SongTab num={idx + 1} song={songs[songId]} playlistId={playlistId}/>
                     ))}
                 </>

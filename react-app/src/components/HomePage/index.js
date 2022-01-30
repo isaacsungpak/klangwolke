@@ -68,7 +68,7 @@ function HomePage() {
                             <br />
                             <br />
                             <div className='home-title'>Recently Liked</div>
-                            {likedSongs.length ?
+                            {likedSongs.length > 0 ?
                                 <CardHolder>
                                     {likedSongs.map((likedSong, idx) =>
                                         <SongCard song={songs[likedSong]} key={`rl.${idx}`}/>

@@ -12,12 +12,6 @@ const Content = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    img {
-        width: 200px;
-        position: fixed;
-        top: 80px;
-    }
 `
 
 const FormBox = styled.div`

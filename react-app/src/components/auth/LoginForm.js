@@ -27,6 +27,7 @@ const FormStyling = styled.div`
   }
 
   input {
+    font-family: 'Roboto Condensed', sans-serif;
     outline: none;
     border: none;
     border-bottom: 1px solid #AAA;
