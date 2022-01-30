@@ -2,12 +2,6 @@
 [Klangwolke](https://klangwolke.herokuapp.com/) is a [Soundcloud](https://soundcloud.com/)-inspired app that allows users to stream and share house music.
 
 ## Technologies Used
-### Frontend:
-* JavaScript
-* React
-* Redux
-* Styled-Components
-
 ### Backend:
 * Python
 * Flask
@@ -16,6 +10,12 @@
 * PostgreSQL
 * Docker
 * Heroku
+
+### Frontend:
+* JavaScript
+* React
+* Redux
+* Styled-Components
 
 ## Development
 ### Setting Up
