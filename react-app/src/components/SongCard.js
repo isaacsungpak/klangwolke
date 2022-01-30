@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useSong } from '../context/SongContext';
-import { likeASong, unlikeASong } from '../store/songs';
 import EditSongModal from './Modals/EditSongModal';
 import DeleteSongModal from './Modals/DeleteSongModal';
+import LikeButton from './Buttons/LikeButton';
+import PlayButton from './Buttons/PlayButton';
 
 const Card = styled.div`
     width: 180px;
@@ -44,7 +44,6 @@ const Card = styled.div`
     }
 
     .actions {
-        color: #FFF;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -54,7 +53,11 @@ const Card = styled.div`
         height: 100%;
     }
 
-    .actions:hover {
+    .actions:not(#play, #like) {
+        color: #FFF;
+    }
+
+    .actions:not(#play, #like):hover {
         color: #407BA7;
     }
 
@@ -66,12 +69,6 @@ const Card = styled.div`
         grid-row: 2/4;
         grid-column: 2/4;
         font-size: 50px;
-        transition: all 0.3s ease-in-out;
-        color: ${props => props.isPlaying ? "#FF002B" : "#FFF"};
-    }
-
-    #play:hover {
-        color: ${props => props.isPlaying ? "#FF002B" : "#407BA7"}
     }
 
     #queue {
@@ -87,16 +84,6 @@ const Card = styled.div`
     #playlist {
         grid-row: 4;
         grid-column: 2;
-    }
-
-    #remove {
-        grid-row: 1;
-        grid-column: 4;
-        font-size: 18px;
-    }
-
-    #remove:hover, #like:hover {
-        color: #FF002B;
     }
 
     #edit {
@@ -141,44 +128,19 @@ const Card = styled.div`
 `
 
 function SongCard({song}) {
-    const dispatch = useDispatch();
-
-    const { currentSong, setCurrentSong, isPlaying, setIsPlaying, player} = useSong();
-
     const user = useSelector(state => state.session.user);
-    const likes = useSelector(state => state.songs.entities.likes);
-
-    const playButton = () => {
-        if (isPlaying) {
-            if (currentSong.id === song.id) {
-                setIsPlaying(false);
-                return player.current.audio.current.pause();
-            } else return setCurrentSong(song);
-        } else {
-            setIsPlaying(true);
-            if (currentSong.id === song.id) return player.current.audio.current.play();
-            else return setCurrentSong(song);
-        }
-    };
-
-    const likeOrUnlike = () => {
-        if (!likes[song.id]) dispatch(likeASong(song.id));
-        else dispatch(unlikeASong(song.id));
-    }
 
     return (
         <>
             {song &&
-                <Card image={song.image} isPlaying={song.id === currentSong.id}>
+                <Card image={song.image}>
                     <div alt={`${song.title} Artwork`} className="song-artwork">
                         <div id="overlay">
-                            <div id="play" className='actions' onClick={playButton}>
-                                {(song.id === currentSong.id && isPlaying) ? <i className="fas fa-pause-circle" /> : <i className="fas fa-play-circle" />}
-                            </div>
+                            <PlayButton songId={song.id} />
                             {/* <div id="queue" className='actions' onClick={addSongToQueue}><i className="fas fa-plus"/></div> */}
                             {user &&
                             <>
-                                <div id="like" className='actions' onClick={likeOrUnlike}>{likes[song.id] === 1 ? <i className="fas fa-heart" /> : <i className="far fa-heart" />}</div>
+                                <LikeButton songId={song.id} />
                                 <div id="playlist" className='actions'><i className="fas fa-bars" /></div>
                             </>
                             }
