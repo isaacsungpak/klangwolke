@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import DeleteSong from '../Forms/DeleteSong';
 import styled from 'styled-components';
+import DoubleATPForm from '../Forms/DoubleATPForm';
 
-const DSIcon = styled.div`
+const ATPIcon = styled.div`
   color: ${props => props.defColor};
   cursor: pointer;
   display: flex;
@@ -15,26 +15,26 @@ const DSIcon = styled.div`
 }
 `
 
-function DeleteSongModal({song, defColor='#FFF'}) {
+function AddToPlaylistModal({songId, defColor='#FFF'}) {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <DSIcon
-        id="delete"
+      <ATPIcon
+        id="playlist"
         className='actions'
         onClick={() => setShowModal(true)}
         defColor={defColor}
       >
-        <i className="fas fa-dumpster" />
-      </DSIcon>
+        <i className="fas fa-bars" />
+      </ATPIcon>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <DeleteSong setShowModal={setShowModal} song={song}/>
+          <DoubleATPForm songId={songId} setShowModal={setShowModal} />
         </Modal>
       )}
     </>
   );
 }
 
-export default DeleteSongModal;
+export default AddToPlaylistModal;

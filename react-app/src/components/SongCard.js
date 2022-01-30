@@ -5,6 +5,7 @@ import EditSongModal from './Modals/EditSongModal';
 import DeleteSongModal from './Modals/DeleteSongModal';
 import LikeButton from './Buttons/LikeButton';
 import PlayButton from './Buttons/PlayButton';
+import AddToPlaylistModal from './Modals/AddToPlaylistModal';
 
 const Card = styled.div`
     width: 180px;
@@ -141,7 +142,7 @@ function SongCard({song}) {
                             {user &&
                             <>
                                 <LikeButton songId={song.id} />
-                                <div id="playlist" className='actions'><i className="fas fa-bars" /></div>
+                                <AddToPlaylistModal songId={song.id} />
                             </>
                             }
 

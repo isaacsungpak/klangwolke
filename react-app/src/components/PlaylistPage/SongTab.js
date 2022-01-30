@@ -1,8 +1,13 @@
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useSong } from "../../context/SongContext";
 import PlayButton from "../Buttons/PlayButton";
 import LikeButton from "../Buttons/LikeButton";
+import RFPButton from "../Buttons/RFPButton";
+import DeleteSongModal from "../Modals/DeleteSongModal";
+import EditSongModal from "../Modals/EditSongModal";
+import AddToPlaylistModal from "../Modals/AddToPlaylistModal";
 
 const Tab = styled.div`
     width: 100%;
@@ -118,42 +123,69 @@ const Tab = styled.div`
         grid-template-rows: repeat(4, 1fr);
         gap: 20px;
     }
+
+    #button-holder {
+        display: flex;
+        gap: 10px;
+    }
 `
 
 function SongTab({num, song, playlistId}) {
     const { currentSong } = useSong();
     const [isHover, setIsHover] = useState(false)
+    const user = useSelector(state => state.session.user);
 
     return (
-        <Tab
-            image={song.image}
-            isPlaying={currentSong.id === song.id}
-            onMouseEnter={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
-            isHover={isHover}
-        >
-            <div id='image'>
-                <div id='image-overlay'>
-                    <PlayButton songId={song.id} />
-                </div>
-            </div>
-            <div id='index'><div>{num}</div></div>
-            <div id='bar-body'>
-                <div id='info'>
-                    <span id='owner'>{song.owner.username}</span>
-                    <span id='hyphen'>-</span>
-                    <span id='title'>{song.title}</span>
-                </div>
-                {isHover &&
-                    <div id='button-holder'>
-                        <LikeButton
-                            songId={song.id}
-                            defColor={'black'}
-                        />
+        <>
+            {song &&
+                <Tab
+                image={song.image}
+                isPlaying={currentSong.id === song.id}
+                onMouseEnter={() => setIsHover(true)}
+                onMouseLeave={() => setIsHover(false)}
+                isHover={isHover}
+                >
+                    <div id='image'>
+                        <div id='image-overlay'>
+                            <PlayButton songId={song.id} />
+                        </div>
                     </div>
-                }
-            </div>
-        </Tab>
+                    <div id='index'><div>{num}</div></div>
+                    <div id='bar-body'>
+                        <div id='info'>
+                            <span id='owner'>{song.owner.username}</span>
+                            <span id='hyphen'>-</span>
+                            <span id='title'>{song.title}</span>
+                        </div>
+                        {isHover &&
+                            <div id='button-holder'>
+                                <LikeButton
+                                    songId={song.id}
+                                    defColor={'black'}
+                                />
+                                <RFPButton
+                                    songId={song.id}
+                                    playlistId={playlistId}
+                                    defColor={'black'}
+                                />
+                                { user.id === song.owner.id &&
+                                    <>
+                                        <EditSongModal
+                                            song={song}
+                                            defColor="black"
+                                        />
+                                        <DeleteSongModal
+                                            song={song}
+                                            defColor="black"
+                                        />
+                                    </>
+                                }
+                            </div>
+                        }
+                    </div>
+                </Tab>
+            }
+        </>
     )
 }
 

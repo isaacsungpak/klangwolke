@@ -2,7 +2,6 @@ import styled from "styled-components"
 import WaitingAnimation from "../WaitingAnimation"
 
 const FormContainerStyling = styled.div`
-  margin-top: 20px;
   width: 450px;
   height: auto;
   display: flex;
@@ -18,6 +17,12 @@ const FormContainerStyling = styled.div`
     padding-bottom: 0;
     font-size: 25px;
     font-weight: 700;
+  }
+
+  #form-subheader {
+    padding: 10px;
+    font-size: 14px;
+    color: #CCC;
   }
 
   form {

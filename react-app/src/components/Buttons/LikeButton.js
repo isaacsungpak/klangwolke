@@ -5,6 +5,9 @@ import styled from "styled-components";
 const Like = styled.div`
     color: ${props => props.defColor};
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:hover {
         color: #FF002B;

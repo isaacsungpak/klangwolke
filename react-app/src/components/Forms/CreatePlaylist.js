@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { createPlaylist } from "../../store/playlists";
 import FormContainer from "./FormContainer";
 
-function CreatePlaylist({song, setShowModal}) {
+function CreatePlaylist({songId, setShowModal}) {
     const dispatch = useDispatch();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -13,7 +13,7 @@ function CreatePlaylist({song, setShowModal}) {
         e.preventDefault();
 
         setIsWaiting(true);
-        dispatch(createPlaylist({ title, songId: song?.id }))
+        dispatch(createPlaylist({ title, songId }))
           .then((res) => {
             setIsWaiting(false)
             if (res.error) setErrorMessage(res.payload);
