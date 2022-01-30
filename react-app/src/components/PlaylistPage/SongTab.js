@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useSong } from "../../context/SongContext";
+import PlayButton from "../Buttons/PlayButton";
+import LikeButton from "../Buttons/LikeButton";
 
 const Tab = styled.div`
     width: 100%;
@@ -42,7 +44,8 @@ const Tab = styled.div`
     #play {
         font-size: 20px;
         transition: all 0.3s ease-in-out;
-        color: ${props => props.isPlaying ? "#FF002B" : "#FFF"};
+
+        filter: drop-shadow(0px 0px 4px black);
     }
 
     &:hover #image-overlay{
@@ -118,21 +121,8 @@ const Tab = styled.div`
 `
 
 function SongTab({num, song, playlistId}) {
-    const { currentSong, setCurrentSong, isPlaying, setIsPlaying, player} = useSong();
+    const { currentSong } = useSong();
     const [isHover, setIsHover] = useState(false)
-
-    const playButton = () => {
-        if (isPlaying) {
-            if (currentSong.id === song.id) {
-                setIsPlaying(false);
-                return player.current.audio.current.pause();
-            } else return setCurrentSong(song);
-        } else {
-            setIsPlaying(true);
-            if (currentSong.id === song.id) return player.current.audio.current.play();
-            else return setCurrentSong(song);
-        }
-    };
 
     return (
         <Tab
@@ -144,9 +134,7 @@ function SongTab({num, song, playlistId}) {
         >
             <div id='image'>
                 <div id='image-overlay'>
-                    <div id="play" onClick={playButton}>
-                        {(song.id === currentSong.id && isPlaying) ? <i className="fas fa-pause-circle" /> : <i className="fas fa-play-circle" />}
-                    </div>
+                    <PlayButton songId={song.id} />
                 </div>
             </div>
             <div id='index'><div>{num}</div></div>
@@ -158,7 +146,10 @@ function SongTab({num, song, playlistId}) {
                 </div>
                 {isHover &&
                     <div id='button-holder'>
-                        buttons
+                        <LikeButton
+                            songId={song.id}
+                            defColor={'black'}
+                        />
                     </div>
                 }
             </div>

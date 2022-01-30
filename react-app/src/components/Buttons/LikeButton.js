@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 const Like = styled.div`
     color: ${props => props.defColor};
+    cursor: pointer;
 
     &:hover {
         color: #FF002B;

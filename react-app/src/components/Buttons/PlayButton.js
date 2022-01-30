@@ -3,8 +3,13 @@ import { useSong } from "../../context/SongContext";
 import styled from "styled-components";
 
 const Play = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     transition: all 0.3s ease-in-out;
     color: ${props => props.isCurrent ? "#FF002B" : "#FFF"};
+    cursor: pointer;
 
     &:hover {
         color: ${props => props.isCurrent ? "#FF002B" : "#407BA7"}
