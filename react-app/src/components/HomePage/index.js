@@ -18,6 +18,14 @@ const Home = styled.div`
         font-size: 36px;
         font-weight: 700;
     }
+
+    #empty-message {
+        width: 100%;
+        padding-left: 130px;
+        padding-top: 30px;
+        color: #CCC;
+        font-size: 20px;
+    }
 `
 
 const useQuery = () => {
@@ -47,22 +55,29 @@ function HomePage() {
 
     return (
         <Home>
-            <div className='home-title'>New</div>
-            <CardHolder>
-                {isLoaded && newSongs.map((newSong, idx) =>
-                    <SongCard song={songs[newSong]} key={`n.${idx}`}/>
-                )}
-            </CardHolder>
-            {user &&
+            {isLoaded &&
                 <>
-                    <br />
-                    <br />
-                    <div className='home-title'>Recently Liked</div>
-                    <CardHolder>
-                        {isLoaded && likedSongs.map((likedSong, idx) =>
-                            <SongCard song={songs[likedSong]} key={`rl.${idx}`}/>
-                        )}
-                    </CardHolder>
+                    <div className='home-title'>New</div>
+                        <CardHolder>
+                            {newSongs.map((newSong, idx) =>
+                                <SongCard song={songs[newSong]} key={`n.${idx}`}/>
+                            )}
+                        </CardHolder>
+                    {user &&
+                        <>
+                            <br />
+                            <br />
+                            <div className='home-title'>Recently Liked</div>
+                            {likedSongs.length ?
+                                <CardHolder>
+                                    {likedSongs.map((likedSong, idx) =>
+                                        <SongCard song={songs[likedSong]} key={`rl.${idx}`}/>
+                                    )}
+                                </CardHolder>:
+                                <div id='empty-message'><div>There's nothing here</div></div>
+                            }
+                        </>
+                    }
                 </>
             }
         </Home>
