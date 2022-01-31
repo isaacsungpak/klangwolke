@@ -1,5 +1,5 @@
 # Klangwolke
-[Klangwolke](https://klangwolke.herokuapp.com/) is a [Soundcloud](https://soundcloud.com/)-inspired app that allows users to stream and share house music.
+[Klangwolke](https://klangwolke.herokuapp.com/) is a [Soundcloud](https://soundcloud.com/)-inspired app that allows users to stream and share techno/house music.
 
 ## Technologies Used
 ### Backend:
