@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import styled from "styled-components";
 import { logout } from "../../store/session";
+import { useHistory } from "react-router-dom";
 
 const Profile = styled.div`
   color: #CCC;
@@ -77,6 +78,7 @@ const Menu = styled.div`
 
 function ProfileTab({ user }) {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [showMenu, setShowMenu] = useState(false);
 
   const openMenu = () => {
@@ -98,7 +100,7 @@ function ProfileTab({ user }) {
 
   const logoutRequest = async (e) => {
     e.preventDefault();
-    await dispatch(logout());
+    dispatch(logout()).then(() => history.push('/'));
   };
 
   return (

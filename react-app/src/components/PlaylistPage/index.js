@@ -5,6 +5,18 @@ import { getPlaylist } from "../../store/playlists";
 import { getPlaylistSongs } from "../../store/songs";
 import Banner from "../Banner";
 import SongTab from "./SongTab";
+import styled from "styled-components";
+import EditPlaylistBox from "../Modals/EditPlaylistBox";
+import DeletePlaylistBox from "../Modals/DeletePlaylistBox";
+
+const Buttons = styled.div`
+    height: min-content;
+    flex: 1;
+    display: flex;
+    padding: 10px 15px;
+    gap: 10px;
+    border-bottom: 1px solid #CCC;
+`
 
 function PlaylistPage() {
     const history = useHistory();
@@ -30,7 +42,11 @@ function PlaylistPage() {
             {isLoaded &&
                 <>
                     <Banner object={playlists[playlistId]} />
-                    {playlists[playlistId].songs.length > 0 && playlists[playlistId].songs.map((songId, idx) => (
+                    <Buttons>
+                        <EditPlaylistBox playlist={playlists[playlistId]}/>
+                        <DeletePlaylistBox playlist={playlists[playlistId]}/>
+                    </Buttons>
+                    {playlists[playlistId]?.songs.length > 0 && playlists[playlistId].songs.map((songId, idx) => (
                         <SongTab
                             num={idx + 1}
                             song={songs[songId]}

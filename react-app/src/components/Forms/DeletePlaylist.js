@@ -21,7 +21,7 @@ function DeletePlaylist({playlist, setShowModal}) {
           .then(() => setIsWaiting(false))
           .then(() => {
             setShowModal(false);
-            if (path === `/playlists/${pId}`) history.push('/');
+            if (path === `/playlists/${pId}`) history.push('/library');
           });
     }
 

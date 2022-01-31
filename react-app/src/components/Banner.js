@@ -91,19 +91,23 @@ const ImageBanner = styled.div`
 
 function Banner({object}) {
     return (
-        <ImageBanner image={object.image}>
-            <div id='background'/>
-            <div id="frosting">
-                <div className='text' id='title'><div className="inner-text">{object.title}</div></div>
-                <div className='text' id='owner'><div className="inner-text">{object.owner.username}</div></div>
-                <div id='image' />
-                <div className='text' id='detail'>
-                    {object.songCount !== undefined ?
-                        (object.songCount === 1 ? `1 song` : `${object.songCount} songs`) :
-                        (object.likeCount === 1 ? `1 like` : `${object.likeCount} likes`)}
-                </div>
-            </div>
-        </ImageBanner>
+        <>
+            {object &&
+                <ImageBanner image={object.image}>
+                    <div id='background'/>
+                    <div id="frosting">
+                        <div className='text' id='title'><div className="inner-text">{object.title}</div></div>
+                        <div className='text' id='owner'><div className="inner-text">{object.owner.username}</div></div>
+                        <div id='image' />
+                        <div className='text' id='detail'>
+                            {object.songCount !== undefined ?
+                                (object.songCount === 1 ? `1 song` : `${object.songCount} songs`) :
+                                (object.likeCount === 1 ? `1 like` : `${object.likeCount} likes`)}
+                        </div>
+                    </div>
+                </ImageBanner>
+            }
+        </>
     )
 }
 
