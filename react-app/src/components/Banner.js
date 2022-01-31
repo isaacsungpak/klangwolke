@@ -6,16 +6,18 @@ const ImageBanner = styled.div`
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
+    overflow: hidden;
 
     #background {
-        height: 100%;
-        width: 100%;
+        height: 110%;
+        width: 110%;
         grid-column: 1;
         grid-row: 1;
         z-index: 1;
         background-color: #AAA;
         background-image: url(${props => props.image});
-        // filter: blur(2px);
+        margin: -10px -10px -10px -10px;
+        filter: blur(6px);
         background-size: cover;
         background-position: center;
     }
@@ -26,7 +28,7 @@ const ImageBanner = styled.div`
         grid-column: 1;
         grid-row: 1;
         z-index: 2;
-        background-color: rgba(128, 128, 128, 0.5);
+        background-color: rgba(50, 50, 50, 0.5);
         display: grid;
         grid-template-columns: 5px 1fr 340px 5px;
         grid-template-rows: 5px 40px 30px 1fr 30px 5px;
