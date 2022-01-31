@@ -48,3 +48,9 @@ For development dependencies, run `pipenv lock -r --dev > dev-requirements.txt`.
 * User pages
 * Comments (with full CRUD functionality)
 * Implementation of song queues
+
+## Documentation:
+* [Database Schema](https://github.com/isaacsungpak/klangwolke/wiki/Database-Schema)
+* [Feature List](https://github.com/isaacsungpak/klangwolke/wiki/Feature-List)
+* [User Stories](https://github.com/isaacsungpak/klangwolke/wiki/User-Stories)
+* [Wireframes](https://github.com/isaacsungpak/klangwolke/wiki/Wireframes)
