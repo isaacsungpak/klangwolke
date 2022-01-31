@@ -14,7 +14,7 @@ const Tab = styled.div`
     height: 30px;
     background-color: white;
     display: grid;
-    grid-template-columns: 5px 30px 50px 1fr 5px;
+    grid-template-columns: 5px 30px 1fr 5px;
     grid-template-rows: 1fr;
     gap: 10px;
     padding: 7px 0px;
@@ -57,16 +57,8 @@ const Tab = styled.div`
         opacity: 100%;
     }
 
-    #index {
-        grid-column: 3;
-        grid-row: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
     #bar-body {
-        grid-column: 4;
+        grid-column: 3;
         grid-row: 1;
         display: flex;
         justify-content: space-between;
@@ -77,14 +69,10 @@ const Tab = styled.div`
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        max-width: ${props => props.isHover ? '950px' : '1100px'};
 
-        @media screen and (max-width: 1240px) {
-            max-width: ${props => props.isHover ? '700px' : '850px'};
-        }
-        @media screen and (max-width: 1000px) {
-            max-width: ${props => props.isHover ? '425px' : '575px'};
-        }
+        max-width: ${props => props.isHover ? '1010px' : '1160px'};
+        @media screen and (max-width: 1240px) { max-width: ${props => props.isHover ? '760px' : '910px'}; }
+        @media screen and (max-width: 1000px) { max-width: ${props => props.isHover ? '485px' : '635px'}; }
     }
 
     #owner {
@@ -130,7 +118,7 @@ const Tab = styled.div`
     }
 `
 
-function SongTab({num, song, playlistId}) {
+function SongTab({song, playlistId}) {
     const { currentSong } = useSong();
     const [isHover, setIsHover] = useState(false)
     const user = useSelector(state => state.session.user);
@@ -150,7 +138,6 @@ function SongTab({num, song, playlistId}) {
                             <PlayButton songId={song.id} />
                         </div>
                     </div>
-                    <div id='index'><div>{num}</div></div>
                     <div id='bar-body'>
                         <div id='info'>
                             <span id='owner'>{song.owner.username}</span>
@@ -159,6 +146,18 @@ function SongTab({num, song, playlistId}) {
                         </div>
                         {isHover &&
                             <div id='button-holder'>
+                                { user.id === song.owner.id &&
+                                    <>
+                                        <EditSongModal
+                                            song={song}
+                                            defColor="black"
+                                        />
+                                        <DeleteSongModal
+                                            song={song}
+                                            defColor="black"
+                                        />
+                                    </>
+                                }
                                 <LikeButton
                                     songId={song.id}
                                     defColor={'black'}
@@ -172,18 +171,6 @@ function SongTab({num, song, playlistId}) {
                                     playlistId={playlistId}
                                     defColor={'black'}
                                 />
-                                { user.id === song.owner.id &&
-                                    <>
-                                        <EditSongModal
-                                            song={song}
-                                            defColor="black"
-                                        />
-                                        <DeleteSongModal
-                                            song={song}
-                                            defColor="black"
-                                        />
-                                    </>
-                                }
                             </div>
                         }
                     </div>
