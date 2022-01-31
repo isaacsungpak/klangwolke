@@ -127,11 +127,11 @@ function SongTab({song, playlistId}) {
         <>
             {song &&
                 <Tab
-                image={song.image}
-                isPlaying={currentSong.id === song.id}
-                onMouseEnter={() => setIsHover(true)}
-                onMouseLeave={() => setIsHover(false)}
-                isHover={isHover}
+                    image={song.image}
+                    isPlaying={currentSong.id === song.id}
+                    onMouseEnter={() => setIsHover(true)}
+                    onMouseLeave={() => setIsHover(false)}
+                    isHover={isHover}
                 >
                     <div id='image'>
                         <div id='image-overlay'>
