@@ -40,26 +40,6 @@ const Content = styled.div`
   @media screen and (max-width: 1000px) {
     width: 720px;
   }
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-  box-shadow: inset 0 0 4px rgba(0, 4, 58, 0.1);
-}
-
-::-webkit-scrollbar-thumb {
-  background: #555;
-  border-radius: 2px;
-  // box-shadow: inset 1px 1px 4px rgba(255, 255, 255, 1);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #777;
-  cursor: pointer;
-}
 `
 const LinkContainer = styled.div`
   width: fit-content;

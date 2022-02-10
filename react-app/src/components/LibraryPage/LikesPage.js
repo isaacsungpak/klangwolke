@@ -21,7 +21,12 @@ function LikesPage() {
                 (likedSongs.length > 0 ?
                     <CardHolder>
                         {likedSongs.map((songId, idx) => (
+                            <>
                             <SongCard song={songs[songId]} key={idx}/>
+                            <SongCard song={songs[songId]} key={idx * 7}/>
+                            <SongCard song={songs[songId]} key={idx * 7}/>
+                            </>
+
                         ))}
                     </CardHolder> :
                     <div id='empty-message'><div>There's nothing here</div></div>
