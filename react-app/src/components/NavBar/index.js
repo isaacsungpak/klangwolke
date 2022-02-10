@@ -155,13 +155,13 @@ function NavBar() {
   const { currentSong, setCurrentSong } = useSong();
   const CDNBT = {
     id: 0,
-    title: "Is Soulja Boy an Alien?",
-    audio: "https://klangwolke.s3.amazonaws.com/seeds/Is_Soulja_Boy_an_Alien.mp3",
-    image: "https://klangwolke.s3.amazonaws.com/seeds/Is_Soulja_Boy_an_Alien.jpg",
+    title: "Crazy Noisy Soulja Boy",
+    audio: "https://klangwolke.s3.amazonaws.com/seeds/Crank+Dat+Noisy+Bizarre+Town.mp3",
+    image: "https://klangwolke.s3.amazonaws.com/seeds/Crank+Dat+Noisy+Bizarre+Town.jpg",
     user_id: 0,
     owner: {
       id: 0,
-      username: "Speakers Going ⊑⏃⋔⋔⟒⍀"
+      username: "Soulja Boy"
     },
     likeCount: 9000
   }
