@@ -17,12 +17,14 @@ const Queue = styled.div`
 `
 
 function QueueButton({songId}) {
-    const { queue, setQueue } = useSong();
+    const { queue, setQueue, currentSong } = useSong();
 
     const isInQueue = queue.indexOf(songId) !== -1;
 
     const addToQueue = () => {
-        const newQueue = queue.concat(songId);
+        let newQueue;
+        if (queue[currentSong] === 0) newQueue = [songId];
+        else newQueue = queue.concat(songId);
         setQueue(newQueue);
     };
 
