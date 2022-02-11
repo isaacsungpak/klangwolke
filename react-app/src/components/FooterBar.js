@@ -3,6 +3,9 @@ import 'react-h5-audio-player/lib/styles.css';
 import styled from 'styled-components';
 import { useSong } from '../context/SongContext';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getQueueSong } from '../store/queue';
 
 const BottomBar = styled.div`
     position: fixed;
@@ -70,11 +73,6 @@ const PlayerContainer = styled.div`
     .rhap_button-clear:hover {
         color: #407BA7;
     }
-
-    .rhap_repeat-button {
-        visibility: hidden;
-        width: 0;
-    }
 `
 
 const CurrentSong = styled.div`
@@ -132,9 +130,11 @@ const CurrentSong = styled.div`
 `
 
 function FooterBar() {
+    const dispatch = useDispatch();
     const { queue, currentSong, setCurrentSong, setIsPlaying, player } = useSong();
+    const song = useSelector(state => state.queue.song);
 
-    const onPrev = () => {
+    const toPrev = () => {
         let prevSong;
         if (currentSong > 0) prevSong = currentSong - 1;
         else prevSong = queue.length - 1;
@@ -142,7 +142,7 @@ function FooterBar() {
         setCurrentSong(prevSong);
     }
 
-    const onNext = () => {
+    const toNext = () => {
         let nextSong;
         if (currentSong < queue.length - 1) nextSong = currentSong + 1;
         else nextSong = 0;
@@ -150,35 +150,39 @@ function FooterBar() {
         setCurrentSong(nextSong);
     }
 
+    useEffect(() => {
+        dispatch(getQueueSong(queue[currentSong]));
+    }, [dispatch, queue, currentSong]);
+
     return (
         <BottomBar>
             <Content>
                 <PlayerContainer>
                     <AudioPlayer
-                        src={queue[currentSong]?.audio}
+                        src={song?.audio}
                         showJumpControls={false}
                         showSkipControls={true}
                         onPlay={() => setIsPlaying(true)}
                         onPause={() => setIsPlaying(false)}
-                        onEnded={onNext}
-                        onClickPrevious={onPrev}
-                        onClickNext={onNext}
+                        onEnded={toNext}
+                        onClickPrevious={toPrev}
+                        onClickNext={toNext}
                         layout='horizontal'
                         ref={player}
                     />
                 </PlayerContainer>
 
-                <CurrentSong song={queue[currentSong]}>
+                <CurrentSong song={song}>
                     <div id="song-img"/>
                     <div id="song-info">
-                        {queue[currentSong]?.id === undefined ?
+                        {queue[currentSong] === undefined ?
                             <>
                                 <div id="song-title">No Song Playing</div>
                                 <div id="song-owner">Artist Not Available</div>
                             </>:
                             <>
-                                <Link to={`/songs/${queue[currentSong].id}`}><div id="song-title">{queue[currentSong].title}</div></Link>
-                                <Link to={`/users/${queue[currentSong].owner.id}`}><div id="song-owner">{queue[currentSong].owner.username}</div></Link>
+                                <Link to={`/songs/${queue[currentSong]}`}><div id="song-title">{song?.title}</div></Link>
+                                <Link to={`/users/${song?.owner.id}`}><div id="song-owner">{song?.owner.username}</div></Link>
                             </>
                         }
                     </div>

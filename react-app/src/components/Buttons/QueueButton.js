@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { useSong } from "../../context/SongContext";
 import styled from "styled-components";
 
@@ -19,12 +18,11 @@ const Queue = styled.div`
 
 function QueueButton({songId}) {
     const { queue, setQueue } = useSong();
-    const songs = useSelector(state => state.songs.entities.songs);
 
-    const isInQueue = queue.indexOf(songs[songId]) !== -1;
+    const isInQueue = queue.indexOf(songId) !== -1;
 
     const addToQueue = () => {
-        const newQueue = queue.concat(songs[songId]);
+        const newQueue = queue.concat(songId);
         setQueue(newQueue);
     };
 
