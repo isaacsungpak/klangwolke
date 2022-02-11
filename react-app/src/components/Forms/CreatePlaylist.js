@@ -52,7 +52,7 @@ function CreatePlaylist({songId, setShowModal}) {
             />
           </div>
           <div id='button-container'>
-            <button type="submit" className={ (errorMessage !== '' || !title ) ? 'disabled' : ''} disabled={ errorMessage !== '' || !title }>Create</button>
+            <button type="submit" className={ (errorMessage !== '' || !title ) ? 'disabled' : ''} disabled={ errorMessage !== '' || !title || isWaiting }>Create</button>
             <button onClick={cancel}>Cancel</button>
           </div>
         </form>

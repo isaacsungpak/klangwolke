@@ -63,7 +63,7 @@ const UploadSong = ({setShowModal}) => {
             {errorMessages.image && <div className='bad-input'>{errorMessages.image}</div>}
             <FileDropzone id="image-drop" className="field" fileSetter={setImage} type='image' formats='image/jpeg, image/jpg, image/png, image/gif' />
             <div id='button-container'>
-              <button type="submit" className={(title.length > 100 || !title || !audio || !image) ? 'disabled' : ''} disabled={title.length > 100 || !title || !audio || !image }>Upload</button>
+              <button type="submit" className={(title.length > 100 || !title || !audio || !image) ? 'disabled' : ''} disabled={title.length > 100 || !title || !audio || !image || isWaiting }>Upload</button>
               <button onClick={cancel}>Cancel</button>
             </div>
           </form>

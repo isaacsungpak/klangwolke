@@ -31,7 +31,7 @@ function DeleteSong({song, setShowModal}) {
           <form onSubmit={handleSubmit} id="delete-form">
             <div id='delete-button-container'>
               <button onClick={cancel}>Cancel</button>
-              <button type="submit">Yes</button>
+              <button type="submit" disabled={ isWaiting }>Yes</button>
             </div>
           </form>
         </FormContainer>

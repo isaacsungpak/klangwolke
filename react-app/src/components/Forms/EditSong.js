@@ -50,7 +50,7 @@ function EditSong({song, setShowModal}) {
               />
             </div>
             <div id='button-container'>
-              <button type="submit" className={ (errorMessage !== '' || !title ) ? 'disabled' : ''} disabled={ errorMessage !== '' || !title }>Submit</button>
+              <button type="submit" className={ (errorMessage !== '' || !title ) ? 'disabled' : ''} disabled={ errorMessage !== '' || !title || isWaiting }>Submit</button>
               <button onClick={cancel}>Cancel</button>
             </div>
           </form>
