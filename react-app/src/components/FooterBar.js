@@ -70,6 +70,11 @@ const PlayerContainer = styled.div`
     .rhap_button-clear:hover {
         color: #407BA7;
     }
+
+    .rhap_repeat-button {
+        visibility: hidden;
+        width: 0;
+    }
 `
 
 const CurrentSong = styled.div`
@@ -127,32 +132,53 @@ const CurrentSong = styled.div`
 `
 
 function FooterBar() {
-    const { currentSong, setIsPlaying, player } = useSong();
+    const { queue, currentSong, setCurrentSong, setIsPlaying, player } = useSong();
+
+    const onPrev = () => {
+        let prevSong;
+        if (currentSong > 0) prevSong = currentSong - 1;
+        else prevSong = queue.length - 1;
+
+        setCurrentSong(prevSong);
+    }
+
+    const onNext = () => {
+        let nextSong;
+        if (currentSong < queue.length - 1) nextSong = currentSong + 1;
+        else nextSong = 0;
+
+        setCurrentSong(nextSong);
+    }
 
     return (
         <BottomBar>
             <Content>
                 <PlayerContainer>
                     <AudioPlayer
-                        src={currentSong?.audio}
+                        src={queue[currentSong]?.audio}
+                        showJumpControls={false}
+                        showSkipControls={true}
                         onPlay={() => setIsPlaying(true)}
                         onPause={() => setIsPlaying(false)}
+                        onEnded={onNext}
+                        onClickPrevious={onPrev}
+                        onClickNext={onNext}
                         layout='horizontal'
                         ref={player}
                     />
                 </PlayerContainer>
 
-                <CurrentSong song={currentSong}>
+                <CurrentSong song={queue[currentSong]}>
                     <div id="song-img"/>
                     <div id="song-info">
-                        {currentSong.id === undefined ?
+                        {queue[currentSong]?.id === undefined ?
                             <>
                                 <div id="song-title">No Song Playing</div>
                                 <div id="song-owner">Artist Not Available</div>
                             </>:
                             <>
-                                <Link to={`/songs/${currentSong.id}`}><div id="song-title">{currentSong.title}</div></Link>
-                                <Link to={`/users/${currentSong.owner.id}`}><div id="song-owner">{currentSong.owner.username}</div></Link>
+                                <Link to={`/songs/${queue[currentSong].id}`}><div id="song-title">{queue[currentSong].title}</div></Link>
+                                <Link to={`/users/${queue[currentSong].owner.id}`}><div id="song-owner">{queue[currentSong].owner.username}</div></Link>
                             </>
                         }
                     </div>

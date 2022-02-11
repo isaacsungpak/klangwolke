@@ -5,6 +5,7 @@ import EditSongModal from './Modals/EditSongModal';
 import DeleteSongModal from './Modals/DeleteSongModal';
 import LikeButton from './Buttons/LikeButton';
 import PlayButton from './Buttons/PlayButton';
+import QueueButton from './Buttons/QueueButton';
 import AddToPlaylistModal from './Modals/AddToPlaylistModal';
 
 const Card = styled.div`
@@ -131,6 +132,7 @@ const Card = styled.div`
 function SongCard({song}) {
     const user = useSelector(state => state.session.user);
 
+
     return (
         <>
             {song &&
@@ -138,7 +140,7 @@ function SongCard({song}) {
                     <div alt={`${song.title} Artwork`} className="song-artwork">
                         <div id="overlay">
                             <PlayButton songId={song.id} />
-                            {/* <div id="queue" className='actions' onClick={addSongToQueue}><i className="fas fa-plus"/></div> */}
+                            <QueueButton songId={song.id} />
                             {user &&
                             <>
                                 <LikeButton songId={song.id} />

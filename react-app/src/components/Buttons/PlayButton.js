@@ -17,25 +17,31 @@ const Play = styled.div`
 `
 
 function PlayButton({songId}) {
-    const { currentSong, setCurrentSong, isPlaying, setIsPlaying, player} = useSong();
+    const { queue, setQueue, currentSong, setCurrentSong, isPlaying, setIsPlaying, player} = useSong();
     const songs = useSelector(state => state.songs.entities.songs);
 
     const playToggle = () => {
         if (isPlaying) {
-            if (currentSong.id === songId) {
+            if (queue[currentSong]?.id === songId) {
                 setIsPlaying(false);
                 return player.current.audio.current.pause();
-            } else return setCurrentSong(songs[songId]);
+            } else {
+                setQueue([songs[songId]]);
+                setCurrentSong(0);
+            }
         } else {
             setIsPlaying(true);
-            if (currentSong.id === songId) return player.current.audio.current.play();
-            else return setCurrentSong(songs[songId]);
+            if (queue[currentSong]?.id === songId) return player.current.audio.current.play();
+            else  {
+                setQueue([songs[songId]]);
+                setCurrentSong(0);
+            }
         }
     };
 
     return (
-        <Play id="play" className='actions' onClick={playToggle} isCurrent={songId === currentSong.id}>
-            {(songId === currentSong.id && isPlaying) ? <i className="fas fa-pause-circle" /> : <i className="fas fa-play-circle" />}
+        <Play id="play" className='actions' onClick={playToggle} isCurrent={songId === queue[currentSong]?.id}>
+            {(songId === queue[currentSong]?.id && isPlaying) ? <i className="fas fa-pause-circle" /> : <i className="fas fa-play-circle" />}
         </Play>
     )
 }
