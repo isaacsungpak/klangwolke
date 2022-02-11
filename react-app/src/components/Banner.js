@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import PlayButton from "./Buttons/PlayButton";
+import PlaylistPlayButton from "./Buttons/PlaylistPlayButton";
 
 const ImageBanner = styled.div`
     width: 100%;
@@ -30,8 +32,8 @@ const ImageBanner = styled.div`
         z-index: 2;
         background-color: rgba(50, 50, 50, 0.5);
         display: grid;
-        grid-template-columns: 5px 1fr 340px 5px;
-        grid-template-rows: 5px 40px 30px 1fr 30px 5px;
+        grid-template-columns: 5px 80px 1fr 340px 5px;
+        grid-template-rows: 5px 1fr 40px 30px 1fr 5px;
         gap: 10px;
     }
 
@@ -60,23 +62,35 @@ const ImageBanner = styled.div`
         text-overflow: ellipsis;
     }
 
+    #playlist-play, #play {
+        grid-column: 2;
+        grid-row: 3/5;
+        font-size: 80px;
+        color: #FFF;
+        transition: all 0.3s ease-in-out;
+    }
+
+    #playlist-play:hover, #play:hover {
+        color: #AAA;
+    }
+
     #title {
         font-size: 30px;
-        grid-column: 2;
-        grid-row: 2;
+        grid-column: 3;
+        grid-row: 3;
     }
 
     #owner {
         font-size: 20px;
-        grid-column: 2;
-        grid-row: 3;
+        grid-column: 3;
+        grid-row: 4;
     }
 
     #image {
         height: 100%;
         width: 100%;
         aspect-ratio: 1;
-        grid-column: 3;
+        grid-column: 4;
         grid-row: 2/6;
         background-color: #AAA;
         background-image: url(${props => props.image});
@@ -98,6 +112,10 @@ function Banner({object}) {
                 <ImageBanner image={object.image}>
                     <div id='background'/>
                     <div id="frosting">
+                        { object.songCount !== undefined ?
+                            <PlaylistPlayButton songs={object.songs} />:
+                            <PlayButton songId={object.id} />
+                        }
                         <div className='text' id='title'><div className="inner-text">{object.title}</div></div>
                         <div className='text' id='owner'><div className="inner-text">{object.owner.username}</div></div>
                         <div id='image' />
