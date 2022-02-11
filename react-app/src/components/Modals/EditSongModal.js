@@ -9,10 +9,13 @@ const ESIcon = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+  height: 100%;
 
   &:hover {
     color: #407BA7;
-}
+  }
 `
 
 function EditSongModal({song, defColor='#FFF'}) {

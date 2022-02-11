@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import EditPlaylistModal from '../Modals/EditPlaylistModal';
 import DeletePlaylistModal from '../Modals/DeletePlaylistModal';
+import PlaylistPlayButton from '../Buttons/PlaylistPlayButton';
 import { Link } from 'react-router-dom';
 
 const Card = styled.div`
@@ -45,46 +46,28 @@ const Card = styled.div`
         opacity: 100%;
     }
 
-    #circle {
-        grid-row: 2/4;
-        grid-column: 2/4;
-        font-size: 80px;
-        color: #FFF;
-        opacity: 70%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
     #img-link {
         grid-row: 1/5;
         grid-column: 1/5;
     }
 
     #song-count {
+        grid-row: 1;
+        grid-column: 1/5;
+        color: #FFF;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    #playlist-play {
         grid-row: 2/4;
         grid-column: 2/4;
-        font-size: 30px;
-        color: #FFF;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-
-    .actions {
-        color: #FFF;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition: all 0.3s ease-in-out;
-        width: 100%;
-        height: 100%;
-    }
-
-    .actions:hover {
-        color: #407BA7;
+        font-size: 50px;
     }
 
     #edit {
@@ -124,9 +107,9 @@ function PlaylistCard({playlist}) {
                 <Card image={playlist.image}>
                     <div id='artwork' alt={`Cover for ${playlist.title}`}>
                         <div id='overlay'>
-                            {/* <div id='circle'><i className="fas fa-circle"/></div> */}
                             <Link to={`/playlists/${playlist.id}`} id='img-link'/>
                             <div id='song-count'><div>{playlist.songCount === 1 ? '1 song' : `${playlist.songCount} songs`}</div></div>
+                            <PlaylistPlayButton songs={playlist.songs} />
                             <EditPlaylistModal id='edit' playlist={playlist} />
                             <DeletePlaylistModal id='delete' playlist={playlist} />
                         </div>
