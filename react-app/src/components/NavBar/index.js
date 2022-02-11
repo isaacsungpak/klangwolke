@@ -152,25 +152,16 @@ function NavBar() {
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////
-  const { currentSong, setCurrentSong } = useSong();
-  const CDNBT = {
-    id: 0,
-    title: "Crazy Noisy Soulja Boy",
-    audio: "https://klangwolke.s3.amazonaws.com/seeds/Crank+Dat+Noisy+Bizarre+Town.mp3",
-    image: "https://klangwolke.s3.amazonaws.com/seeds/Crank+Dat+Noisy+Bizarre+Town.jpg",
-    user_id: 0,
-    owner: {
-      id: 0,
-      username: "Soulja Boy"
-    },
-    likeCount: 9000
-  }
+  const { queue, setQueue, currentSong, setCurrentSong } = useSong();
   const location = useLocation();
   let path = location.pathname;
   let pammerCount = null;
   function souljaTime() {
     pammerCount = pammerCount === null ? 1 : pammerCount + 1;
-    if (pammerCount % 16 === 0) setCurrentSong(CDNBT);
+    if (pammerCount % 16 === 0) {
+        setQueue([0]);
+        setCurrentSong(0);
+    };
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -180,11 +171,11 @@ function NavBar() {
         <li>
           {path === "/" ?
             <div id="logo-holder" onClick={souljaTime}>
-              <img src={currentSong.id === 0 ? Slammer : Pammer} id="logo" alt="Pammer, the Klangwolke"/>
+              <img src={queue[currentSong] === 0 ? Slammer : Pammer} id="logo" alt="Pammer, the Klangwolke"/>
             </div> :
             <Link to='/'>
               <div id="logo-holder">
-                <img src={currentSong.id === 0 ? Slammer : Pammer} id="logo" alt="Pammer, the Klangwolke"/>
+                <img src={queue[currentSong] === 0 ? Slammer : Pammer} id="logo" alt="Pammer, the Klangwolke"/>
               </div>
             </Link>
           }

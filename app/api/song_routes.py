@@ -12,10 +12,10 @@ song_routes = Blueprint('songs', __name__)
 
 @song_routes.route('/')
 def get_songs():
-    search_key = request.args.get("key")
+    search_key = request.args.get('key')
     filters = []
     if search_key:
-        filters.append(Song.title.ilike(f"%{search_key}%"))
+        filters.append(Song.title.ilike(f'%{search_key}%'))
     songs = Song.query.filter(*filters).all()
 
     likes = []
@@ -24,7 +24,7 @@ def get_songs():
             like = Like.query.get((current_user.id, song.id))
             if like: likes.append(song.id)
     return {
-        "songs": [song.to_dict() for song in songs],
+        'songs': [song.to_dict() for song in songs],
         'likes': likes
     }
 
@@ -40,7 +40,7 @@ def get_user_songs():
             like = Like.query.get((current_user.id, song.id))
             if like: likes.append(song.id)
     return {
-        "songs": [song.to_dict() for song in songs],
+        'songs': [song.to_dict() for song in songs],
         'likes': likes
     }
 
@@ -51,8 +51,8 @@ def get_liked_songs():
     likes = Like.query.filter(Like.user_id == current_user.id).order_by(Like.created_at.desc()).all()
 
     return {
-        "songs": [like.song.to_dict() for like in likes],
-        "likes": [like.song_id for like in likes]
+        'songs': [like.song.to_dict() for like in likes],
+        'likes': [like.song_id for like in likes]
     }
 
 
@@ -72,7 +72,7 @@ def like_song(id):
     )
     db.session.add(like)
     db.session.commit()
-    return {"songId": id}
+    return {'songId': id}
 
 
 @song_routes.route('/like/<int:id>', methods=['DELETE'])
@@ -87,7 +87,7 @@ def unlike_song(id):
 
     db.session.delete(like)
     db.session.commit()
-    return {"songId": id}
+    return {'songId': id}
 
  ###############################################################
 
@@ -105,8 +105,25 @@ def get_song(id):
         if like: likes.append(song.id)
 
     return {
-        "songs": song.to_dict(),
+        'songs': song.to_dict(),
         'likes': likes
+    }
+
+@song_routes.route('/egg')
+def get_egg_song():
+
+    return {
+        'songs': {
+            'id': 0,
+            'title': 'Crazy Noisy Soulja Boy',
+            'audio': 'https://klangwolke.s3.amazonaws.com/seeds/Crank+Dat+Noisy+Bizarre+Town.mp3',
+            'image': 'https://klangwolke.s3.amazonaws.com/seeds/Crank+Dat+Noisy+Bizarre+Town.jpg',
+            'userId': 0,
+            'owner': {
+                'id': 0,
+                'username': 'Soulja Boy'
+            }
+        }
     }
 
 @song_routes.route('/playlist/<int:id>')
@@ -169,13 +186,13 @@ def create_song():
     form = CreateSongForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
-    if "audio" not in request.files:
-        return {"errors": "Audio required."}, 400
-    form.data['audio'] = request.files["audio"]
+    if 'audio' not in request.files:
+        return {'errors': 'Audio required.'}, 400
+    form.data['audio'] = request.files['audio']
 
-    if "image" not in request.files:
-        return {"errors": "Image required."}, 400
-    form.data['image'] = request.files["image"]
+    if 'image' not in request.files:
+        return {'errors': 'Image required.'}, 400
+    form.data['image'] = request.files['image']
 
     if form.validate_on_submit():
         title = form.data['title']
@@ -184,17 +201,17 @@ def create_song():
 
         audio.filename = get_unique_filename(audio.filename)
         audio_s3_upload = upload_file_to_s3(audio)
-        if "url" not in audio_s3_upload: return audio_s3_upload, 400
+        if 'url' not in audio_s3_upload: return audio_s3_upload, 400
 
         image.filename = get_unique_filename(image.filename)
         image_s3_upload = upload_file_to_s3(image)
-        if "url" not in image_s3_upload: return image_s3_upload, 400
+        if 'url' not in image_s3_upload: return image_s3_upload, 400
 
         new_song = Song(
             user_id=current_user.id,
             title=title,
-            audio=audio_s3_upload["url"],
-            image=image_s3_upload["url"],
+            audio=audio_s3_upload['url'],
+            image=image_s3_upload['url'],
             s3_audio_filename=audio.filename,
             s3_image_filename=image.filename,
         )
@@ -245,9 +262,9 @@ def delete_song(id):
 
         db.session.delete(song)
         db.session.commit()
-        return {"songId": id}
+        return {'songId': id}
 
-    return {"errors": "Request could not be completed at this time. Please try again."}, 400
+    return {'errors': 'Request could not be completed at this time. Please try again.'}, 400
 
 @song_routes.route('/<int:song_id>/playlists/<int:playlist_id>', methods=['DELETE'])
 @login_required
@@ -262,4 +279,4 @@ def remove_song_from_playlist(playlist_id, song_id):
     db.session.delete(stp)
     db.session.commit()
 
-    return {"songId": song_id}
+    return {'songId': song_id}
