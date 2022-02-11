@@ -56,6 +56,17 @@ def seed_users():
         password='pppassword'
     )
 
+    fjaak = User(
+        username='FJAAK',
+        email='fj@aa.k',
+        password='paaassword'
+    )
+
+    ji = User(
+        username='Jensen Interceptor',
+        email='jensen@inter.ceptor',
+        password='passssword'
+    )
 
     db.session.add(demo)
     db.session.add(remodnar)
@@ -66,6 +77,8 @@ def seed_users():
     db.session.add(kk)
     db.session.add(cadans)
     db.session.add(jm)
+    db.session.add(fjaak)
+    db.session.add(ji)
 
     db.session.commit()
 

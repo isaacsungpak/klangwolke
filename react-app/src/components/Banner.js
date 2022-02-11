@@ -71,7 +71,8 @@ const ImageBanner = styled.div`
     }
 
     #playlist-play:hover, #play:hover {
-        color: #AAA;
+        color: #407BA7;
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.1));
     }
 
     #title {

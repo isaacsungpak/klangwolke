@@ -151,7 +151,7 @@ def get_playlist_songs(id):
 
 @song_routes.route('/guest_home')
 def get_guest_homepage():
-    songs_per_homepage = 20
+    songs_per_homepage = 10
     new_songs = Song.query.order_by(Song.created_at.desc()).limit(songs_per_homepage).all()
     return {
         'songs': [song.to_dict() for song in new_songs],
@@ -162,7 +162,7 @@ def get_guest_homepage():
 @song_routes.route('/user_home')
 @login_required
 def get_user_homepage():
-    songs_per_homepage = 20
+    songs_per_homepage = 10
     new_songs = Song.query.order_by(Song.created_at.desc()).limit(songs_per_homepage).all()
     liked = Like.query.filter(Like.user_id == current_user.id).order_by(Like.created_at.desc()).limit(songs_per_homepage).all()
     liked_songs = [like.song for like in liked]

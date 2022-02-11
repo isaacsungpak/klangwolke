@@ -66,6 +66,42 @@ def seed_songs():
         user_id=9
     )
 
+    ita = Song(
+        title="It's Time Again",
+        audio="https://klangwolke.s3.amazonaws.com/seeds/ItsTimeAgain.mp3",
+        image="https://klangwolke.s3.amazonaws.com/seeds/ItsTimeAgain.jpg",
+        s3_audio_filename="ItsTimeAgain.mp3",
+        s3_image_filename="ItsTimeAgain.jpg",
+        user_id=10
+    )
+
+    sc = Song(
+        title="Sof Cell",
+        audio="https://klangwolke.s3.amazonaws.com/seeds/SofCell.mp3",
+        image="https://klangwolke.s3.amazonaws.com/seeds/SofCell.jpg",
+        s3_audio_filename="SofCell.mp3",
+        s3_image_filename="SofCell.jpg",
+        user_id=11
+    )
+
+    lbti = Song(
+        title="Lean Before the Interview",
+        audio="https://klangwolke.s3.amazonaws.com/seeds/LeanBeforeTheInterview.mp3",
+        image="https://klangwolke.s3.amazonaws.com/seeds/LeanBeforeTheInterview.jpg",
+        s3_audio_filename="LeanBeforeTheInterview.mp3",
+        s3_image_filename="LeanBeforeTheInterview.jpg",
+        user_id=11
+    )
+
+    u = Song(
+        title="Ultramax",
+        audio="https://klangwolke.s3.amazonaws.com/seeds/Ultramax.mp3",
+        image="https://klangwolke.s3.amazonaws.com/seeds/Ultramax.jpg",
+        s3_audio_filename="Ultramax.mp3",
+        s3_image_filename="Ultramax.jpg",
+        user_id=11
+    )
+
     db.session.add(aol)
     db.session.add(atwf)
     db.session.add(hb)
@@ -74,6 +110,10 @@ def seed_songs():
     db.session.add(med)
     db.session.add(med)
     db.session.add(nt)
+    db.session.add(ita)
+    db.session.add(sc)
+    db.session.add(lbti)
+    db.session.add(u)
     db.session.commit()
 
 def undo_songs():
