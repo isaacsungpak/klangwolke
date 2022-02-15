@@ -41,6 +41,7 @@ function SongPage() {
             {isLoaded &&
                 <>
                     <Banner object={songs[songId]} />
+                    
                     { user &&
                         <Buttons>
                             { user.id === songs[songId]?.owner.id &&

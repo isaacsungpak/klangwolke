@@ -2,11 +2,9 @@ from crypt import methods
 from flask import Blueprint, request, abort
 from sqlalchemy.sql import func
 from flask_login import login_required, current_user
-from app.file_helpers import audio_file_is_ok, image_file_is_ok, title_is_ok
 from app.models import db, Song, Playlist, SongToPlaylist, Like
 from app.forms import CreateSongForm, EditSongForm, FieldlessForm, validation_error_messages
 from app.s3_helpers import get_unique_filename, upload_file_to_s3, delete_file_from_s3
-from werkzeug.utils import secure_filename
 
 song_routes = Blueprint('songs', __name__)
 
@@ -19,7 +17,7 @@ def get_songs():
     songs = Song.query.filter(*filters).all()
 
     likes = []
-    if current_user:
+    if current_user.is_authenticated:
         for song in songs:
             like = Like.query.get((current_user.id, song.id))
             if like: likes.append(song.id)
@@ -35,10 +33,9 @@ def get_user_songs():
     songs = Song.query.filter(Song.user_id == current_user.id).all()
 
     likes = []
-    if current_user:
-        for song in songs:
-            like = Like.query.get((current_user.id, song.id))
-            if like: likes.append(song.id)
+    for song in songs:
+        like = Like.query.get((current_user.id, song.id))
+        if like: likes.append(song.id)
     return {
         'songs': [song.to_dict() for song in songs],
         'likes': likes
@@ -89,18 +86,16 @@ def unlike_song(id):
     db.session.commit()
     return {'songId': id}
 
- ###############################################################
-
 # get specific song by id
 @song_routes.route('/<int:id>')
-def get_song(id):
+def get_a_song(id):
     song = Song.query.get(id)
 
     if not song:
         return abort(404)
 
     likes = []
-    if current_user:
+    if current_user.is_authenticated:
         like = Like.query.get((current_user.id, song.id))
         if like: likes.append(song.id)
 
