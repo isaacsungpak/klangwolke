@@ -1,7 +1,7 @@
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from 'react';
-import { getASong } from "../../store/songs";
+import { getASong, getComments } from "../../store/songs";
 import Banner from "../Banner";
 import styled from "styled-components";
 import AddToPlaylistBox from "../Modals/AddToPlaylistBox";
@@ -33,6 +33,7 @@ function SongPage() {
             .then((res) => {
                 if (res.error) history.push('/');
             })
+            .then(() => dispatch(getComments(songId)))
             .then(() => setIsLoaded(true));
     }, [dispatch, history, songId]);
 
@@ -41,7 +42,7 @@ function SongPage() {
             {isLoaded &&
                 <>
                     <Banner object={songs[songId]} />
-                    
+
                     { user &&
                         <Buttons>
                             { user.id === songs[songId]?.owner.id &&

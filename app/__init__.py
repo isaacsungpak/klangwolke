@@ -5,11 +5,14 @@ from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
 
+from app.models import comment
+
 from .models import db, User, Song, Playlist, SongToPlaylist, Like, Comment
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.song_routes import song_routes
 from .api.playlist_routes import playlist_routes
+from .api.comment_routes import comment_routes
 
 from .seeds import seed_commands
 
@@ -35,6 +38,7 @@ app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(song_routes, url_prefix='/api/songs')
 app.register_blueprint(playlist_routes, url_prefix='/api/playlists')
+app.register_blueprint(comment_routes, url_prefix='/api/comments')
 
 db.init_app(app)
 Migrate(app, db)
