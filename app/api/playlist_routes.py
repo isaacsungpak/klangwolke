@@ -14,8 +14,8 @@ def create_playlist():
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
-        title = form.data['title']
-        song_id = form.data['songId']
+        title = form['title'].data
+        song_id = form['songId'].data
 
         playlist = Playlist(
             title=title,
@@ -111,7 +111,7 @@ def edit_playlist(id):
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
-        title = form.data['title']
+        title = form['title'].data
 
         playlist = Playlist.query.get(id)
 

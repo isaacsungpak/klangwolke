@@ -78,7 +78,7 @@ const PlayerContainer = styled.div`
 const CurrentSong = styled.div`
     width: 249px;
     display: flex;
-    border-left: 1px solid #555;
+    border-left: 1px solid #222;
 
     #song-img {
         background-color: #555;

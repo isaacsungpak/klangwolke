@@ -10,7 +10,7 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     song_id = db.Column(db.Integer, db.ForeignKey('songs.id'), nullable=False)
-    content = db.Column(db.Text, nullable=False)
+    content = db.Column(db.String(2000), nullable=False)
     created_at = db.Column(db.DateTime, server_default=func.now(), nullable=False)
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
 
