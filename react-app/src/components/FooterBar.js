@@ -5,7 +5,7 @@ import { useSong } from '../context/SongContext';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getQueueSong, getEasterEgg } from '../store/queue';
+import { getQueueSong, getEasterEgg } from '../store/songs';
 
 const BottomBar = styled.div`
     position: fixed;
@@ -152,7 +152,8 @@ function FooterBar() {
 
     useEffect(() => {
         if (queue[currentSong] === 0) dispatch(getEasterEgg());
-        else dispatch(getQueueSong(queue[currentSong]));
+        else if (queue.length > 0) dispatch(getQueueSong(queue[currentSong]));
+        else return;
     }, [dispatch, queue, currentSong]);
 
     return (

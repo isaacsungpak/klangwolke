@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const initialState = { entities: { songs: {}, newSongs: [], likedSongs: [], likes: {} } }
+const initialState = { entities: { songs: {}, newSongs: [], likedSongs: [], likes: {}, queueSong: null } }
 
 export const createSong = createAsyncThunk(
     "songs/createSong",
@@ -221,6 +221,31 @@ export const removeSongFromPlaylist = createAsyncThunk(
     }
 )
 
+// QUEUE SONG
+export const getQueueSong = createAsyncThunk(
+    "songs/getQueueSong",
+    async (id, thunkAPI) => {
+        const response = await fetch(`/api/songs/${id}`);
+        const data = await response.json();
+        if (response.ok && !data.errors) {
+        return data;
+        }
+        throw thunkAPI.rejectWithValue(["Something went wrong :("]);
+    }
+);
+
+export const getEasterEgg = createAsyncThunk(
+    "songs/getEasterEgg",
+    async (_args, thunkAPI) => {
+        const response = await fetch(`/api/songs/egg`);
+        const data = await response.json();
+        if (response.ok && !data.errors) {
+        return data;
+        }
+        throw thunkAPI.rejectWithValue(["Something went wrong :("]);
+    }
+);
+
 const songSlice = createSlice({
     name: "songs",
     initialState,
@@ -339,6 +364,12 @@ const songSlice = createSlice({
         });
         builder.addCase(removeSongFromPlaylist.fulfilled, (state, action) => {
             delete state.entities.songs[action.payload.songId];
+        });
+        builder.addCase(getQueueSong.fulfilled, (state, action) => {
+            state.entities.queueSong = action.payload.songs;
+        });
+        builder.addCase(getEasterEgg.fulfilled, (state, action) => {
+            state.entities.queueSong = action.payload.songs;
         });
     },
 });

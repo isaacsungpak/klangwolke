@@ -5,6 +5,7 @@ import { getASong } from "../../store/songs";
 import Banner from "../Banner";
 import styled from "styled-components";
 import AddToPlaylistBox from "../Modals/AddToPlaylistBox";
+import LikeBox from "../Buttons/LikeBox";
 
 const Buttons = styled.div`
     height: min-content;
@@ -23,6 +24,7 @@ function SongPage() {
     const [isLoaded, setIsLoaded] = useState();
 
     const songs = useSelector(state => state.songs.entities.songs);
+    const user = useSelector(state => state.session.user);
 
     useEffect(() => {
         dispatch(getASong(songId))
@@ -37,11 +39,15 @@ function SongPage() {
             {isLoaded &&
                 <>
                     <Banner object={songs[songId]} />
-                    <Buttons>
-                        {/* <EditPlaylistBox playlist={playlists[playlistId]}/>
-                        <DeletePlaylistBox playlist={playlists[playlistId]}/> */}
-                        <AddToPlaylistBox song={songs[songId]} />
-                    </Buttons>
+                    { user &&
+                        <Buttons>
+                            { user.id = songs[songId].owner.id
+                            }
+
+                            <AddToPlaylistBox song={songs[songId]} />
+                            <LikeBox songId={songId} />
+                        </Buttons>
+                    }
                 </>
             }
         </>
