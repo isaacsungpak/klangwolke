@@ -1,4 +1,3 @@
-from crypt import methods
 from flask import Blueprint, request, abort
 from flask_login import current_user, login_required
 from app.models import db, Playlist, SongToPlaylist, Song

@@ -1,4 +1,3 @@
-from crypt import methods
 from flask import Blueprint, request, abort
 from sqlalchemy.sql import func
 from flask_login import login_required, current_user
