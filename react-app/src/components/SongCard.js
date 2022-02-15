@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import EditSongModal from './Modals/EditSongModal';
 import DeleteSongModal from './Modals/DeleteSongModal';
 import LikeButton from './Buttons/LikeButton';
@@ -124,9 +124,9 @@ const Card = styled.div`
         text-overflow: ellipsis;
     }
 
-    // #song-title:hover, #song-owner:hover {
-    //     text-decoration: underline;
-    // }
+    #song-title:hover {
+        text-decoration: underline;
+    }
 `
 
 function SongCard({song}) {
@@ -156,11 +156,10 @@ function SongCard({song}) {
                             }
                         </div>
                     </div>
-
-                    {/* <Link to={`/songs/${song.id}`}><div id="song-title">{song.title}</div></Link>
-                    <Link to={`/users/${song.owner.id}`}><div id="song-owner">{song.owner.username}</div></Link> */}
-                    <div id="song-title">{song.title}</div>
+                    <Link to={`/songs/${song.id}`}><div id="song-title">{song.title}</div></Link>
+                    {/* <Link to={`/users/${song.owner.id}`}><div id="song-owner">{song.owner.username}</div></Link> */}
                     <div id="song-owner">{song.owner.username}</div>
+
             </Card>
             }
         </>

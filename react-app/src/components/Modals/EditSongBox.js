@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import EditPlaylist from '../Forms/EditPlaylist';
 import RectangularButton from '../Buttons/RectangularButton';
+import EditSong from '../Forms/EditSong';
 
-function EditPlaylistBox({playlist}) {
+function EditSongBox({song}) {
     const [showModal, setShowModal] = useState(false);
 
     return (
@@ -11,11 +11,11 @@ function EditPlaylistBox({playlist}) {
             <div onClick={() => setShowModal(true)}><RectangularButton>Edit</RectangularButton></div>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <EditPlaylist setShowModal={setShowModal} playlist={playlist}/>
+                    <EditSong setShowModal={setShowModal} song={song}/>
                 </Modal>
             )}
         </>
     );
 }
 
-export default EditPlaylistBox;
+export default EditSongBox;

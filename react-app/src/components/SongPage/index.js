@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { getASong } from "../../store/songs";
 import Banner from "../Banner";
 import styled from "styled-components";
+import AddToPlaylistBox from "../Modals/AddToPlaylistBox";
 
 const Buttons = styled.div`
     height: min-content;
@@ -19,7 +20,6 @@ function SongPage() {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const { playlistId } = useParams();
     const [isLoaded, setIsLoaded] = useState();
 
     const songs = useSelector(state => state.songs.entities.songs);
@@ -30,7 +30,7 @@ function SongPage() {
                 if (res.error) history.push('/');
             })
             .then(() => setIsLoaded(true));
-    }, [dispatch, history, playlistId]);
+    }, [dispatch, history, songId]);
 
     return (
         <>
@@ -40,6 +40,7 @@ function SongPage() {
                     <Buttons>
                         {/* <EditPlaylistBox playlist={playlists[playlistId]}/>
                         <DeletePlaylistBox playlist={playlists[playlistId]}/> */}
+                        <AddToPlaylistBox song={songs[songId]} />
                     </Buttons>
                 </>
             }

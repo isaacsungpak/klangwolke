@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import EditPlaylist from '../Forms/EditPlaylist';
 import RectangularButton from '../Buttons/RectangularButton';
+import DoubleATPForm from '../Forms/DoubleATPForm';
 
-function EditPlaylistBox({playlist}) {
+function AddToPlaylistBox({song}) {
     const [showModal, setShowModal] = useState(false);
 
     return (
         <>
-            <div onClick={() => setShowModal(true)}><RectangularButton>Edit</RectangularButton></div>
+            <div onClick={() => setShowModal(true)}><RectangularButton>Add To Playlist</RectangularButton></div>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <EditPlaylist setShowModal={setShowModal} playlist={playlist}/>
+                    <DoubleATPForm setShowModal={setShowModal} songId={song.id}/>
                 </Modal>
             )}
         </>
     );
 }
 
-export default EditPlaylistBox;
+export default AddToPlaylistBox;

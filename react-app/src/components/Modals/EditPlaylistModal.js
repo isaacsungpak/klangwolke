@@ -26,7 +26,7 @@ function EditPlaylistModal({playlist, defColor="#FFF"}) {
             <EPIcon id="edit" className='actions' defColor={defColor} onClick={() => setShowModal(true)}><i className="fas fa-edit" /></EPIcon>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                <EditPlaylist setShowModal={setShowModal} playlist={playlist}/>
+                    <EditPlaylist setShowModal={setShowModal} playlist={playlist}/>
                 </Modal>
             )}
         </>

@@ -2,7 +2,7 @@ import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import styled from 'styled-components';
 import { useSong } from '../context/SongContext';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getQueueSong, getEasterEgg } from '../store/queue';
@@ -182,9 +182,9 @@ function FooterBar() {
                                 <div id="song-owner">Artist Not Available</div>
                             </>:
                             <>
-                                {/* <Link to={`/songs/${queue[currentSong]}`}><div id="song-title">{song?.title}</div></Link>
-                                <Link to={`/users/${song?.owner.id}`}><div id="song-owner">{song?.owner.username}</div></Link> */}
-                                <div id="song-title">{song?.title}</div>
+                                <Link to={`/songs/${queue[currentSong]}`}><div id="song-title">{song?.title}</div></Link>
+                                {/* <Link to={`/users/${song?.owner.id}`}><div id="song-owner">{song?.owner.username}</div></Link> */}
+                                {/* <div id="song-title">{song?.title}</div> */}
                                 <div id="song-owner">{song?.owner.username}</div>
                             </>
                         }
