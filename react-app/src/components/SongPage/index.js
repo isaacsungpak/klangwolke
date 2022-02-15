@@ -43,7 +43,7 @@ function SongPage() {
                     <Banner object={songs[songId]} />
                     { user &&
                         <Buttons>
-                            { user.id === songs[songId].owner.id &&
+                            { user.id === songs[songId]?.owner.id &&
                                 <>
                                     <EditSongBox song={songs[songId]} />
                                     <DeleteSongBox song={songs[songId]} />

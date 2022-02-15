@@ -45,6 +45,11 @@ const Card = styled.div`
         gap: 20px;
     }
 
+    #img-link {
+        grid-row: 1/5;
+        grid-column: 1/5;
+    }
+
     .actions {
         display: flex;
         justify-content: center;
@@ -132,13 +137,13 @@ const Card = styled.div`
 function SongCard({song}) {
     const user = useSelector(state => state.session.user);
 
-
     return (
         <>
             {song &&
                 <Card image={song.image}>
                     <div alt={`${song.title} Artwork`} className="song-artwork">
                         <div id="overlay">
+                            <Link to={`/songs/${song.id}`} id='img-link'/>
                             <PlayButton songId={song.id} />
                             <QueueButton songId={song.id} />
                             {user &&
@@ -158,9 +163,9 @@ function SongCard({song}) {
                     </div>
                     <Link to={`/songs/${song.id}`}><div id="song-title">{song.title}</div></Link>
                     {/* <Link to={`/users/${song.owner.id}`}><div id="song-owner">{song.owner.username}</div></Link> */}
-                    <div id="song-owner">{song.owner.username}</div>
+                    <div id="song-owner">{song.owner?.username}</div>
 
-            </Card>
+                </Card>
             }
         </>
     )
