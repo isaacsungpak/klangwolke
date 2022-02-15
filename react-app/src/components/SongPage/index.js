@@ -6,6 +6,8 @@ import Banner from "../Banner";
 import styled from "styled-components";
 import AddToPlaylistBox from "../Modals/AddToPlaylistBox";
 import LikeBox from "../Buttons/LikeBox";
+import EditSongBox from "../Modals/EditSongBox";
+import DeleteSongBox from "../Modals/DeleteSongBox";
 
 const Buttons = styled.div`
     height: min-content;
@@ -41,9 +43,12 @@ function SongPage() {
                     <Banner object={songs[songId]} />
                     { user &&
                         <Buttons>
-                            { user.id = songs[songId].owner.id
+                            { user.id === songs[songId].owner.id &&
+                                <>
+                                    <EditSongBox song={songs[songId]} />
+                                    <DeleteSongBox song={songs[songId]} />
+                                </>
                             }
-
                             <AddToPlaylistBox song={songs[songId]} />
                             <LikeBox songId={songId} />
                         </Buttons>

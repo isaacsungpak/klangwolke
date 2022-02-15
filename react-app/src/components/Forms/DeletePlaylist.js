@@ -15,13 +15,12 @@ function DeletePlaylist({playlist, setShowModal}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const pId = playlist.id;
         setIsWaiting(true);
-        dispatch(deletePlaylist( playlist.id ))
+        dispatch(deletePlaylist(playlist.id))
           .then(() => setIsWaiting(false))
           .then(() => {
             setShowModal(false);
-            if (path === `/playlists/${pId}`) history.push('/library');
+            if (path === `/playlists/${playlist.id}`) history.push('/library');
           });
     }
 

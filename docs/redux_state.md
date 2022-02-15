@@ -29,8 +29,8 @@
             },
             comments: {
                 4: {
-                    user_id: 4,
-                    song_id: 2,
+                    userId: 4,
+                    songId: 2,
                     content: "content",
                     createdAt: "datetime",
                     updatedAt: "datetime",
@@ -40,8 +40,8 @@
                     }
                 },
                 7: {
-                    user_id: 7,
-                    song_id: 2,
+                    userId: 7,
+                    songId: 2,
                     content: "content",
                     createdAt: "datetime",
                     updatedAt: "datetime",
@@ -54,7 +54,20 @@
             newSongs: [7, 8, 9],
             likedSongs: [2, 3, 4]
             likes: [2],
-            queue: [2, 3, 4]
+            queueSong: {
+                    id: 2,
+                    title: "song title",
+                    audio: "www.resources.com/song.mp3",
+                    image: "www.resources.com/artwork.png",
+                    userId: 3,
+                    createdAt: "datetime",
+                    updatedAt: "datetime",
+                    owner: {
+                        id: 3,
+                        username: "username3"
+                    },
+                    likeCount: 4
+                },
         },
     },
     playlists: {
@@ -62,7 +75,7 @@
             8: {
                     id: 8,
                     title: "playlist title",
-                    user_id: 1,
+                    userId: 1,
                     createdAt: "datetime",
                     updatedAt: "datetime",
                     owner: {

@@ -132,7 +132,7 @@ const CurrentSong = styled.div`
 function FooterBar() {
     const dispatch = useDispatch();
     const { queue, currentSong, setCurrentSong, setIsPlaying, player } = useSong();
-    const song = useSelector(state => state.queue.song);
+    const song = useSelector(state => state.songs.entities.queueSong);
 
     const toPrev = () => {
         let prevSong;

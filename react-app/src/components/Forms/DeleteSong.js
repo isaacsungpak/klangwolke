@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteSong } from "../../store/songs";
 import FormContainer from "./FormContainer";
+import { useLocation, useHistory } from "react-router-dom";
 
 function DeleteSong({song, setShowModal}) {
     const dispatch = useDispatch();
+    const history = useHistory();
+    const location = useLocation();
+    const path = location.pathname;
 
     const [isWaiting, setIsWaiting] = useState(false)
 
@@ -12,9 +16,12 @@ function DeleteSong({song, setShowModal}) {
         e.preventDefault();
 
         setIsWaiting(true);
-        dispatch(deleteSong( song.id ))
+        dispatch(deleteSong(song.id))
           .then(() => setIsWaiting(false))
-          .then(() => setShowModal(false));
+          .then(() => {
+            setShowModal(false);
+            if (path === `/songs/${song.id}`) history.push('/');
+          });
     }
 
     const cancel = e => {
