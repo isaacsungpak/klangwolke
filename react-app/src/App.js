@@ -12,6 +12,7 @@ import FooterBar from './components/FooterBar';
 import SearchPage from './components/SearchPage';
 import LibraryPage from './components/LibraryPage';
 import PlaylistPage from './components/PlaylistPage';
+import SongPage from './components/SongPage';
 
 const MainBody = styled.div`
   width: 100%;
@@ -88,10 +89,6 @@ function App() {
               <Route path='/auth' exact={true}>
                 <AuthPage />
               </Route>
-              <Route path='/users/:userId'>
-                {/* <User /> */}
-                <Redirect to="/" />
-              </Route>
               <Route path='/search'>
                 <SearchPage />
               </Route>
@@ -103,7 +100,7 @@ function App() {
               </ProtectedRoute>
               <Route path='/songs/:songId'>
                 {/* <User /> */}
-                <Redirect to="/" />
+                <SongPage />
               </Route>
               <Route path='/' exact={true} >
                 <HomePage />

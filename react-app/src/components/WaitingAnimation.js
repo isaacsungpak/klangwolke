@@ -16,10 +16,10 @@ const WaitStyling = styled.div`
 `
 
 function WaitingAnimation({show}) {
-    const { currentSong } = useSong();
+    const { queue, currentSong } = useSong();
     return (
     <WaitStyling show={show}>
-        <img id='waiting' src={currentSong.id === 0 ? SlammerWait : PammerWait} alt="Waiting Animation"/>
+        <img id='waiting' src={queue[currentSong] === 0 ? SlammerWait : PammerWait} alt="Waiting Animation"/>
     </WaitStyling>
     )
 }
