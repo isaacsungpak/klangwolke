@@ -153,7 +153,6 @@ function FooterBar() {
     useEffect(() => {
         if (queue[currentSong] === 0) dispatch(getEasterEgg());
         else if (queue.length > 0) dispatch(getQueueSong(queue[currentSong]));
-        else return;
     }, [dispatch, queue, currentSong]);
 
     return (
@@ -185,7 +184,6 @@ function FooterBar() {
                             <>
                                 <Link to={`/songs/${queue[currentSong]}`}><div id="song-title">{song.title}</div></Link>
                                 {/* <Link to={`/users/${song?.owner.id}`}><div id="song-owner">{song?.owner.username}</div></Link> */}
-                                {/* <div id="song-title">{song?.title}</div> */}
                                 <div id="song-owner">{song.owner?.username}</div>
                             </>
                         }
