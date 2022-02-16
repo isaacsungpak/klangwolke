@@ -1,6 +1,8 @@
 import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import DeleteCommentBox from "../Modals/DeleteCommentBox";
+import EditCommentBox from "../Modals/EditCommentBox";
 
 const Container = styled.div`
     flex: 1;
@@ -29,9 +31,18 @@ const InfoBar = styled.div`
 const CommentContent = styled.div`
     width: 100%;
     height: min-content;
-    display: flex;
     color: black;
     font-size: 16px;
+
+    white-space: wrap;
+    overflow-wrap: break-word;
+`
+
+const Buttons = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
 `
 
 function Comment({comment, date}) {
@@ -52,10 +63,12 @@ function Comment({comment, date}) {
                 {comment.content}
             </CommentContent>
             { (user && user.id === comment.userId) &&
-                <>
-                {/* edit and delete buttons for comment */}
-                </>
+                <Buttons>
+                    <EditCommentBox comment={comment}/>
+                    <DeleteCommentBox commentId={comment.id} />
+                </Buttons>
             }
+
         </Container>
     );
 }

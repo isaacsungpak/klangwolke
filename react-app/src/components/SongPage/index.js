@@ -9,6 +9,7 @@ import LikeBox from "../Buttons/LikeBox";
 import EditSongBox from "../Modals/EditSongBox";
 import DeleteSongBox from "../Modals/DeleteSongBox";
 import Comment from "./Comment";
+import EditComment from "../Forms/EditComment";
 
 const Buttons = styled.div`
     height: min-content;
@@ -39,6 +40,8 @@ function SongPage() {
             .then(() => setIsLoaded(true));
     }, [dispatch, history, songId]);
 
+    const orderedComments = Object.values(comments).sort((a,b) => b.id - a.id);
+
     return (
         <>
             {isLoaded &&
@@ -50,16 +53,18 @@ function SongPage() {
                             <LikeBox songId={songId} />
                             <AddToPlaylistBox song={songs[songId]} />
                             { user.id === songs[songId]?.owner.id &&
-                                <>
-                                    <EditSongBox song={songs[songId]} />
-                                    <DeleteSongBox song={songs[songId]} />
-                                </>
+                                <EditSongBox song={songs[songId]} />
+
                             }
                         </Buttons>
                     }
 
-                    { Object.values(comments).map((comment, idx) => (
-                        <Comment comment={comment} date={comment.createdAt === comment.updatedAt ? new Date(comment.createdAt) : new Date(comment.updatedAt)} key={idx} />
+                    { orderedComments.map((comment, idx) => (
+                            <Comment
+                                comment={comment}
+                                date={comment.createdAt === comment.updatedAt ? new Date(comment.createdAt) : new Date(comment.updatedAt)}
+                                key={idx}
+                            />
                     ))}
                 </>
             }

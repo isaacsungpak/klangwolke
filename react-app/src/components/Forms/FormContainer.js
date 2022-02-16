@@ -121,6 +121,21 @@ const FormContainerStyling = styled.div`
   button:not(.disabled):hover {
     box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.3);
   }
+
+  div.bad-input {
+    margin-bottom: 14px;
+  }
+
+  textarea {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 16px;
+    resize: none;
+    width: 100%;
+    height: 200px;
+    border: 1px solid #CCC;
+    border-radius: 0;
+    outline: none;
+  }
 `
 function FormContainer({children, show}){
     return (

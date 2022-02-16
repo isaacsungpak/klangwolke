@@ -53,6 +53,7 @@ def update_comment(id):
 
             comment.content = form['content'].data
             comment.updated_at = func.now()
+            db.session.commit()
 
             return comment.to_dict()
     return {'errors': validation_error_messages(form.errors)}, 400
