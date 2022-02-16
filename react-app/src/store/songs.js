@@ -260,7 +260,7 @@ export const getComments = createAsyncThunk(
 );
 
 export const createComment = createAsyncThunk(
-    "songs/getComments",
+    "songs/createComment",
     async ({songId, content}, thunkAPI) => {
         const response = await fetch(`/api/comments/${songId}`, {
             method: "POST",
@@ -278,7 +278,7 @@ export const createComment = createAsyncThunk(
 );
 
 export const editComment = createAsyncThunk(
-    "songs/getComments",
+    "songs/editComments",
     async ({commentId, content}, thunkAPI) => {
         const response = await fetch(`/api/comments/${commentId}`, {
             method: "PATCH",
@@ -296,8 +296,8 @@ export const editComment = createAsyncThunk(
 );
 
 export const deleteComment = createAsyncThunk(
-    "songs/getComments",
-    async (_args, thunkAPI) => {
+    "songs/deleteComment",
+    async (commentId, thunkAPI) => {
         const response = await fetch(`/api/comments/${commentId}`, {
             method: "DELETE"
         });

@@ -8,6 +8,7 @@ import AddToPlaylistBox from "../Modals/AddToPlaylistBox";
 import LikeBox from "../Buttons/LikeBox";
 import EditSongBox from "../Modals/EditSongBox";
 import DeleteSongBox from "../Modals/DeleteSongBox";
+import Comment from "./Comment";
 
 const Buttons = styled.div`
     height: min-content;
@@ -26,6 +27,7 @@ function SongPage() {
     const [isLoaded, setIsLoaded] = useState();
 
     const songs = useSelector(state => state.songs.entities.songs);
+    const comments = useSelector(state => state.songs.entities.comments);
     const user = useSelector(state => state.session.user);
 
     useEffect(() => {
@@ -45,16 +47,20 @@ function SongPage() {
 
                     { user &&
                         <Buttons>
+                            <LikeBox songId={songId} />
+                            <AddToPlaylistBox song={songs[songId]} />
                             { user.id === songs[songId]?.owner.id &&
                                 <>
                                     <EditSongBox song={songs[songId]} />
                                     <DeleteSongBox song={songs[songId]} />
                                 </>
                             }
-                            <AddToPlaylistBox song={songs[songId]} />
-                            <LikeBox songId={songId} />
                         </Buttons>
                     }
+
+                    { Object.values(comments).map((comment, idx) => (
+                        <Comment comment={comment} date={comment.createdAt === comment.updatedAt ? new Date(comment.createdAt) : new Date(comment.updatedAt)} key={idx} />
+                    ))}
                 </>
             }
         </>
