@@ -228,7 +228,7 @@ export const getQueueSong = createAsyncThunk(
         const response = await fetch(`/api/songs/${id}`);
         const data = await response.json();
         if (response.ok && !data.errors) {
-        return data;
+            return data;
         }
         throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
     }
@@ -240,7 +240,7 @@ export const getEasterEgg = createAsyncThunk(
         const response = await fetch(`/api/songs/egg`)
         const data = await response.json();
         if (response.ok && !data.errors) {
-        return data;
+            return data;
         }
         throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
     }
@@ -253,7 +253,7 @@ export const getComments = createAsyncThunk(
         const response = await fetch(`/api/comments/${songId}`);
         const data = await response.json();
         if (response.ok && !data.errors) {
-        return data;
+            return data;
         }
         throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
     }
@@ -262,7 +262,7 @@ export const getComments = createAsyncThunk(
 export const createComment = createAsyncThunk(
     "songs/createComment",
     async ({songId, content}, thunkAPI) => {
-        const response = await fetch(`/api/comments/${songId}`, {
+        const response = await fetch(`/api/comments/songs/${songId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -271,7 +271,7 @@ export const createComment = createAsyncThunk(
         });
         const data = await response.json();
         if (response.ok && !data.errors) {
-        return data;
+            return data;
         }
         throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
     }
@@ -289,7 +289,7 @@ export const editComment = createAsyncThunk(
         });
         const data = await response.json();
         if (response.ok && !data.errors) {
-        return data;
+            return data;
         }
         throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
     }
@@ -303,7 +303,7 @@ export const deleteComment = createAsyncThunk(
         });
         const data = await response.json();
         if (response.ok && !data.errors) {
-        return data;
+            return data;
         }
         throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
     }

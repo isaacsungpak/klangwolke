@@ -20,6 +20,18 @@ const Buttons = styled.div`
     border-bottom: 1px solid #CCC;
 `
 
+const NoComment = styled.div`
+    flex: 1;
+    height: min-content;
+    padding: 16px 20px;
+    display: flex;
+    font-size: 20px;
+    color: #BBB;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
+
 function SongPage() {
     const {songId} = useParams();
     const history = useHistory();
@@ -63,14 +75,16 @@ function SongPage() {
                             <CommentBox songId={songId}/>
                         </>
                     }
-
-                    { orderedComments.map((comment, idx) => (
+                    { orderedComments.length > 0 ?
+                        orderedComments.map((comment, idx) => (
                             <Comment
                                 comment={comment}
                                 date={comment.createdAt === comment.updatedAt ? new Date(comment.createdAt) : new Date(comment.updatedAt)}
                                 key={idx}
                             />
-                    ))}
+                        )) :
+                        <NoComment>No comments yet</NoComment>
+                    }
                 </>
             }
         </>

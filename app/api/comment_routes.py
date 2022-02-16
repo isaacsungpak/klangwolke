@@ -19,7 +19,7 @@ def get_comments(song_id):
 
 
 # CREATE
-@comment_routes.route('/<int:song_id>', methods=['POST'])
+@comment_routes.route('/songs/<int:song_id>', methods=['POST'])
 @login_required
 def create_comment(song_id):
     form = CommentForm()
