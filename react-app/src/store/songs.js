@@ -230,19 +230,19 @@ export const getQueueSong = createAsyncThunk(
         if (response.ok && !data.errors) {
         return data;
         }
-        throw thunkAPI.rejectWithValue(["Something went wrong :("]);
+        throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
     }
 );
 
 export const getEasterEgg = createAsyncThunk(
     "songs/getEasterEgg",
     async (_args, thunkAPI) => {
-        const response = await fetch(`/api/songs/egg`);
+        const response = await fetch(`/api/songs/egg`)
         const data = await response.json();
         if (response.ok && !data.errors) {
         return data;
         }
-        throw thunkAPI.rejectWithValue(["Something went wrong :("]);
+        throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
     }
 );
 
@@ -255,7 +255,57 @@ export const getComments = createAsyncThunk(
         if (response.ok && !data.errors) {
         return data;
         }
-        throw thunkAPI.rejectWithValue(["Something went wrong :("]);
+        throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
+    }
+);
+
+export const createComment = createAsyncThunk(
+    "songs/getComments",
+    async ({songId, content}, thunkAPI) => {
+        const response = await fetch(`/api/comments/${songId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({content}),
+        });
+        const data = await response.json();
+        if (response.ok && !data.errors) {
+        return data;
+        }
+        throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
+    }
+);
+
+export const editComment = createAsyncThunk(
+    "songs/getComments",
+    async ({commentId, content}, thunkAPI) => {
+        const response = await fetch(`/api/comments/${commentId}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({content}),
+        });
+        const data = await response.json();
+        if (response.ok && !data.errors) {
+        return data;
+        }
+        throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
+    }
+);
+
+export const deleteComment = createAsyncThunk(
+    "songs/getComments",
+    async (_args, thunkAPI) => {
+        const response = await fetch(`/api/comments/${commentId}`, {
+            method: "DELETE"
+        });
+        const data = await response.json();
+        if (response.ok && !data.errors) {
+        return data;
+        }
+        throw thunkAPI.rejectWithValue(["An error occurred. Please try again."]);
     }
 );
 
@@ -390,6 +440,15 @@ const songSlice = createSlice({
                 comments[comment.id] = comment;
             })
             state.entities.comments = comments;
+        });
+        builder.addCase(createComment.fulfilled, (state, action) => {
+            state.entities.comments[action.payload.id] = action.payload;
+        });
+        builder.addCase(editComment.fulfilled, (state, action) => {
+            state.entities.comments[action.payload.id] = action.payload;
+        });
+        builder.addCase(deleteComment.fulfilled, (state, action) => {
+            delete state.entities.comments[action.payload.commentId];
         });
     },
 });
