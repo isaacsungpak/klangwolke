@@ -114,7 +114,7 @@ function Banner({object}) {
                     <div id='background'/>
                     <div id="frosting">
                         { object.songCount !== undefined ?
-                            <PlaylistPlayButton songs={object.songs} />:
+                            <PlaylistPlayButton songs={object.songs} disabled={object.songCount === 0}/> :
                             <PlayButton songId={object.id} />
                         }
                         <div className='text' id='title'><div className="inner-text">{object.title}</div></div>

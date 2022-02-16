@@ -108,8 +108,10 @@ function PlaylistCard({playlist}) {
                     <div id='artwork' alt={`Cover for ${playlist.title}`}>
                         <div id='overlay'>
                             <Link to={`/playlists/${playlist.id}`} id='img-link'/>
-                            <div id='song-count'><div>{playlist.songCount === 1 ? '1 song' : `${playlist.songCount} songs`}</div></div>
-                            <PlaylistPlayButton songs={playlist.songs} />
+                            <Link to={`/playlists/${playlist.id}`} id='song-count'>
+                                <div>{playlist.songCount === 1 ? '1 song' : `${playlist.songCount} songs`}</div>
+                            </Link>
+                            <PlaylistPlayButton songs={playlist.songs} disabled={playlist.songCount === 0}/>
                             <EditPlaylistModal id='edit' playlist={playlist} />
                             <DeletePlaylistModal id='delete' playlist={playlist} />
                         </div>

@@ -14,7 +14,7 @@ const PlaylistPlay = styled.div`
     }
 `
 
-function PlaylistPlayButton({songs}) {
+function PlaylistPlayButton({songs, disabled=false}) {
     const { queue, setQueue, setCurrentSong, isPlaying, setIsPlaying, player } = useSong();
 
     function queueIsPlaylist() {
@@ -28,20 +28,22 @@ function PlaylistPlayButton({songs}) {
     }
 
     const playlistToggle = () => {
-        if (isPlaying) {
-            if (queueIsPlaylist()) {
-                setIsPlaying(false);
-                return player.current.audio.current.pause();
+        if (!disabled) {
+            if (isPlaying) {
+                if (queueIsPlaylist()) {
+                    setIsPlaying(false);
+                    return player.current.audio.current.pause();
+                } else {
+                    setQueue(songs);
+                    setCurrentSong(0);
+                }
             } else {
-                setQueue(songs);
-                setCurrentSong(0);
-            }
-        } else {
-            setIsPlaying(true);
-            if (queueIsPlaylist()) return player.current.audio.current.play();
-            else  {
-                setQueue(songs);
-                setCurrentSong(0);
+                setIsPlaying(true);
+                if (queueIsPlaylist()) return player.current.audio.current.play();
+                else  {
+                    setQueue(songs);
+                    setCurrentSong(0);
+                }
             }
         }
     };
