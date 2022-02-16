@@ -43,12 +43,6 @@ For development dependencies, run `pipenv lock -r --dev > dev-requirements.txt`.
 
 **Note**: `psycopg2-binary` MUST remain a dev dependency because you can't install it on apline-linux. There is a layer in the Dockerfile that will install psycopg2 (not binary) for us.
 
-## Coming Soon
-* Song pages
-* User pages
-* Comments (with full CRUD functionality)
-* Implementation of song queues
-
 ## Documentation
 * [Database Schema](https://github.com/isaacsungpak/klangwolke/wiki/Database-Schema)
 * [Feature List](https://github.com/isaacsungpak/klangwolke/wiki/Feature-List)
