@@ -1,13 +1,15 @@
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from 'react';
-import { getASong } from "../../store/songs";
+import { getASong, getComments } from "../../store/songs";
 import Banner from "../Banner";
 import styled from "styled-components";
 import AddToPlaylistBox from "../Modals/AddToPlaylistBox";
 import LikeBox from "../Buttons/LikeBox";
 import EditSongBox from "../Modals/EditSongBox";
 import DeleteSongBox from "../Modals/DeleteSongBox";
+import Comment from "./Comment";
+import CommentBox from "./CommentBox";
 
 const Buttons = styled.div`
     height: min-content;
@@ -26,6 +28,7 @@ function SongPage() {
     const [isLoaded, setIsLoaded] = useState();
 
     const songs = useSelector(state => state.songs.entities.songs);
+    const comments = useSelector(state => state.songs.entities.comments);
     const user = useSelector(state => state.session.user);
 
     useEffect(() => {
@@ -33,27 +36,41 @@ function SongPage() {
             .then((res) => {
                 if (res.error) history.push('/');
             })
+            .then(() => dispatch(getComments(songId)))
             .then(() => setIsLoaded(true));
     }, [dispatch, history, songId]);
+
+    const orderedComments = Object.values(comments).sort((a,b) => b.id - a.id);
 
     return (
         <>
             {isLoaded &&
                 <>
                     <Banner object={songs[songId]} />
-                    
+
                     { user &&
-                        <Buttons>
-                            { user.id === songs[songId]?.owner.id &&
-                                <>
-                                    <EditSongBox song={songs[songId]} />
-                                    <DeleteSongBox song={songs[songId]} />
-                                </>
-                            }
-                            <AddToPlaylistBox song={songs[songId]} />
-                            <LikeBox songId={songId} />
-                        </Buttons>
+                        <>
+                            <Buttons>
+                                <LikeBox songId={songId} />
+                                <AddToPlaylistBox song={songs[songId]} />
+                                { user.id === songs[songId]?.owner.id &&
+                                    <>
+                                        <EditSongBox song={songs[songId]} />
+                                        <DeleteSongBox song={songs[songId]} />
+                                    </>
+                                }
+                            </Buttons>
+                            <CommentBox songId={songId}/>
+                        </>
                     }
+
+                    { orderedComments.map((comment, idx) => (
+                            <Comment
+                                comment={comment}
+                                date={comment.createdAt === comment.updatedAt ? new Date(comment.createdAt) : new Date(comment.updatedAt)}
+                                key={idx}
+                            />
+                    ))}
                 </>
             }
         </>

@@ -182,16 +182,14 @@ def create_song():
 
     if 'audio' not in request.files:
         return {'errors': 'Audio required.'}, 400
-    form.data['audio'] = request.files['audio']
 
     if 'image' not in request.files:
         return {'errors': 'Image required.'}, 400
-    form.data['image'] = request.files['image']
 
     if form.validate_on_submit():
-        title = form.data['title']
-        audio = form.data['audio']
-        image = form.data['image']
+        title = form['title'].data
+        audio = form['audio'].data
+        image = form['image'].data
 
         audio.filename = get_unique_filename(audio.filename)
         audio_s3_upload = upload_file_to_s3(audio)
@@ -224,7 +222,7 @@ def edit_song(id):
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
-        title = form.data['title']
+        title = form['title'].data
 
         song = Song.query.get(id)
 

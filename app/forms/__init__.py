@@ -9,6 +9,8 @@ from .edit_playlist_form import EditPlaylistForm
 
 from .fieldless_form import FieldlessForm
 
+from .comment_form import CommentForm
+
 def validation_error_messages(validation_errors):
     errorMessages = []
     for field in validation_errors:

@@ -105,7 +105,7 @@ const FormContainerStyling = styled.div`
     font-size: 16px;
     font-weight: 500;
     margin: 20px;
-    margin-top: 0;
+    margin-top: 0px;
     margin-bottom: 30px;
     padding: 7px;
     cursor: pointer;
@@ -120,6 +120,25 @@ const FormContainerStyling = styled.div`
 
   button:not(.disabled):hover {
     box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  div.bad-input {
+    margin-bottom: 14px;
+  }
+
+  textarea {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 16px;
+    resize: none;
+    width: 100%;
+    height: 200px;
+    border: 1px solid #CCC;
+    border-radius: 0;
+    outline: none;
+  }
+
+  #question-template {
+    margin: 10px 0;
   }
 `
 function FormContainer({children, show}){
