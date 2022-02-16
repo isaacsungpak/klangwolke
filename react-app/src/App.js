@@ -99,7 +99,6 @@ function App() {
                 <PlaylistPage />
               </ProtectedRoute>
               <Route path='/songs/:songId'>
-                {/* <User /> */}
                 <SongPage />
               </Route>
               <Route path='/' exact={true} >

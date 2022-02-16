@@ -9,7 +9,7 @@ import LikeBox from "../Buttons/LikeBox";
 import EditSongBox from "../Modals/EditSongBox";
 import DeleteSongBox from "../Modals/DeleteSongBox";
 import Comment from "./Comment";
-import EditComment from "../Forms/EditComment";
+import CommentBox from "./CommentBox";
 
 const Buttons = styled.div`
     height: min-content;
@@ -49,14 +49,19 @@ function SongPage() {
                     <Banner object={songs[songId]} />
 
                     { user &&
-                        <Buttons>
-                            <LikeBox songId={songId} />
-                            <AddToPlaylistBox song={songs[songId]} />
-                            { user.id === songs[songId]?.owner.id &&
-                                <EditSongBox song={songs[songId]} />
-
-                            }
-                        </Buttons>
+                        <>
+                            <Buttons>
+                                <LikeBox songId={songId} />
+                                <AddToPlaylistBox song={songs[songId]} />
+                                { user.id === songs[songId]?.owner.id &&
+                                    <>
+                                        <EditSongBox song={songs[songId]} />
+                                        <DeleteSongBox song={songs[songId]} />
+                                    </>
+                                }
+                            </Buttons>
+                            <CommentBox songId={songId}/>
+                        </>
                     }
 
                     { orderedComments.map((comment, idx) => (

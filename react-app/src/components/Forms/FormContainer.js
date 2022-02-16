@@ -105,7 +105,7 @@ const FormContainerStyling = styled.div`
     font-size: 16px;
     font-weight: 500;
     margin: 20px;
-    margin-top: 0;
+    margin-top: 0px;
     margin-bottom: 30px;
     padding: 7px;
     cursor: pointer;
@@ -135,6 +135,10 @@ const FormContainerStyling = styled.div`
     border: 1px solid #CCC;
     border-radius: 0;
     outline: none;
+  }
+
+  #question-template {
+    margin: 10px 0;
   }
 `
 function FormContainer({children, show}){

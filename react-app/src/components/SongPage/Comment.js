@@ -1,5 +1,4 @@
-import { createPortal } from "react-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import DeleteCommentBox from "../Modals/DeleteCommentBox";
 import EditCommentBox from "../Modals/EditCommentBox";
@@ -68,7 +67,6 @@ function Comment({comment, date}) {
                     <DeleteCommentBox commentId={comment.id} />
                 </Buttons>
             }
-
         </Container>
     );
 }

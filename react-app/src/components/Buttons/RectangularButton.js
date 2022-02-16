@@ -12,8 +12,14 @@ const Button = styled.div`
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 
-    &:hover {
+    &:not(:disabled):hover {
         box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    &:disabled {
+        cursor: default;
+        color: #CCC;
+        border: 1px #CCC dashed;
     }
 `
 

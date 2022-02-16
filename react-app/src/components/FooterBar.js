@@ -183,7 +183,6 @@ function FooterBar() {
                             </>:
                             <>
                                 <Link to={`/songs/${queue[currentSong]}`}><div id="song-title">{song.title}</div></Link>
-                                {/* <Link to={`/users/${song?.owner.id}`}><div id="song-owner">{song?.owner.username}</div></Link> */}
                                 <div id="song-owner">{song.owner?.username}</div>
                             </>
                         }
