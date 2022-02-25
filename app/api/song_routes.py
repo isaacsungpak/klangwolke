@@ -197,7 +197,9 @@ def create_song():
 
         image.filename = get_unique_filename(image.filename)
         image_s3_upload = upload_file_to_s3(image)
-        if 'url' not in image_s3_upload: return image_s3_upload, 400
+        if 'url' not in image_s3_upload:
+            delete_file_from_s3(audio.filename)
+            return image_s3_upload, 400
 
         new_song = Song(
             user_id=current_user.id,
