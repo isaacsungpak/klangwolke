@@ -110,8 +110,8 @@ function App() {
             </Switch>
           </Content>
           <LinkContainer>
-            <a id="gh" href='https://github.com/isaacsungpak/klangwolke'><i className="fab fa-github-square"></i></a>
-            <a id="li" href='https://www.linkedin.com/in/isaac-pak-b4324421b/'><i className="fab fa-linkedin"></i></a>
+            <a id="gh" href='https://github.com/isaacsungpak/klangwolke' target="_blank"><i className="fab fa-github-square"></i></a>
+            <a id="li" href='https://www.linkedin.com/in/isaac-pak-b4324421b/' target="_blank"><i className="fab fa-linkedin"></i></a>
           </LinkContainer>
         </MainBody>
         <FooterBar />
