@@ -140,6 +140,15 @@ const FormContainerStyling = styled.div`
   #question-template {
     margin: 10px 0;
   }
+
+  select {
+    outline: 0;
+    border: 1px solid black;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 16px;
+    width: 80%;
+    margin-bottom: 20px;
+  }
 `
 function FormContainer({children, show}){
     return (

@@ -1,34 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPlaylistsWithoutSong, addSongToPlaylist } from "../../store/playlists";
-import styled from "styled-components";
 import FormContainer from "./FormContainer";
-
-const PlaylistSelection = styled.div`
-    width: 80%;
-    margin: 15px;
-    margin-bottom: 20px;
-    border: 2px solid #AAA;
-    border-style: groove;
-    height: 200px;
-    overflow-y: auto;
-
-  #playlist-option {
-    padding: 10px;
-    flex: 1;
-    border-bottom: 1px solid #CCC;
-    cursor: pointer;
-
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  #playlist-option:hover {
-    background-color: #407BA7;
-    color: white;
-  }
-`
 
 function AddToPlaylist({songId, setShowModal}) {
     const dispatch = useDispatch();
@@ -42,8 +15,9 @@ function AddToPlaylist({songId, setShowModal}) {
 
     const playlists = useSelector(state => state.playlists.auxPlaylists);
 
-    const submit = async (playlistId) => {
+    const submit = async (e) => {
         setIsWaiting(true);
+        const playlistId = e.target.value;
         dispatch(addSongToPlaylist({songId, playlistId}))
           .then(() => setIsWaiting(false))
           .then(() => setShowModal(false));
@@ -54,15 +28,31 @@ function AddToPlaylist({songId, setShowModal}) {
       setShowModal(false);
     }
 
+    const organizedPlaylists = Object.values(playlists).sort((a, b) => a.title.localeCompare(b.title));
+
     return (
       <FormContainer show={isWaiting} >
           <div id='form-title'>Add to Playlist</div>
           <div id='form-subheader'>(Only playlists that do not already contain this song are shown)</div>
-          <PlaylistSelection>
-              {isLoaded && Object.values(playlists).map((playlist, ind) => (
-                  <div id='playlist-option' key={ind} onClick={() => submit(playlist.id)} value={playlist.id}>{playlist.title}</div>
-              ))}
-          </PlaylistSelection>
+          <select
+              defaultValue={0}
+              onChange={submit}
+          >
+              <option
+                  value={0}
+                  disabled
+              >
+                  Select a playlist
+              </option>
+              {
+                  isLoaded &&
+                  organizedPlaylists.map(playlist => (
+                      <option value={playlist.id} key={`playlist ${playlist.id}`}>
+                          {playlist.title}
+                      </option>
+                  ))
+              }
+          </select>
           <button onClick={cancel}>Cancel</button>
       </FormContainer>
     )
